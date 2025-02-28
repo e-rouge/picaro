@@ -1,5 +1,4 @@
 import {useUtilsStore} from "@stores/utils";
-import {useRouter} from "vue-router";
 import {createApp, Ref, ref} from "vue";
 import {createPinia} from "pinia";
 import App from "@components/App.vue";
@@ -11,7 +10,6 @@ const app = createApp(App)
 app.use(pinia)
 
 const utilsStore = useUtilsStore()
-const router = useRouter()
 
 async function fetchData<FetchT>(route: string, params: RequestInit): Promise<FetchT | null | undefined> {
     return await fetch(
@@ -22,14 +20,11 @@ async function fetchData<FetchT>(route: string, params: RequestInit): Promise<Fe
             if (response.status === 200) {
                 return response.json()
             } else if (response.status.toString().match(/40[13]/)) {
-                router.push({name: 'login'}).catch(() => {
-                    throw new Error('Router error')
-                })
+                location.href = '/#/login'
             }
             throw new Error('Something went wrong')
         })
         .then((responseData: FetchT) => {
-            console.log(responseData, 'aaa')
             return responseData ?? null
         })
 }
@@ -52,7 +47,6 @@ export function picFetch<ReturnT>(
     }
     fetchData<ReturnT>(route, params)
         .then((res: ReturnT | null | undefined) => {
-            console.log(res)
             data.value = res
             if (callback) {
                 callback()
