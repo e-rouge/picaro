@@ -1,17 +1,11 @@
 import {useUtilsStore} from "@stores/utils";
-import {createApp, Ref, ref} from "vue";
-import {createPinia} from "pinia";
-import App from "@components/App.vue";
+import {Ref, ref} from "vue";
 
 type Method = 'PUT' | 'POST' | 'GET' | 'DELETE'
 
-const pinia = createPinia()
-const app = createApp(App)
-app.use(pinia)
-
-const utilsStore = useUtilsStore()
 
 async function fetchData<FetchT>(route: string, params: RequestInit): Promise<FetchT | null | undefined> {
+
     return await fetch(
         `/api/data/${route}`,
         params
@@ -36,6 +30,9 @@ export function picFetch<ReturnT>(
     callback?: () => void,
     callbackFail?: () => void,
 ): { data: Ref<ReturnT | null | undefined>, refresh: () => void } | undefined {
+
+    const utilsStore = useUtilsStore()
+
     const params: RequestInit = {method}
     const data = ref<ReturnT | null>()
 
