@@ -1,6 +1,7 @@
 import {beforeEach, describe, expect, it, vi} from "vitest"
 import {createPinia, setActivePinia} from "pinia";
 import {useUserStore} from "./user";
+import {createApp} from "vue";
 
 vi.mock('vue-router', () => ({
     useRouter: () => ({
@@ -46,10 +47,17 @@ const routeParams = {
 
 describe("User test", () => {
     beforeEach(() => {
-        // creates a fresh pinia and makes it active
-        // so it's automatically picked up by any useStore() call
-        // without having to pass it to it: `useStore(pinia)`
-        setActivePinia(createPinia())
+        const pinia = createPinia();
+        pinia.use(({store}) => {
+            store.router = {
+                push: vi.fn(async () => {
+                })
+            }
+        });
+        const app = createApp({});
+        app.use(pinia);
+
+        setActivePinia(pinia);
     })
     it("should render", async () => {
         const userStore = useUserStore()

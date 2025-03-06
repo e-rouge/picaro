@@ -17,6 +17,7 @@ export default defineConfig({
             '@libs': path.resolve(__dirname, './../Libs'),
             '/api/uploads': path.resolve(__dirname, './../Back/uploads'),
             '@data': path.resolve(__dirname, './../Data'),
+            '@uploads': path.resolve(__dirname, './../Back/uploads'),
         },
         dedupe: ['pinia', 'vue-router']
     },

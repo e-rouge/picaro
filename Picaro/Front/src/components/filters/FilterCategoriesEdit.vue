@@ -23,8 +23,8 @@ const availableCategories = computed(() => {
   return settingsStore.currentAppSettings?.categories ?? []
 })
 
-async function changeCategory(id: string) {
-  await userStore.updateFilterCollection({
+function changeCategory(id: string) {
+  userStore.updateFilterCollection({
     type: "categories",
     filterParams: {value: [id], field: "categories", method: "in"},
     models: []

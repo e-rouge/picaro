@@ -1,20 +1,21 @@
 import {useUtilsStore} from "@stores/utils";
 import {Ref, ref} from "vue";
+import {useRouter} from "vue-router";
 
 type Method = 'PUT' | 'POST' | 'GET' | 'DELETE'
 
 
 async function fetchData<FetchT>(route: string, params: RequestInit): Promise<FetchT | null | undefined> {
-
+    const router = useRouter()
     return await fetch(
-        `/api/data/${route}`,
+        route,
         params
     )
         .then((response) => {
             if (response.status === 200) {
                 return response.json()
             } else if (response.status.toString().match(/40[13]/)) {
-                location.href = '/#/login'
+                router.push({path: '/admin'}).catch(e => console.error(e))
             }
             throw new Error('Something went wrong')
         })
@@ -48,10 +49,13 @@ export function picFetch<ReturnT>(
             if (callback) {
                 callback()
             }
-            utilsStore.addAlert({
-                type: "success",
-                text: "Saved successfully"
-            });
+            if (method !== "GET") {
+                utilsStore.addAlert({
+                    type: "success",
+                    text: "Saved successfully"
+                });
+            }
+
         }).catch((e) => {
         if (callbackFail) {
             callbackFail()

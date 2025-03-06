@@ -12,13 +12,13 @@ const availableCategories = computed(() => {
   return props.currentApp.categories;
 });
 
-async function changeCategory(category: Category | 'all') {
+function changeCategory(category: Category | 'all') {
   if (category !== 'all' && category.section) {
     return
   }
-  const id = typeof category === "string" ? category : category.id
+  const id = typeof category === "string" ? '' : category.id
 
-  await userStore.updateFilterCollection({
+  userStore.updateFilterCollection({
     models: props.module?.model ? [props.module?.model] : undefined,
     type: "categories",
     filterParams: {value: [id ?? ''], field: "categories", method: "in"}

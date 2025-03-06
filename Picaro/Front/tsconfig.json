@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "useUnknownInCatchVariables": true,
     "baseUrl": ".",
     "lib": [
       "ESNext",

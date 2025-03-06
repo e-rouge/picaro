@@ -10,6 +10,7 @@ import {nanoid} from "nanoid";
 import {useUtilsStore} from "@stores/utils";
 import {updateSettings} from "@components/utils/api";
 import draggable from "vuedraggable";
+import ImageUpload from "@components/ImageUpload.vue";
 
 defineEmits(["updateModelFormState", "cancelEditModel"])
 
@@ -19,7 +20,7 @@ defineProps<{
 
 const selectedStatus = ref<ModelContent['status']>('published')
 
-const possibleStatus: ModelContent['status'][] = ['published', "draft", "archived", 'deleted'] as const
+const possibleStatus: ModelContent['status'][] = ['published', "draft", "archived", 'deleted']
 
 const settingsStore = useSettingsStore();
 const utilsStore = useUtilsStore();
@@ -28,13 +29,14 @@ const router = useRouter()
 
 const dataReloaded = ref(false)
 
+
 const categories: Category[] = settingsStore.currentAppSettings?.categories || []
 
 const newCategory = ref('')
 const editCategories = ref(false)
 
-async function editItem(item: number) {
-  await router.push({params: {contentId: item}})
+function editItem(item: number) {
+  router.push({params: {contentId: item}}).catch(e => console.error(e))
   newCategory.value = ''
 }
 
@@ -181,6 +183,7 @@ async function saveCategory() {
       </template>
     </v-col>
   </v-row>
+  <ImageUpload />
 </template>
 
 <style scoped>

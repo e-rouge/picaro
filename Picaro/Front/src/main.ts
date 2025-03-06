@@ -1,6 +1,6 @@
-import {createApp} from 'vue'
+import {createApp, markRaw} from 'vue'
 import App from './components/App.vue'
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHashHistory, Router} from "vue-router";
 import {createPinia} from 'pinia'
 import {createVuetify} from 'vuetify'
 import {defaultRoutes} from "./routes";
@@ -44,8 +44,18 @@ const myCustomLightTheme = {
 }
 
 
+declare module 'pinia' {
+    export interface PiniaCustomProperties {
+        router: Router
+    }
+}
+
+
 const pinia = createPinia()
 const app = createApp(App)
+pinia.use(({store}) => {
+    store.router = markRaw(router)
+})
 app.use(pinia)
 app.use(router)
 

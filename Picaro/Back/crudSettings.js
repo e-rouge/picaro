@@ -105,10 +105,10 @@ async function routes(fastify) {
         const dir = `${__dirname}/uploads/`;
         const [name, ext] = data.filename.split('.')
 
-        Object.entries(fastify.conf.imageSize).forEach(([key, value]) => {
+        Object.entries(fastify.conf.imageSize).forEach(([key, value], index) => {
             sharp(buffer)
                 .resize(value)
-                .toFile(`${dir}/${name}-${key}.${ext}`);
+                .toFile(`${dir}/${name}-${index}-${key}.${ext}`);
         })
 
         fs.writeFileSync(`${dir}/${data.filename}`, buffer)

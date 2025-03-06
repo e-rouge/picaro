@@ -181,9 +181,10 @@ export type ModelContent = {
     content: FieldContentParams[]
     modelId: string
     id: string
-    status?: 'deleted' | 'archived' | 'draft' | 'published'
+    status?: ModelContentStatus
 }
 
+export type ModelContentStatus = 'deleted' | 'archived' | 'draft' | 'published'
 
 export type Hue = { hue: number, saturation: number, light: number }
 

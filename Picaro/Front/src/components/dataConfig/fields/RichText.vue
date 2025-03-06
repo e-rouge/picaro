@@ -5,10 +5,19 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 
 import StarterKit from "@tiptap/starter-kit";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {FieldParams, RichTextContent, RichTextEditorJson} from "@types";
 import {generateHTML} from "@tiptap/core";
-import {useUtilsStore} from "@stores/utils";
+import {useUserStore} from "@stores/user";
+
+const userStore = useUserStore()
+
+watch(() => userStore.rteImage, () => {
+  if (userStore.rteImage) {
+    editor.value?.commands.setImage({src: userStore.rteImage})
+
+  }
+})
 
 const props = defineProps<{
   fieldParams: FieldParams;
@@ -21,29 +30,8 @@ const emit = defineEmits<{
   endEdit: []
 }>()
 
-const utilsStore = useUtilsStore()
-
-const sizeList = [330, 100, 200, 500, 1000, 1500]
-
-const imageFile = ref<File>();
-const allImages = ref()
-
-const rteImage = ref('')
-
-const imageDrawer = ref(false);
-
 const selectedImg = ref<string | null>(null)
 
-
-fetchImages()
-
-function fetchImages() {
-  allImages.value = import.meta.glob('@uploads/picaro explained.jpg', {
-    query: {format: 'webp', w: "330;100;200;500;1000;1500", picture: ''},
-    import: 'default',
-    eager: true
-  })
-}
 
 const editor = useEditor({
   extensions:
@@ -121,30 +109,6 @@ function updateModelData(content: RichTextEditorJson) {
   }]);
 }
 
-function selectImage(path: string) {
-  editor.value?.commands.setImage({src: path})
-}
-
-function uploadImage() {
-  if (imageFile.value) {
-    const formData = new FormData();
-    formData.append('image', imageFile.value);
-    fetch(`/api/setup/uploadimages`, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(() => {
-      fetchImages()
-      utilsStore.addAlert({
-        text: "Image uploaded",
-        type: "success"
-      });
-    }).catch((error) => console.error(error));
-  }
-}
-
 </script>
 <template>
   <div class="editor-container">
@@ -200,8 +164,8 @@ function uploadImage() {
         <v-icon>mdi-code-not-equal-variant</v-icon>
       </span>
       <span
-        :class="{ 'is-active': imageDrawer }"
-        @click.stop="imageDrawer = !imageDrawer"
+        :class="{ 'is-active': userStore.imageDrawerToggle }"
+        @click.stop="userStore.imageDrawerToggle = !userStore.imageDrawerToggle"
       >
         <v-icon>mdi-image</v-icon>
       </span>
@@ -223,43 +187,6 @@ function uploadImage() {
     </div>
     <editor-content :editor="editor" class="editor-textarea" data-testid="rte-editor" />
   </div>
-  <v-navigation-drawer
-    v-model="imageDrawer"
-    location="bottom"
-    width="500"
-  >
-    <div class="pic-container pic-container-s">
-      <v-form>
-        <v-file-input
-          v-model="imageFile"
-          accept="image/*"
-          density="compact"
-          label="Image"
-        />
-        <v-btn class="ml-4" @click="uploadImage">
-          Upload
-        </v-btn>
-      </v-form>
-      <div v-for="image in allImages" :key="image">
-        <img
-          :class="{selected: image === rteImage}"
-          :src="image[0]"
-          class="uploaded-image"
-        >
-        <div class="size-btn-container">
-          <v-btn
-            v-for="(imageSize, index) in (image)"
-            :key="imageSize"
-            density="compact"
-            variant="text"
-            @click="selectImage(imageSize)"
-          >
-            {{ sizeList[index] }}px
-          </v-btn>
-        </div>
-      </div>
-    </div>
-  </v-navigation-drawer>
 </template>
 <style scoped>
 .editor-textarea {

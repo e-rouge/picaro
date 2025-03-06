@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {computed, defineProps, reactive, ref, shallowRef} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {Category, FieldContentParams, FieldParams, Model, ModelContent} from "@types";
+import {Category, FieldContentParams, FieldParams, Model, ModelContent, ModelContentStatus} from "@types";
 import TextLine from "@components/dataConfig/fields/TextLine.vue";
 import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   reloadData: [],
 }>()
 
-const possibleStatus: ModelContent['status'][] = ['published', "draft"] as const
+const possibleStatus = ['published', "draft", "deleted", "archived"] satisfies ModelContentStatus[]
 
 const componentMap = shallowRef();
 
@@ -43,6 +43,9 @@ const props = defineProps<{
   modelContent?: ModelContent
 }>()
 
+const filteredCategories = computed(() => {
+  return props.categories.filter(item => !item.section)
+})
 const currentModelContent = ref(copy(props.modelContent) || defaultEmptyContent())
 
 const rules = computed(() => {
@@ -110,13 +113,16 @@ function sendForm(newStatus ?: ModelContent['status']) {
   }
 
   picFetch(
-      `${settingsStore.currentAppSettings.id}/${route.params.modelId as string}`,
+      `/api/data/${settingsStore.currentAppSettings.id}/${route.params.modelId as string}`,
       action,
       JSON.stringify({
         ...currentModelContent.value,
         categories: form.categories,
       }),
-      () => emit('reloadData')
+      () => {
+        emit('reloadData')
+        currentModelContent.value = defaultEmptyContent()
+      }
   )
 }
 
@@ -127,16 +133,15 @@ function sendForm(newStatus ?: ModelContent['status']) {
     <div v-if="componentMap" class="pic-container model-form-container" data-testid="content-form">
       <component
         :is="componentMap[field.type]"
-        v-for="(field, index) in currentEditModel.fieldCollection"
+        v-for="(field) in currentEditModel.fieldCollection"
         :key="field.id"
-        :field-content="currentModelContent.content?.find(item => item.fieldParamsId === field.id)?.fieldContent"
+        :field-content="currentModelContent.content?.find((item: FieldContentParams) => item.fieldParamsId === field.id)?.fieldContent"
         :field-params="field"
-        :index="index"
         @updateData="updateData($event)"
       />
       <v-select
         v-model="form.categories"
-        :items="categories"
+        :items="filteredCategories"
         :multiple="true"
         data-testid="select-categories"
         item-title="label"

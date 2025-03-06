@@ -89,7 +89,7 @@ function getStaticData() {
 }
 
 function getData() {
-  return picFetch<ModelContent[]>(`${props.currentApp.id}/${props.moduleParams.model}`)
+  return picFetch<ModelContent[]>(`/api/data/${props.currentApp.id}/${props.moduleParams.model}`)
 }
 
 
