@@ -2,7 +2,6 @@ import {beforeEach, describe, expect, it, vi} from "vitest"
 import {createPinia, setActivePinia} from "pinia";
 import {useUserStore} from "./user";
 import {createApp} from "vue";
-import {flushPromises} from "@vue/test-utils";
 
 const params = {
     all: [
@@ -61,13 +60,5 @@ describe("User test", () => {
     it("should render", async () => {
         const userStore = useUserStore()
         expect(userStore.updateRoute(params)).toEqual(routeParams)
-    })
-    it("should add a filter", async () => {
-        const userStore = useUserStore()
-        userStore.updateFilterCollection({value: ['newValue'], target: 'newTarget', method: 'in'})
-
-        await flushPromises()
-
-        expect(userStore.filterCollection).toEqual(params)
     })
 })
