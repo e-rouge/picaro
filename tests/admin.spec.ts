@@ -94,7 +94,7 @@ test('Creates and edit content', async ({page}) => {
 
     await page.getByTestId('select-categories').click()
 
-    await page.getByText('cat 1').last().click()
+    await page.getByText('cat 2').last().click()
 
     await page.locator("body").click({position: {x: 0, y: 0}});
 
@@ -115,6 +115,12 @@ test('Creates a common layout', async ({page}) => {
     await page.getByTestId('module-type').click()
 
     await page.getByText('FilterCategories').last().click()
+
+    await page.locator("body").click({position: {x: 0, y: 0}});
+
+    await page.getByTestId('module-model').last().click()
+
+    await page.getByText('model test').last().click()
 
     await page.locator("body").click({position: {x: 0, y: 0}});
 
