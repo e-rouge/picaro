@@ -32,7 +32,6 @@ describe("DataConfig", () => {
         await router.isReady()
     })
     it('does not display anything at first', () => {
-
         const main = wrapper.find('.pic-main-empty')
 
         expect(wrapper.vm.modelFormState).toBe('noModel')
@@ -44,7 +43,6 @@ describe("DataConfig", () => {
 
         await wrapper.vm.newModelForm()
         await router.isReady()
-
         await wrapper.vm.$nextTick()
 
         expect(checkVisible([

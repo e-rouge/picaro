@@ -1,27 +1,32 @@
 import {JSONContent} from "@tiptap/core"
 
-export type AvailableModules = "Layout" | "FilterLayout" | "List" | "FilterCategories" | "FilterLink"
+export type AvailableModules =
+    "Layout"
+    | "FilterLayout"
+    | "FilterLayoutSelect"
+    | "List"
+    | "FilterCategories"
+    | "FilterLink"
 export type AvailableContentType = "richText" | 'text'
-export type Category = { id: string, label: string, section?: boolean }
+export type Category = {
+    id: string,
+    label: string,
+    section?: boolean
+    model?: string
+}
 export type Layout = {
-    model: string | null,
+    model?: string | null,
     type: AvailableModules,
-    categories: Category[]
+    categories?: Category[]
     cols?: string
 }
 
 export type AvailableModulesComponentList = Record<AvailableModules, string>
 
-export type CommonLayout = {
-    type: AvailableModules | null
-    cols?: string
-    model?: string
-    categories?: string[]
-}
 
 export type Filter = {
     method: FilterMethod,
-    field: string,
+    target: string,
     value: string[],
     type: string
 }
@@ -30,7 +35,7 @@ export type ModelFilter = Filter & { modelIdCollection?: string[] }
 
 export type Model = { id: string, name: string, fieldCollection: FieldParams[] }
 
-export type FilterMethod = "eq" | "in" | "fd"
+export type FilterMethod = "eq" | "in" | "fd" | "ly" // equal, in,  ?, layout
 
 export type FilterCollection = {
     all: Filter[],
@@ -56,6 +61,12 @@ export type RichTextEditorJson = {
     [key: string]: unknown;
 };
 
+export type LayoutCollection = {
+    id: string,
+    name: string,
+    layout: Layout[][]
+}
+
 export type Settings = {
     id: string,
     title: string,
@@ -66,16 +77,11 @@ export type Settings = {
     messageTimeOut: number,
     applicationName: string,
     navStructure: [],
-    layoutCollection: {
-        id: string,
-        name: string,
-        layout: Layout[][]
-    }[],
+    layoutCollection: LayoutCollection[],
     layoutLinkCollection: [],
     defaultLayout: string
-    layoutCommonCollection: CommonLayout[][],
+    layoutCommonCollection: Layout[][],
     modelCollection: Model[],
-    filterCollection: FilterCollection,
 }
 
 export type ColorParameters = {

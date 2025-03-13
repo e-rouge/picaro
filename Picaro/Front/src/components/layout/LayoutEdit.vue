@@ -2,79 +2,76 @@
 import {computed, ref} from "vue";
 import {useSettingsStore} from "@stores/settings";
 import {nanoid} from "nanoid";
-import {Layout, Model} from "@types";
+import {LayoutCollection} from "@types";
+import LayoutGridEdit from "@components/layout/LayoutGridEdit.vue";
+import {updateSettings} from "@components/utils/api";
 
 const settingsStore = useSettingsStore();
 
-const availableLayout = ref(["list", "filterLink", "filterCategories"]);
-const selectedEditLayout = ref("");
+const selectedEditLayout = ref(settingsStore.currentAppSettings?.defaultLayout);
 const isNewLayout = ref(false)
 
-const layoutCollection = computed(() => {
-  return settingsStore.currentAppSettings?.layoutCollection
+const layoutCollection = computed<LayoutCollection[]>(() => {
+  return settingsStore.currentAppSettings?.layoutCollection ?? []
 });
-const createdLayoutId = ref("");
 const defaultLayout = computed(() => {
   return settingsStore.currentAppSettings?.defaultLayout
 })
 
 const createdLayoutName = ref('')
 
-const selectedLayout = computed<Layout[][]>(() => {
-  return settingsStore.currentAppSettings?.layoutCollection.find(item =>
-      item.id === settingsStore.currentAppSettings?.defaultLayout
-  )?.layout || [];
+const selectedLayout = computed(() => {
+  const id = selectedEditLayout.value
+  return settingsStore.currentAppSettings?.layoutCollection.find(item => {
+    return item.id === id
+  });
 });
-const modelCollection = computed<Model[]>(() => {
-  return settingsStore.currentAppSettings?.modelCollection ?? []
-});
-
-function makeClass(module: Layout) {
-  return module.type ? `rf-${module.type}-module` : "";
-}
 
 function createLayout() {
-  if (!createdLayoutId.value) {
+  if (!createdLayoutName.value) {
     return false
   }
   layoutCollection.value?.push({
-    name: createdLayoutId.value,
+    name: createdLayoutName.value,
     id: nanoid(),
     layout: []
   });
-  createdLayoutId.value = "";
+  createdLayoutName.value = "";
+  if (settingsStore.currentAppSettings) {
+    updateSettings(settingsStore.currentAppSettings).catch(e => console.error(e))
+  }
+
 }
 
-function initModule(module: Layout) {
-  return {
-    type: module.type,
-    model: module.model,
-    categories: module.categories,
-    cols: module.cols
-  };
-}
 </script>
 
 <template>
-  <div class="pic-layout--dynamic-module">
+  <div v-if="selectedLayout" class="pic-layout--dynamic-module">
     <div v-if="layoutCollection && settingsStore.currentAppSettings" class="pic-container">
       <v-select
         v-if="layoutCollection?.length > 0"
+        v-model="selectedEditLayout"
         :items="layoutCollection"
-        :model-value="selectedEditLayout"
         item-title="name"
         item-value="id"
         label="Choose a Layout to edit"
       />
       <v-select
         v-if="layoutCollection.length > 0"
+        v-model="defaultLayout"
         :items="layoutCollection"
-        :model-value="defaultLayout"
         item-title="name"
         item-value="id"
         label="Default Layout (index)"
         @update:model-value="settingsStore.currentAppSettings.defaultLayout = $event"
       />
+      <v-text-field
+        v-model="selectedLayout.name"
+        density="compact"
+        label="Layout Name"
+        variant="underlined"
+      />
+
       <v-btn v-if="!isNewLayout" @click="isNewLayout = true ">
         Create a layout
       </v-btn>
@@ -93,72 +90,7 @@ function initModule(module: Layout) {
         </v-btn>
       </v-form>
     </div>
-    <div v-for="(layoutLine, index) in selectedLayout" :key="index">
-      <v-row v-if="selectedLayout">
-        <template v-for="(module) in layoutLine" :key="module.id">
-          <v-col :class="makeClass(module)" :cols="module.cols" class="pic-layout--container">
-            <div class="pic-container">
-              <div class="common-layout-settings">
-                <div class="module-type">
-                  <v-text-field
-                    :model-value="module.cols || 0"
-                    class="module-type-size"
-                    dense="dense"
-                    label="Width"
-                    max="11"
-                    min="0"
-                    type="number"
-                    variant="underlined"
-                    @input="module.cols = $event.target.value"
-                  />
-                  <v-select
-                    :items="availableLayout"
-                    :model-value="module.type || availableLayout[0]"
-                    label="Type"
-                    @update:model-value="module.type = $event"
-                  />
-                </div>
-                <v-select
-                  :items="modelCollection"
-                  :model-value="modelCollection.find(item=> item.id === module.model)"
-                  item-title="name"
-                  item-value="id"
-                  label="Model"
-                  @update:model-value="module.model = $event.id"
-                />
-                TODO CATEGORIES
-              </div>
-              <component
-                :is="module.type ? module.type : 'div'"
-                :key="index"
-                :module-params="module"
-              />
-              <div
-                class="pic-layout--add-column"
-                data-jest="add-column"
-                @click="layoutLine.splice(index + 1,0 , initModule(module))"
-              >
-                <v-icon>mdi-table-column-plus-after</v-icon>
-              </div>
-            </div>
-          </v-col>
-        </template>
-        <div
-          class="pic-layout--add-row"
-          data-jest="add-row-inner"
-          @click="selectedLayout.splice(index + 1, 0, [ initModule(layoutLine[0])])"
-        >
-          <v-icon>mdi-table-row-plus-after</v-icon>
-        </div>
-      </v-row>
-    </div>
-    <div
-      class="pic-layout--add-row"
-      data-jest="add-row"
-      @click="selectedLayout.push([{model: null, type:'List', categories: []}])"
-    >
-      <v-icon>mdi-table-row-plus-after</v-icon>
-    </div>
+    <LayoutGridEdit v-model="selectedLayout.layout" :dynamic="true" />
   </div>
 </template>
 

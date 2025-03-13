@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ModelForm from "./ModelForm.vue"
-import {defineEmits, defineProps, ref} from "vue";
+import {computed, defineEmits, defineProps, ref} from "vue";
 import {Category, Model, ModelContent, Settings} from "@types";
 import DisplayList from "@components/display/DisplayList.vue";
 import FilterCategories from "@components/filters/FilterCategories.vue";
@@ -14,7 +14,7 @@ import ImageUpload from "@components/ImageUpload.vue";
 
 defineEmits(["updateModelFormState", "cancelEditModel"])
 
-defineProps<{
+const props = defineProps<{
   currentEditModel: Model
 }>()
 
@@ -30,7 +30,7 @@ const router = useRouter()
 const dataReloaded = ref(false)
 
 
-const categories: Category[] = settingsStore.currentAppSettings?.categories || []
+const categories = computed<Category[]>(() => settingsStore.currentAppSettings?.categories.filter(item => item.model === props.currentEditModel.id) || [])
 
 const newCategory = ref('')
 const editCategories = ref(false)
@@ -41,7 +41,11 @@ function editItem(item: number) {
 }
 
 function addCategory() {
-  settingsStore.currentAppSettings?.categories.push({label: newCategory.value, id: nanoid(8)})
+  settingsStore.currentAppSettings?.categories.push({
+    label: newCategory.value,
+    id: nanoid(6),
+    model: props.currentEditModel.id
+  })
   newCategory.value = ''
 }
 
@@ -90,6 +94,7 @@ async function saveCategory() {
       <FilterCategories
         v-if="settingsStore.currentAppSettings && !editCategories"
         :current-app="settingsStore.currentAppSettings"
+        :current-model-id="currentEditModel.id"
       />
       <div v-else-if="settingsStore.currentAppSettings">
         <draggable
@@ -99,7 +104,7 @@ async function saveCategory() {
           item-key="id"
         >
           <template #item="{element,index}">
-            <div>
+            <div v-if="element.model === currentEditModel.id">
               <v-checkbox
                 v-model="element.section"
                 data-testid="separator-check"

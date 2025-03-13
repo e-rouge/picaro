@@ -8,8 +8,10 @@ import {Category, Layout, Model, ModelContent, Settings} from "@types";
 import {useDataStore} from "@stores/data";
 import {useSettingsStore} from "@stores/settings";
 import {picFetch} from "@utils/api";
+import {useUserStore} from "@stores/user";
 
 const settings = useSettingsStore()
+const userStore = useUserStore()
 
 const categories: Category[] = settings.currentAppSettings?.categories || []
 
@@ -63,7 +65,7 @@ const filteredList = computed<ModelContent[]>(() => {
       return item.status === "published"
           && applyFilter(
               item,
-              props.currentApp.filterCollection,
+              userStore.filterCollection,
               props.moduleParams
           );
     })

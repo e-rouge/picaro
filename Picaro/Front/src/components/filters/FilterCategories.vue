@@ -6,10 +6,11 @@ import type {Category, Layout, Settings} from "@types";
 const userStore = useUserStore();
 const props = defineProps<{
   currentApp: Settings
-  module?: Layout
+  moduleParams?: Layout
+  currentModelId: string
 }>()
 const availableCategories = computed(() => {
-  return props.currentApp.categories;
+  return props.currentApp.categories.filter(item => item.model === props.currentModelId || item.model === props.moduleParams?.model)
 });
 
 function changeCategory(category: Category | 'all') {
@@ -18,11 +19,11 @@ function changeCategory(category: Category | 'all') {
   }
   const id = typeof category === "string" ? '' : category.id
 
-  userStore.updateFilterCollection({
-    models: props.module?.model ? [props.module?.model] : undefined,
-    type: "categories",
-    filterParams: {value: [id ?? ''], field: "categories", method: "in"}
-  });
+  userStore.updateFilterCollection(
+      {value: [id ?? ''], target: '', method: "in"},
+      "categories",
+      props.moduleParams?.model ? [props.moduleParams?.model] : undefined,
+  );
 }
 
 </script>

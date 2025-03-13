@@ -1,12 +1,14 @@
-import Layout from "@components/layout/Layout.vue";
-import List from "@components/display/DisplayList.vue";
 import FilterCategories from "@components/filters/FilterCategories.vue";
+import DisplayList from "@components/display/DisplayList.vue";
+import FilterLayoutSelect from "@components/filters/FilterLayoutSelect.vue";
+import {AvailableModules} from "@types";
 
-export const availableModules = {
-    Layout: Layout,
+export const availableModules: Record<AvailableModules, any> = {
     FilterLayout: "FilterLayout",
     FilterLink: "FilterLink",
-    List,
+    List: DisplayList,
     FilterCategories: FilterCategories,
+    FilterLayoutSelect: FilterLayoutSelect,
+    Layout: 'Layout'
 } as const
 

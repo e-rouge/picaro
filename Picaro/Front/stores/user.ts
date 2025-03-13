@@ -1,7 +1,6 @@
 import {defineStore} from "pinia";
 import {Filter, FilterCollection, FilterMethod, ModelFilter} from "@types";
 import groupBy from "object.groupby"
-import {useSettingsStore} from "@stores/settings";
 import {toRaw} from "vue";
 
 interface UserStore {
@@ -20,21 +19,19 @@ export const useUserStore = defineStore('user', {
         imageDrawerToggle: false
     }),
     actions: {
-        updateFilterCollection({filterParams, models, type}: {
-            filterParams: { value: [string], field: string, method: FilterMethod },
-            models: string[] | undefined,
-            type: string
-        }) {
-
-            const settingsStore = useSettingsStore()
+        updateFilterCollection(
+            filterParams: { value: string[], target: string, method: FilterMethod },
+            type: string = '',
+            models?: string[]
+        ) {
 
             const temporaryFilterCollection = structuredClone(toRaw(this.filterCollection));
 
-            temporaryFilterCollection.all = temporaryFilterCollection.all.filter(item => item.type === type);
+            temporaryFilterCollection.all = temporaryFilterCollection.all.filter(item => item.type !== type);
 
             const params = {
                 method: filterParams.method,
-                field: filterParams.field,
+                target: filterParams.target,
                 value: filterParams.value,
                 type
             }
@@ -44,17 +41,15 @@ export const useUserStore = defineStore('user', {
                 temporaryFilterCollection.modelFilters.push(paramsWithModel)
             }
 
-            if (filterParams.value[0]) {
+            if (filterParams.value.length > 0) {
                 temporaryFilterCollection.all.push(params)
             } else {
-                const index = temporaryFilterCollection.all.findIndex(item => item.field = filterParams.field)
+                const index = temporaryFilterCollection.all.findIndex(item => item.target = filterParams.target)
                 temporaryFilterCollection.all.splice(index, 1)
             }
 
-            if (settingsStore.currentAppSettings) {
-                settingsStore.currentAppSettings.filterCollection = temporaryFilterCollection
+            this.filterCollection = temporaryFilterCollection
 
-            }
 
             this.updateRoute(temporaryFilterCollection)
 
@@ -112,7 +107,7 @@ export const useUserStore = defineStore('user', {
                     if (typeof item.value === 'string') {
                         item.value = [item.value]
                     }
-                    return `${item.method}${item.field}..${item.value.join('**')}`
+                    return `${item.method}${item.target}..${item.value.join('**')}`
                 }).join('++')
             }).join('~')
 

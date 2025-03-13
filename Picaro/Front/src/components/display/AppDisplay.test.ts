@@ -27,23 +27,23 @@ const wrapper = mount(AppDisplay, {
 
 const expectedResult: FilterCollection = {
     all: [
-        {method: 'eq', field: 'Field1', value: ['value', 'value1'], type: 'filter'},
-        {method: 'in', field: 'Field2', value: ['value2'], type: 'filter'},
-        {method: 'fd', field: 'Field3', value: ['value3'], type: 'categories'}
+        {method: 'eq', target: 'Field1', value: ['value', 'value1'], type: 'filter'},
+        {method: 'in', target: 'Field2', value: ['value2'], type: 'filter'},
+        {method: 'fd', target: 'Field3', value: ['value3'], type: 'categories'}
     ],
     modelFilters: [
-        {modelIdCollection: ["model"], method: 'eq', field: 'Field1', value: ['value'], type: 'filter'},
+        {modelIdCollection: ["model"], method: 'eq', target: 'Field1', value: ['value'], type: 'filter'},
         {
             modelIdCollection: ["model"],
             method: 'in',
-            field: 'Field2',
+            target: 'Field2',
             value: ['value2'],
             type: 'filter'
         },
         {
             modelIdCollection: ["model2", "model3"],
             method: 'fd',
-            field: 'Field3',
+            target: 'Field3',
             value: ['value3', 'value4'],
             type: 'categories'
         }

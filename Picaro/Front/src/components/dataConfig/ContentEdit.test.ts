@@ -70,8 +70,11 @@ describe('ContentEdit', () => {
         await vi.waitUntil(() => wrapper.find('[data-testid="content-display"]'))
 
         await router.push({name: 'content', params: {modelId: 'modelId1'}})
+
         await router.isReady()
+
         wrapper.vm.editItem(0)
+        
         await vi.waitUntil(() => wrapper.vm.$route.path === "/admin/data/modelId1/content/0")
         await wrapper.vm.$nextTick()
 

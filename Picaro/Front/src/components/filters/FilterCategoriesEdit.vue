@@ -24,11 +24,12 @@ const availableCategories = computed(() => {
 })
 
 function changeCategory(id: string) {
-  userStore.updateFilterCollection({
-    type: "categories",
-    filterParams: {value: [id], field: "categories", method: "in"},
-    models: []
-  });
+  userStore.updateFilterCollection(
+      {value: [id], target: "categories", method: "in"},
+
+      "categories",
+      []
+  );
 }
 
 async function addItem() {

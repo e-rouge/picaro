@@ -6,10 +6,12 @@ import {RouteParams, useRoute} from "vue-router"
 import {useSettingsStore} from "@stores/settings"
 import {availableModules} from "@utils/modules"
 import {setCSSLink} from "@utils/helper";
+import {useUserStore} from "@stores/user";
 
 const route = useRoute()
 
 const settingsStore = useSettingsStore()
+const userStore = useUserStore()
 
 const currentApp = computed(() => {
   return settingsStore.currentAppSettings
@@ -34,8 +36,8 @@ watch(appID, () => {
 
 
 watch(route, (to) => {
-  if (to?.params.globalFilters && currentApp.value) {
-    currentApp.value.filterCollection = filterRouteToStore(to.params) as FilterCollection
+  if (to?.params.globalFilters) {
+    userStore.filterCollection = filterRouteToStore(to.params) as FilterCollection
   }
 }, {immediate: true})
 
@@ -43,15 +45,15 @@ function getParams(params: string, type: string, modelIdCollection?: string[]): 
   return params.split("++").map(subItem => {
     // first two letters item
     const method = subItem.slice(0, 2)
-    const [field, value] = subItem.slice(2).split("..")
+    const [target, value] = subItem.slice(2).split("..")
 
     const valueArray = value.split('**')
 
     let paramObject
     if (modelIdCollection) {
-      paramObject = {method, field, value: valueArray, type, modelIdCollection} as ModelFilter
+      paramObject = {method, target, value: valueArray, type, modelIdCollection} as ModelFilter
     } else {
-      paramObject = {method, field, value: valueArray, type} as Filter
+      paramObject = {method, target, value: valueArray, type} as Filter
     }
     return paramObject
   })
@@ -62,7 +64,7 @@ function filterRouteToStore({
                               modelFilters,
                               globalParams,
                               modelFilterParams
-                            }: RouteParams): Settings["filterCollection"] | undefined {
+                            }: RouteParams): FilterCollection | undefined {
   if (!globalFilters) return;
 
   const filterParams: FilterCollection = {

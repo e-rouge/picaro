@@ -1,17 +1,27 @@
 <script lang="ts" setup>
-import {AvailableModulesComponentList, Layout, Settings} from "@types";
-import {computed} from "vue";
+import {Layout, Settings} from "@types";
+import {computed, ref, watch} from "vue";
+import {availableModules} from "@utils/modules";
+import {useUserStore} from "@stores/user";
 
 const props = defineProps<{
   currentApp: Settings
 }>()
 
-const componentMap: Partial<AvailableModulesComponentList> = {
-  List: "List",
-}
+
+const userStore = useUserStore()
+
+const selectedLayoutId = ref(props.currentApp.defaultLayout)
+
+watch(() => userStore.filterCollection.all, () => {
+  const layout = userStore.filterCollection.all.find(item => item.type === 'layout')
+  if (layout) {
+    selectedLayoutId.value = layout.value[0]
+  }
+})
 
 const selectedLayout = computed<Layout[][]>(() => {
-  return props.currentApp.layoutCollection.find(item => item.id === props.currentApp.defaultLayout)?.layout || []
+  return props.currentApp.layoutCollection.find(item => item.id === selectedLayoutId.value)?.layout || []
 })
 </script>
 <template>
@@ -23,8 +33,7 @@ const selectedLayout = computed<Layout[][]>(() => {
       class="pic-layout--module"
     >
       <component
-        :is="module.type ? componentMap[module.type] : 'div'"
-        :key="index"
+        :is="availableModules[module.type]"
         :current-app="currentApp"
         :module-params="module"
       />

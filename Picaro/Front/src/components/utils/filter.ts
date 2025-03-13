@@ -1,5 +1,6 @@
 import {FieldContentParams, Filter, FilterCollection, FilterMethod, Layout, ModelContent} from "@types";
 
+const filterToIgnore = ['layout']
 const applyFilterMethod = function (method: FilterMethod, searchedItem: string | string[] | ModelContent[] | FieldContentParams[], checkedValue: Filter) {
     if (method === "eq") {
         return searchedItem === checkedValue.value[0];
@@ -10,11 +11,10 @@ const applyFilterMethod = function (method: FilterMethod, searchedItem: string |
 };
 
 function checkFilterCollection(item: ModelContent, filter: Filter) {
-    if (!filter || Object.entries(filter).length === 0) return null;
+    if (!filter || Object.entries(filter).length === 0 || filterToIgnore.includes(filter.type)) return null;
 
     const itemToCheck = item.content
-    if (filter.field === 'categories') {
-
+    if (filter.type === 'categories') {
         const categoriesToCheck = item.categories
         return applyFilterMethod(
             filter.method,
@@ -22,13 +22,13 @@ function checkFilterCollection(item: ModelContent, filter: Filter) {
             {value: filter.value} as Filter
         );
     } else {
-        if (!itemToCheck.find(subItem => subItem.contentId === filter.field)) {
+        if (!itemToCheck.find(subItem => subItem.contentId === filter.target)) {
             return false;
         }
     }
     return applyFilterMethod(
         filter.method,
-        itemToCheck.filter(subItem => subItem.contentId === filter.field),
+        itemToCheck.filter(subItem => subItem.contentId === filter.target),
         filter
     );
 }
@@ -54,7 +54,12 @@ export const applyFilter = function (item: ModelContent, filterCollection: Filte
         }
     });
     // if all filters are empty use default panel params
-    if (emptyFilter === filterCollection.all.length && item.categories.length > 0 && moduleParams.categories?.length > 0) {
+    if (
+        moduleParams.categories &&
+        emptyFilter === filterCollection.all.length &&
+        item.categories.length > 0 &&
+        moduleParams.categories?.length > 0
+    ) {
         const categoryIdCollection = moduleParams.categories.map(item => item.id);
         return item.categories.some(item => categoryIdCollection.includes(item));
     }

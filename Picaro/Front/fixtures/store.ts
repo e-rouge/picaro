@@ -9,9 +9,6 @@ export const currentAppSettings = {
     messageTimeOut: 10000,
     applicationName: "picaro",
     navStructure: [],
-    filterCollection: {
-        all: [], modelFilters: [],
-    },
     layoutCollection: [{
         name: "blog",
         id: "h2fFurQB-2LFRbVHnF-Pk",
@@ -215,9 +212,6 @@ export const settingsStoreFixtureNoCurrent: SettingsStore = {
             messageTimeOut: 10000,
             applicationName: "picaro",
             navStructure: [],
-            filterCollection: {
-                all: [], modelFilters: []
-            },
             layoutCollection: [{
                 name: "blog",
                 id: "h2fFurQB-2LFRbVHnF-Pk",
@@ -236,7 +230,7 @@ export const settingsStoreFixtureNoCurrent: SettingsStore = {
             layoutCommonCollection: [
                 [
                     {
-                        type: "FilterCategories", cols: "2"
+                        type: "FilterCategories", cols: "2",
                     },
                     {
                         type: "List", model: "1QKpueEa"
@@ -292,11 +286,6 @@ export const settingsStoreFixtureNoCurrent: SettingsStore = {
             defaultLayout: "",
             layoutCommonCollection: [],
             modelCollection: [],
-            filterCollection: {
-                all: [],
-                modelFilters: []
-            },
-
         },
 
     ],
