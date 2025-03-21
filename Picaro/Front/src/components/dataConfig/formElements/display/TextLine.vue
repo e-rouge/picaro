@@ -8,7 +8,7 @@ defineProps<{
 }>()
 </script>
 <template>
-  <component :is="fieldParams.template || 'span'" v-if="fieldContent">
+  <component :is="fieldParams.template || 'span'">
     {{ fieldContent }}
   </component>
 </template>

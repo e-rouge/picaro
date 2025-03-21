@@ -13,7 +13,6 @@ const props = defineProps<{
 const emit = defineEmits(["updateData", "saveEdit", "endEdit"])
 
 const imageFile = ref<File>();
-const uploadedImage = ref('')
 const utilsStore = useUtilsStore()
 
 const thumb = computed(() => {
@@ -38,7 +37,7 @@ function uploadImage() {
       body: formData,
     }).then(() => {
       formattedData.value[1] = imageFile.value?.name ?? ''
-      console.log(formattedData.value)
+      console.log(formattedData.value, imageFile.value?.name)
       emit("updateData", formattedData.value);
 
       utilsStore.addAlert({
