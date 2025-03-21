@@ -55,7 +55,7 @@ function createNewModel() {
   modelNameInput.value = modelNameInput.value.toLowerCase()
 
   currentEditModel.value = {
-    id: nanoid(8),
+    id: nanoid(7),
     name: modelNameInput.value,
     fieldCollection: []
   }

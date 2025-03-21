@@ -1,43 +1,48 @@
-import {FieldContentParams, Filter, FilterCollection, FilterMethod, Layout, ModelContent} from "@types";
+import {FieldContentParams, Filter, FilterCollection, Layout, ModelContent} from "@types";
 
 const filterToIgnore = ['layout']
-const applyFilterMethod = function (method: FilterMethod, searchedItem: string | string[] | ModelContent[] | FieldContentParams[], checkedValue: Filter) {
-    if (method === "eq") {
-        return searchedItem === checkedValue.value[0];
+const applyFilterMethod = function (filter: Filter, searchedItem: FieldContentParams | string[] | string) {
+    const itemContent = Array.isArray(searchedItem) || typeof searchedItem === 'string' ? searchedItem : searchedItem.fieldContent
+    if (filter.method === "eq") {
+        return itemContent === filter.value[0];
     }
-    if (method === "in") {
-        return (searchedItem as string[]).includes(checkedValue.value[0]);
+    if (filter.method === "in" && Array.isArray(itemContent)) {
+        return itemContent?.includes(filter.value[0]);
     }
+
 };
 
 function checkFilterCollection(item: ModelContent, filter: Filter) {
+    if (filter.target === 'all') {
+        return true
+    }
+
     if (!filter || Object.entries(filter).length === 0 || filterToIgnore.includes(filter.type)) return null;
 
-    const itemToCheck = item.content
+
+    let itemToCheck;
     if (filter.type === 'categories') {
-        const categoriesToCheck = item.categories
-        return applyFilterMethod(
-            filter.method,
-            categoriesToCheck,
-            {value: filter.value} as Filter
-        );
+        itemToCheck = item.categories
+    } else if (filter.type === 'full') {
+        itemToCheck = item.id
     } else {
-        if (!itemToCheck.find(subItem => subItem.contentId === filter.target)) {
-            return false;
-        }
+        itemToCheck = item.content.find(subItem => subItem.fieldParamsId === filter.target)
     }
-    return applyFilterMethod(
-        filter.method,
-        itemToCheck.filter(subItem => subItem.contentId === filter.target),
-        filter
-    );
+
+    return itemToCheck ? applyFilterMethod(
+        filter,
+        itemToCheck,
+    ) : false;
 }
 
-export const applyFilter = function (item: ModelContent, filterCollection: FilterCollection, moduleParams: Layout) {
+export function applyFilter(item: ModelContent, filterCollection: FilterCollection, moduleParams: Layout) {
+
+    const modelFilters = filterCollection.modelFilters.filter(item => item.modelIdCollection?.includes(moduleParams.model ?? ''))
 
 
-    let displayItem = 0;
-    let emptyFilter = 0;
+    let displayItemAll = 0;
+    let displayItemModel = 0;
+
 
     if (!filterCollection || Object.keys(filterCollection).length === 0) {
         return true
@@ -47,22 +52,20 @@ export const applyFilter = function (item: ModelContent, filterCollection: Filte
     filterCollection.all.forEach(filter => {
         const filterStatus = checkFilterCollection(item, filter);
         if (filterStatus === true) {
-            displayItem += 1;
+            displayItemAll += 1;
         } else if (filterStatus === null) {
-            emptyFilter += 1;
-            displayItem += 1;
+            displayItemAll += 1;
         }
     });
-    // if all filters are empty use default panel params
-    if (
-        moduleParams.categories &&
-        emptyFilter === filterCollection.all.length &&
-        item.categories.length > 0 &&
-        moduleParams.categories?.length > 0
-    ) {
-        const categoryIdCollection = moduleParams.categories.map(item => item.id);
-        return item.categories.some(item => categoryIdCollection.includes(item));
-    }
+
+    modelFilters.forEach(filter => {
+        const filterStatus = checkFilterCollection(item, filter);
+        if (filterStatus === true) {
+            displayItemModel += 1;
+        } else if (filterStatus === null) {
+            displayItemModel += 1;
+        }
+    })
     // return item if all filter are true
-    return displayItem === filterCollection.all.length;
+    return displayItemAll === filterCollection.all.length && displayItemModel === modelFilters.length;
 };

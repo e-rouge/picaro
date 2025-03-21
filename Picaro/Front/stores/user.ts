@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {Filter, FilterCollection, FilterMethod, ModelFilter} from "@types";
+import {Filter, FilterCollection, FilterParams, ModelFilter} from "@types";
 import groupBy from "object.groupby"
 import {toRaw} from "vue";
 
@@ -20,14 +20,12 @@ export const useUserStore = defineStore('user', {
     }),
     actions: {
         updateFilterCollection(
-            filterParams: { value: string[], target: string, method: FilterMethod },
+            filterParams: FilterParams,
             type: string = '',
             models?: string[]
         ) {
 
             const temporaryFilterCollection = structuredClone(toRaw(this.filterCollection));
-
-            temporaryFilterCollection.all = temporaryFilterCollection.all.filter(item => item.type !== type);
 
             const params = {
                 method: filterParams.method,
@@ -36,12 +34,28 @@ export const useUserStore = defineStore('user', {
                 type
             }
 
-            if (models) {
+            if (models) { // model filters
                 const paramsWithModel: ModelFilter = {...params, modelIdCollection: models}
+                // create a fake all filter if empty
+                if (temporaryFilterCollection.all.length === 0) {
+                    temporaryFilterCollection.all = [{
+                        method: "in",
+                        value: [""],
+                        target: "all",
+                        type: "all",
+                    }]
+                }
+                temporaryFilterCollection.modelFilters = temporaryFilterCollection.modelFilters.filter(item => item.type !== type);
                 temporaryFilterCollection.modelFilters.push(paramsWithModel)
-            }
-
-            if (filterParams.value.length > 0) {
+            } else if (filterParams.value.length > 0) { // all filters
+                // reset model filters
+                temporaryFilterCollection.modelFilters = []
+                //remove current all filter
+                temporaryFilterCollection.all = temporaryFilterCollection.all.filter(item => {
+                    return item.type !== type &&
+                        item.type !== 'all'
+                });
+                //add current filter
                 temporaryFilterCollection.all.push(params)
             } else {
                 const index = temporaryFilterCollection.all.findIndex(item => item.target = filterParams.target)
@@ -49,7 +63,6 @@ export const useUserStore = defineStore('user', {
             }
 
             this.filterCollection = temporaryFilterCollection
-
 
             this.updateRoute(temporaryFilterCollection)
 

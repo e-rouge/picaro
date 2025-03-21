@@ -28,7 +28,7 @@
     "nanoid": "^3.3.3",
     "object.groupby": "^1.0.3",
     "pinia": "^2.1.7",
-    "vue": "^3.4.31",
+    "vue": "^3.5.13",
     "vue-router": "^4.3.0",
     "vuedraggable": "^4.1.0",
     "vuetify": "^3.7.3"
@@ -53,7 +53,7 @@
     "postcss-preset-env": "^9.6.0",
     "prettier": "^2.7.1",
     "sass": "^1.80.4",
-    "typescript": "^5.6.3",
+    "typescript": "^5.8.2",
     "vite": "^5.1.6",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-imagetools": "^7.0.5",
@@ -61,6 +61,6 @@
     "vite-plugin-vuetify": "^2.0.3",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.1.8",
-    "vue-tsc": "^2.0.24"
+    "vue-tsc": "^2.2.8"
   }
 }

@@ -13,24 +13,27 @@ import {useUserStore} from "@stores/user";
 const settings = useSettingsStore()
 const userStore = useUserStore()
 
+const route = useRoute();
+const dataStore = useDataStore()
+
+
+const emit = defineEmits<{
+  clickItem: [index: number]
+  clickField: [{ name: string, id: string }]
+}>()
+
 const categories: Category[] = settings.currentAppSettings?.categories || []
 
-const route = useRoute();
 
 const props = defineProps<{
   moduleParams: Layout
   displayAll?: boolean
   currentApp: Settings
-  dataReloaded: boolean
+  dataReloaded?: boolean
   displayStatus?: ModelContent['status']
+  fieldSelection?: string[]
 }>()
 
-const emit = defineEmits<{
-  clickItem: [index: number]
-}>()
-
-
-const dataStore = useDataStore()
 
 const content = import.meta.env.VITE_BUILD_MODE === "static" ? {
   data: ref(),
@@ -71,7 +74,7 @@ const filteredList = computed<ModelContent[]>(() => {
     })
   }
 
-},)
+})
 
 const currentModel = computed(() => {
   return props.currentApp.modelCollection.find(
@@ -115,8 +118,10 @@ function getData() {
           <model-field
             :current-model="currentModel"
             :field-content="field"
+            :field-selection="fieldSelection"
             :module-params="moduleParams"
             data-testid="content-display"
+            @clickFieldName="emit('clickField', {name: $event, id: fieldList.id})"
           />
         </div>
       </div>

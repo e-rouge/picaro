@@ -59,15 +59,10 @@ const isEdited = computed(() => {
 
 
 const fieldType = [
-  {name: 'Boolean', type: 'boolean'},
   {name: 'Text Input', type: 'text'},
-  {name: 'Date', type: 'date'},
-  {name: 'Email', type: 'email'},
   {name: 'Rich text', type: 'richText'},
-  {name: 'Multi choice', type: 'multiChoice'},
-  {name: 'Category filter', type: 'categoryFilter'},
-  {name: 'Categories', type: 'categories'},
-  {name: 'Relation', type: 'relation'},
+  {name: 'Image', type: 'image'},
+
 ];
 
 function addField() {
@@ -104,7 +99,7 @@ function cancelEdit() {
 }
 
 function saveEdit() {
-  emit("updateEditedFieldData", fieldData.value);
+  emit("updateEditedFieldData", {...fieldData.value, ...form});
 }
 
 

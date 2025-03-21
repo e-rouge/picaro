@@ -7,6 +7,9 @@ export type AvailableModules =
     | "List"
     | "FilterCategories"
     | "FilterLink"
+    | "Preview"
+    | "FilterSingle"
+
 export type AvailableContentType = "richText" | 'text'
 export type Category = {
     id: string,
@@ -177,9 +180,16 @@ export type FieldParams = {
 }
 
 export type FieldContentParams = {
-    fieldContent: null | string | RichTextContent
+    fieldContent: null | string | RichTextContent | string[]
     fieldParamsId: string
     contentId: string
+}
+
+export type FilterParams = {
+    value: string[]
+    target: string
+    method: FilterMethod
+    type?: string
 }
 
 export type ModelContent = {
@@ -188,6 +198,8 @@ export type ModelContent = {
     modelId: string
     id: string
     status?: ModelContentStatus
+    created: Date | null
+    updated: Date | null
 }
 
 export type ModelContentStatus = 'deleted' | 'archived' | 'draft' | 'published'

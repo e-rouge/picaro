@@ -25,7 +25,9 @@ const components: Partial<AvailableModulesComponentList> = {
   FilterLink: "FilterLink",
   */
   List: "List",
-  FilterCategories: "FilterCategories"
+  FilterCategories: "FilterCategories",
+  Preview: "Preview",
+  FilterSingle: "FilterSingle"
 };
 
 if (!props.dynamic) {

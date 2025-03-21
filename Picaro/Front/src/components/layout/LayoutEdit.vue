@@ -33,7 +33,7 @@ function createLayout() {
   }
   layoutCollection.value?.push({
     name: createdLayoutName.value,
-    id: nanoid(),
+    id: nanoid(4),
     layout: []
   });
   createdLayoutName.value = "";

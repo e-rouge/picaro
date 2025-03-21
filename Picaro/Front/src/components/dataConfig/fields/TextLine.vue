@@ -1,9 +1,3 @@
-<template>
-  <label>
-    {{ fieldParams.label }}
-    <input v-model="state.text" :name="fieldParams.name" data-testid="text-field">
-  </label>
-</template>
 <script lang="ts" setup>
 import {computed, defineEmits, defineProps, ref, watch} from "vue";
 import {useVuelidate} from "@vuelidate/core";
@@ -12,27 +6,16 @@ import {helpers} from "@vuelidate/validators";
 const emit = defineEmits(["updateData", "saveEdit", "endEdit"])
 const props = defineProps({
   fieldParams: {type: Object, required: true},
-  modelContent: {
-    type: Object,
-    default() {
-      return {};
-    }
-  },
+  fieldContent: {type: Object, required: true},
   index: {type: Number, required: true},
   isEdit: {type: Boolean, default: false}
 })
 const state = ref({text: ""})
-state.value.text = props.modelContent.content
+state.value.text = props.fieldContent?.content ?? ''
 const formattedData = computed(() => {
   return [
     props.fieldParams.id,
-    {
-      name: props.fieldParams.name,
-      content: state.value.text,
-      fieldType: "text",
-      required: props.fieldParams.required,
-      position: props.index
-    }
+    state.value.text,
   ]
 })
 const rules = computed(() => {
@@ -64,8 +47,12 @@ watch(() => state.value.text, async () => {
 
 
 if (props.isEdit) {
-  state.value.text = props.modelContent.content;
+  state.value.text = props.fieldContent?.content ?? "";
 }
 
-
 </script>
+<template>
+  <label>
+    <VTextField v-model="state.text" :label="fieldParams.label" :name="fieldParams.name" data-testid="text-field" />
+  </label>
+</template>

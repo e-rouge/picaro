@@ -10,6 +10,7 @@ import {copy} from "copy-anything";
 import {helpers} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {picFetch} from "@utils/api";
+import ImageField from "@components/dataConfig/fields/ImageField.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -19,6 +20,16 @@ const emit = defineEmits<{
   reloadData: [],
 }>()
 
+const createdDate = computed<Date>(() => {
+  return currentModelContent.value.created ? new Date(currentModelContent.value.created) : new Date()
+})
+
+const createdDateDisplay = computed<string>(() =>
+    createdDate.value.toLocaleString()
+)
+
+const displayDate = ref(false)
+
 const possibleStatus = ['published', "draft", "deleted", "archived"] satisfies ModelContentStatus[]
 
 const componentMap = shallowRef();
@@ -26,6 +37,7 @@ const componentMap = shallowRef();
 import("@components/dataConfig/fields/RichText.vue").then(component => {
       componentMap.value = {
         text: TextLine,
+        image: ImageField,
         richText: component.default,
         select: 'Select',
         radio: 'Radio',
@@ -71,11 +83,13 @@ function defaultEmptyContent(): ModelContent {
     content: props.currentEditModel.fieldCollection.map((field: FieldParams) => ({
       fieldContent: null,
       fieldParamsId: field.id,
-      contentId: nanoid(8),
+      contentId: nanoid(6),
     })),
     status: "published",
-    id: nanoid(8),
-    modelId: route.params.modelId as string
+    id: nanoid(7),
+    modelId: route.params.modelId as string,
+    created: null,
+    updated: null
   }
 
 }
@@ -95,6 +109,11 @@ function updateData(data: [string, FieldContentParams['fieldContent']]) {
   changedItem.fieldContent = content
 }
 
+function setHours(event: number) {
+  createdDate.value.setHours(event)
+  currentModelContent.value.created = createdDate.value
+}
+
 
 function sendForm(newStatus ?: ModelContent['status']) {
   if (newStatus) {
@@ -110,6 +129,12 @@ function sendForm(newStatus ?: ModelContent['status']) {
       text: "No app selected"
     });
     return
+  }
+
+  if (!currentModelContent.value.created) {
+    currentModelContent.value.created = new Date()
+  } else {
+    currentModelContent.value.updated = new Date()
   }
 
   picFetch(
@@ -129,7 +154,6 @@ function sendForm(newStatus ?: ModelContent['status']) {
 </script>
 <template>
   <div>
-    {{ currentModelContent.status }}
     <div v-if="componentMap" class="pic-container model-form-container" data-testid="content-form">
       <component
         :is="componentMap[field.type]"
@@ -138,6 +162,22 @@ function sendForm(newStatus ?: ModelContent['status']) {
         :field-content="currentModelContent.content?.find((item: FieldContentParams) => item.fieldParamsId === field.id)?.fieldContent"
         :field-params="field"
         @updateData="updateData($event)"
+      />
+      created : {{ createdDateDisplay }}
+      <VBtn variant="text" @click="displayDate = !displayDate">
+        Change Date
+      </VBtn>
+      <VDatePicker
+        v-if="displayDate"
+        :model-value="createdDate"
+        label="Created"
+        @update:model-value="currentModelContent.created = $event"
+      />
+      <VTextField
+        :model-value="createdDate.getHours()"
+        label="Hour"
+        type="number"
+        @update:model-value="setHours($event as unknown as number)"
       />
       <v-select
         v-model="form.categories"

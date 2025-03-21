@@ -2,12 +2,19 @@
 import Text from "./formElements/display/TextLine.vue";
 import {FieldContentParams, Layout, Model} from "@types";
 import {computed, shallowRef} from "vue";
+import ImageField from "@components/dataConfig/formElements/display/ImageField.vue";
 
 const props = defineProps<{
   fieldContent: FieldContentParams
   moduleParams: Layout
   currentModel: Model
+  fieldSelection: string[] | undefined
 }>()
+
+const emit = defineEmits<{
+  clickFieldName: [string]
+}>()
+
 
 const fieldParams = computed(() => props.currentModel.fieldCollection.find(item => item.id === props.fieldContent.fieldParamsId))
 
@@ -22,20 +29,28 @@ richTextComponent()
     .then(component => {
           componentMap.value = {
             richText: component.default,
-            text: Text
+            text: Text,
+            image: ImageField
           }
         }
     ).catch(e => console.error(e))
 
-
+function isDisplayed() {
+  if (!props.fieldSelection) {
+    return true
+  } else {
+    return props.fieldSelection.includes(fieldParams.value?.name ?? "")
+  }
+}
 </script>
 <template>
   <component
     :is="componentMap[fieldParams.type]"
-    v-if="fieldParams && fieldContent && componentMap"
+    v-if="fieldParams && fieldContent && componentMap && isDisplayed()"
     :key="fieldParams.id"
     :field-content="fieldContent.fieldContent"
     :field-params="fieldParams"
     :module-params="moduleParams"
+    @click="emit('clickFieldName', fieldParams.name)"
   />
 </template>

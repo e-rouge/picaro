@@ -59,6 +59,7 @@ describe('ContentEdit', () => {
                 false
             ])
     })
+
     it('should display existing content', () => {
 
 
@@ -74,7 +75,7 @@ describe('ContentEdit', () => {
         await router.isReady()
 
         wrapper.vm.editItem(0)
-        
+
         await vi.waitUntil(() => wrapper.vm.$route.path === "/admin/data/modelId1/content/0")
         await wrapper.vm.$nextTick()
 
