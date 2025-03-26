@@ -8,7 +8,7 @@ const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 
 const layoutList = computed<LayoutCollection[]>(() => {
-  const layout = [...settingsStore.currentAppSettings?.layoutCollection ?? []]
+  const layout = structuredClone(settingsStore.currentAppSettings?.layoutCollection ?? [])
   layout.sort((a, b) => a.order - b.order)
   return layout
 })
