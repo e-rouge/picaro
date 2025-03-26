@@ -55,8 +55,15 @@ export async function updateStyleSet(currentSettings: { styleSet: StyleSet, gene
 
 export function isUserLoggedIn() {
     if (localStorage.getItem('accessToken')) {
-        return fetch('/api/auth/check').catch(() => {
+        return fetch('/api/auth/check').then((res) => {
+            if (res.status === 401) {
+                return false
+            }
+            return true
+        }).catch(() => {
             return false
         })
+    } else {
+        return false
     }
 }

@@ -2,6 +2,8 @@
 import {useSettingsStore} from "@stores/settings";
 import {ref} from "vue";
 import {SettingsStore} from "@types";
+import '../../../../static/css/baseStyle-custom.pcss'
+
 
 import('../../../FrontStatic/src/stylesFront.pcss').catch((error) => {
   console.error(error)
@@ -30,5 +32,7 @@ fetch('/api/setup/all').then((res) => res.json())
 </template>
 
 <style scoped>
-
+:deep(.pic-row-container) {
+  width: 100vw
+}
 </style>

@@ -77,7 +77,7 @@ async function saveLayout() {
         :cols="layoutCommonColumn.cols"
         class="pic-layout--container pic-layout--common-module pic-module-container"
       >
-        <div class="pic-container">
+        <div :class="`pic-container-width-${layoutCommonColumn.cols}`" class="pic-container">
           <span
             class="pic-layout-settings"
           >
@@ -115,6 +115,7 @@ async function saveLayout() {
               :items="modelCollection"
               :model-value="modelCollection.find((item: Model) => item.id === layoutCommonColumn.model)"
               data-testid="module-model"
+              density="compact"
               item-title="name"
               item-value="id"
               label="Model"
@@ -123,6 +124,7 @@ async function saveLayout() {
             <v-select
               :items="settingsStore.currentAppSettings?.categories"
               :multiple="true"
+              density="compact"
               item-title="label"
               item-value="id"
               label="Categories"
@@ -183,16 +185,26 @@ async function saveLayout() {
   </v-btn>
 </template>
 
-<style scoped>
+<style lang="postcss" scoped>
+:deep(.v-row) {
+  margin: 0;
+}
+
 .pic-container {
   margin-left: 0 !important;
   margin-right: 0 !important;
   position: relative;
+
+  &-width-1 {
+    padding: 2rem 5px !important;
+    min-width: 110px;
+  }
 }
+
 
 .pic-layout {
   &--container {
-    padding: 0 var(--l) 0 var(--s)
+    padding: 0 var(--s) 0 var(--xxs)
   }
 
   &--main-container,
@@ -234,18 +246,12 @@ async function saveLayout() {
   }
 
   &--add-column {
-    right: -30px;
+    right: -35px;
     top: 50%;
   }
 }
 
 .module-type {
-  &-size {
-    max-width: 40px;
-    margin-right: 1rem;
-  }
-
-  display: flex;
   margin-top: -.5rem;
 }
 </style>

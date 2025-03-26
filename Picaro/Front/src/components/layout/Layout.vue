@@ -25,13 +25,17 @@ const selectedLayout = computed<Layout[][]>(() => {
 })
 </script>
 <template>
-  <v-row v-for="(layoutLine, index) in selectedLayout" :key="index" class="pic-layout--container pic-row-container">
+  <v-row
+    v-for="(layoutLine, index) in selectedLayout"
+    :key="index"
+    class="pic-layout--container pic-row-container"
+  >
     <v-col
       v-for="module in layoutLine"
       :key="module.type"
       :class="`pic-module-${module.type} pic-module-${selectedLayoutId}`"
       :cols="module.cols"
-      class="pic-layout--module"
+      class="pic-module-container"
     >
       <component
         :is="availableModules[module.type]"

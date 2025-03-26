@@ -2,6 +2,7 @@
 import type {FilterParams, Layout, Settings} from "@types";
 import {useUserStore} from "@stores/user";
 import DisplayList from "@components/display/DisplayList.vue";
+import {provide} from "vue";
 
 const userStore = useUserStore();
 
@@ -11,6 +12,7 @@ const props = defineProps<{
   currentModelId: string
 }>()
 
+provide('isPreviewTitle', true)
 
 function selectTitle(clickedField: { name: string, id: string }) {
   if (clickedField.name !== 'title') {

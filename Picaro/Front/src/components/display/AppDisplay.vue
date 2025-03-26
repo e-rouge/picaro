@@ -112,8 +112,14 @@ function filterRouteToStore({
       <div
         v-for="(layoutCommonColumn, subIndex) in layoutCommonLine"
         :key="`${layoutCommonColumn.type}${subIndex}`"
-        :class="`pic-col-size-${layoutCommonColumn?.cols}`"
-        class="pic-layout--container pic-layout--common-module pic-module-container pic-col"
+        :class="[
+          {
+            'pic-module-container': layoutCommonColumn.type !== 'Layout'
+          },
+          `pic-col-size-${layoutCommonColumn?.cols}`,
+          `pic-module-${layoutCommonColumn.type}`
+        ]"
+        class="pic-layout--container pic-layout--common-module pic-col"
       >
         <component
           :is="availableModules[layoutCommonColumn.type]"

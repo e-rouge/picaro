@@ -35,6 +35,7 @@ const fieldSelection = computed(() => {
 </script>
 <template>
   <DisplayList
+    :class="{'full': isFull}"
     :current-app="currentApp"
     :data-reloaded="dataReloaded"
     :field-selection="fieldSelection"

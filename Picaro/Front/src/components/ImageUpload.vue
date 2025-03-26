@@ -63,37 +63,47 @@ function uploadImage() {
 <template>
   <v-navigation-drawer
     v-model="userStore.imageDrawerToggle"
-    location="bottom"
-    width="500"
+    location="left"
+    width="300"
   >
+    <v-btn
+      class="float-end"
+      density="compact"
+      variant="text"
+      @click="userStore.imageDrawerToggle = !userStore.imageDrawerToggle"
+    >
+      <VIcon>mdi-close</VIcon>
+    </v-btn>
     <div class="pic-container pic-container-s">
-      <v-form>
+      <v-form class="pic-image-upload-form">
         <v-file-input
           v-model="imageFile"
           accept="image/*"
           density="compact"
           label="Image"
         />
-        <v-btn class="ml-4" @click="uploadImage">
+        <v-btn class="ml-4" density="compact" @click="uploadImage">
           Upload
         </v-btn>
       </v-form>
-      <div v-for="image in structuredImages" :key="image.name">
-        <img
-          :class="{selected: image.name === userStore.rteImage}"
-          :src="`/api/uploads/${image.files[2].file}`"
-          class="uploaded-image"
-        >
-        <div class="size-btn-container">
-          <v-btn
-            v-for="(imageSize) in (image.files)"
-            :key="imageSize.file"
-            density="compact"
-            variant="text"
-            @click="userStore.rteImage = `/api/uploads/${imageSize.file}`"
+      <div class="pic-image-upload-container">
+        <div v-for="image in structuredImages" :key="image.name" class="pic-image-upload">
+          <img
+            :class="{selected: image.name === userStore.rteImage}"
+            :src="`/api/uploads/${image.files[1].file}`"
+            class="uploaded-image"
           >
-            {{ imageSize.size }}
-          </v-btn>
+          <div class="size-btn-container">
+            <v-btn
+              v-for="(imageSize) in (image.files)"
+              :key="imageSize.file"
+              density="compact"
+              variant="text"
+              @click="userStore.rteImage = `/api/uploads/${imageSize.file}`"
+            >
+              {{ imageSize.size }}
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>

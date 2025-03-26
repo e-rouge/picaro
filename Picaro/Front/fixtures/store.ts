@@ -12,6 +12,7 @@ export const currentAppSettings = {
     layoutCollection: [{
         name: "blog",
         id: "h2fFurQB-2LFRbVHnF-Pk",
+        order: 1,
         layout: [[{
             model: "1QKpueEa", type: "List", categories: []
         }]]
@@ -213,6 +214,7 @@ export const settingsStoreFixtureNoCurrent: SettingsStore = {
             applicationName: "picaro",
             navStructure: [],
             layoutCollection: [{
+                order: 0,
                 name: "blog",
                 id: "h2fFurQB-2LFRbVHnF-Pk",
                 layout: [

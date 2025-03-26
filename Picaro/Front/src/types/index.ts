@@ -67,6 +67,7 @@ export type RichTextEditorJson = {
 export type LayoutCollection = {
     id: string,
     name: string,
+    order: number,
     layout: Layout[][]
 }
 

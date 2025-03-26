@@ -8,7 +8,9 @@ const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 
 const layoutList = computed<LayoutCollection[]>(() => {
-  return settingsStore.currentAppSettings?.layoutCollection ?? []
+  const layout = [...settingsStore.currentAppSettings?.layoutCollection ?? []]
+  layout.sort((a, b) => a.order - b.order)
+  return layout
 })
 
 function changeLayout(id: string) {
@@ -23,5 +25,4 @@ function changeLayout(id: string) {
 </template>
 
 <style scoped>
-
 </style>
