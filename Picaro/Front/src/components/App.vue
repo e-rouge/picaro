@@ -2,7 +2,10 @@
 import {useSettingsStore} from "@stores/settings";
 import {ref} from "vue";
 import {SettingsStore} from "@types";
-import '../../../../static/css/baseStyle-custom.pcss'
+
+import('../../../../static/css/baseStyle-custom.pcss').catch((error) => {
+  console.error(error)
+})
 
 
 import('../../../FrontStatic/src/stylesFront.pcss').catch((error) => {
@@ -28,7 +31,7 @@ fetch('/api/setup/all').then((res) => res.json())
 </script>
 
 <template>
-  <router-view v-if="settingsLoaded" />
+  <router-view v-if="settingsLoaded"/>
 </template>
 
 <style scoped>

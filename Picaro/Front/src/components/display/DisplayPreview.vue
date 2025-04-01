@@ -27,9 +27,8 @@ const fieldSelection = computed(() => {
   }
 })
 
-function selectItem(id) {
+function selectItem(id: string) {
   if (!isFull.value) {
-    console.log('ssss')
     userStore.updateFilterCollection(
         {value: [id], target: 'id', method: "eq"} as FilterParams,
         "full",

@@ -19,7 +19,7 @@ const dataStore = useDataStore()
 
 const emit = defineEmits<{
   clickItem: [index: number]
-  clickItemContent: [id: number]
+  clickItemContent: [id: string]
   clickField: [{ name: string, id: string }]
 }>()
 
