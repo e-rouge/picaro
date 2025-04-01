@@ -13,8 +13,8 @@
     "build:static": "node Picaro/Cli/buildData.js && pnpm --filter ./Picaro/FrontStatic run build",
     "lint": "pnpm --filter ./Picaro/Front run lint",
     "typecheck": "pnpm --filter ./Picaro/Front run typecheck",
-    "e2e": "rimraf ./Picaro/DataCI/* --glob && pnpm exec playwright test --project=chromium",
-    "e2e:ff": "rimraf ./Picaro/DataCI/* --glob && pnpm exec playwright test --project=firefox"
+    "e2e": "node ./Picaro/Cli/init.js && rimraf ./Picaro/DataCI/* --glob && pnpm exec playwright test --project=chromium",
+    "e2e:ff": "node ./Picaro/Cli/init.js && rimraf ./Picaro/DataCI/* --glob && pnpm exec playwright test --project=firefox"
   },
   "keywords": [],
   "author": "Étienne Rouge",

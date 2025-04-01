@@ -6,7 +6,7 @@ import styleset from '@data/build/styleset.json'
 
 import '../../../../static/css/baseStyle-custom.pcss'
 
-import('../stylesFront.pcss')
+import('../../../../static/css/stylesFront.pcss')
 
 const settingsStore = useSettingsStore()
 
@@ -19,7 +19,7 @@ settingsLoaded.value = true
 </script>
 
 <template>
-  <router-view v-if="settingsLoaded" />
+  <router-view v-if="settingsLoaded"/>
 </template>
 
 <style scoped>

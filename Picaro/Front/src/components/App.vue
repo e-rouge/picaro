@@ -7,8 +7,7 @@ import('../../../../static/css/baseStyle-custom.pcss').catch((error) => {
   console.error(error)
 })
 
-
-import('../../../FrontStatic/src/stylesFront.pcss').catch((error) => {
+import('../../../../static/css/stylesFront.pcss').catch((error) => {
   console.error(error)
 })
 
