@@ -26,9 +26,6 @@ importers:
       '@vue/typescript':
         specifier: ^1.8.20
         version: 1.8.20(typescript@5.8.2)
-      dotenv:
-        specifier: ^16.4.7
-        version: 16.4.7
       eslint:
         specifier: ^9.21.0
         version: 9.21.0
