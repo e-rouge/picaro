@@ -18,7 +18,7 @@ jobs:
           source: "Picaro/Back/picaro-back.json.sample"
           target: "Picaro/Back/picaro-back.json"
       - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
+        run: npm install -g pnpm && pnpm install && pnpm init
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
