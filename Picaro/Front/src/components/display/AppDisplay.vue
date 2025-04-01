@@ -7,15 +7,22 @@ import {useSettingsStore} from "@stores/settings"
 import {availableModules} from "@utils/modules"
 import {setCSSLink} from "@utils/helper";
 import {useUserStore} from "@stores/user";
+import {useWindowSize} from "@vueuse/core"
+import {useUtilsStore} from "@stores/utils";
+import MobileMenuLayout from "@components/layout/MobileMenuLayout.vue";
 
 const route = useRoute()
 
 const settingsStore = useSettingsStore()
+const utilsStore = useUtilsStore()
 const userStore = useUserStore()
+
 
 const currentApp = computed(() => {
   return settingsStore.currentAppSettings
 })
+
+const {width} = useWindowSize()
 
 const cssPrefix = import.meta.env.VITE_BUILD_MODE !== 'static' ? '/api' : ''
 
@@ -24,6 +31,9 @@ onMounted(() => {
   setCSSLink(`${cssPrefix}/css/baseStyle-${currentApp.value.styleSet}.css`)
 })
 
+watch(width, () => {
+  utilsStore.isMobile = width.value < 800;
+}, {immediate: true})
 const appID = computed<string>(() => {
   return settingsStore.allSettings.find((app: Settings) => app.applicationName === route.params.app)?.id ?? ''
 })
@@ -100,39 +110,67 @@ function filterRouteToStore({
   }
   return filterParams;
 }
+
+function hasPadding(type: string) {
+  const noPadding = ['SingleImage', 'Layout']
+
+  return !noPadding.includes(type)
+}
 </script>
 
 <template>
   <div v-if="currentApp" class="pic-layout--main-container pic-content-container">
+    <div v-if="utilsStore.isMobile" class="d-flex justify-end">
+      <v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn icon="mdi-dots-vertical" v-bind="props" variant="text"></v-btn>
+        </template>
+        <MobileMenuLayout :current-app="currentApp"/>
+      </v-menu>
+    </div>
+
     <div
       v-for="(layoutCommonLine, index) in currentApp.layoutCommonCollection"
       :key="index"
       class="pic-layout-container pic-row"
     >
-      <div
-        v-for="(layoutCommonColumn, subIndex) in layoutCommonLine"
-        :key="`${layoutCommonColumn.type}${subIndex}`"
-        :class="[
-          {
-            'pic-module-container': layoutCommonColumn.type !== 'Layout'
-          },
-          `pic-col-size-${layoutCommonColumn?.cols}`,
-          `pic-module-${layoutCommonColumn.type}`
-        ]"
-        class="pic-layout--container pic-layout--common-module pic-col"
-      >
-        <component
-          :is="availableModules[layoutCommonColumn.type]"
-          v-if="layoutCommonColumn.type !== 'Layout' && layoutCommonColumn.type"
-          :current-app="currentApp"
-          :module-params="layoutCommonColumn"
-        />
-        <span v-else>
-          <Layout :current-app="currentApp" />
-        </span>
-      </div>
+      <template v-for="(layoutCommonColumn, subIndex) in layoutCommonLine">
+        <div
+          v-if="!(utilsStore.isMobile  && (layoutCommonColumn?.hideOnMobile || layoutCommonColumn?.inMobileMenu))"
+          :key="`${layoutCommonColumn.type}${subIndex}`"
+          :class="[
+            {
+              'pic-module-container': hasPadding(layoutCommonColumn.type)
+            },
+            `pic-col-size-${layoutCommonColumn?.cols}`,
+            `pic-module-${layoutCommonColumn.type}`
+          ]"
+          class="pic-layout--container pic-layout--common-module pic-col"
+        >
+          <component
+            :is="availableModules[layoutCommonColumn.type]"
+            v-if="layoutCommonColumn.type !== 'Layout' &&
+              layoutCommonColumn.type"
+            :current-app="currentApp"
+            :module-params="layoutCommonColumn"
+          />
+          <span v-else>
+            <Layout :current-app="currentApp"/>
+          </span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="postcss" scoped>
+:deep(.pic-col) {
+  flex-shrink: 0;
+}
+
+:deep(.pic-row) {
+  display: flex;
+}
+
+
+</style>

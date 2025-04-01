@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type {FilterParams, Layout, Settings} from "@types";
+import type {FilterParams, Module, Settings} from "@types";
 import {useUserStore} from "@stores/user";
 import DisplayList from "@components/display/DisplayList.vue";
 import {provide} from "vue";
@@ -8,7 +8,7 @@ const userStore = useUserStore();
 
 const props = defineProps<{
   currentApp: Settings
-  moduleParams: Layout
+  moduleParams: Module
   currentModelId: string
 }>()
 
@@ -23,7 +23,6 @@ function selectTitle(clickedField: { name: string, id: string }) {
       "full",
       props.moduleParams?.model ? [props.moduleParams?.model] : undefined,
   );
-
 }
 
 </script>

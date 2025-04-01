@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "pnpm --filter ./Picaro/Front run dev & pnpm --filter ./Picaro/Back run dev:back",
+    "start": "node ./Picaro/Cli/init.js && pnpm --filter ./Picaro/Front run dev & pnpm --filter ./Picaro/Back run dev:back",
     "test": "pnpm --filter ./Picaro/Front run test",
     "dev:front": "pnpm --filter ./Picaro/Front run dev",
     "dev:back": "pnpm --filter ./Picaro/Back run dev:back",
@@ -24,10 +24,12 @@
     "@eslint/js": "^9.21.0",
     "@playwright/test": "^1.50.1",
     "@types/node": "^22.13.1",
+    "@vue/eslint-config-typescript": "^14.2.0",
     "@vue/typescript": "^1.8.20",
     "eslint": "^9.21.0",
     "globals": "^15.14.0",
     "recommended": "link:@vue/typescript/recommended",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "typescript-eslint": "^8.29.0"
   }
 }

@@ -1,6 +1,5 @@
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import eslintPluginVue from 'eslint-plugin-vue'
 import vueEslintConfigTypescript from '@vue/eslint-config-typescript'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
@@ -18,7 +17,6 @@ export default tseslint.config(
         ignores: ['**/*.d.ts', '**/coverage', '**/dist', 'eslint.config.mjs', '**/*.cy.ts', '**/*.test.js']
     },
     ...vueEslintConfigTypescript({extends: ['recommendedTypeChecked']}),
-    ...eslintPluginVue.configs['flat/recommended'],
     {
         plugins: {
             '@typescript-eslint': tseslint.plugin

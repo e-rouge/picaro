@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {useSettingsStore} from "@stores/settings";
-import {computed} from "vue";
+import {computed, toRaw} from "vue";
 import {LayoutCollection} from "@types";
 import {useUserStore} from "@stores/user";
 
@@ -8,7 +8,7 @@ const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 
 const layoutList = computed<LayoutCollection[]>(() => {
-  const layout = structuredClone(settingsStore.currentAppSettings?.layoutCollection ?? [])
+  const layout = structuredClone(toRaw(settingsStore.currentAppSettings?.layoutCollection ?? []))
   layout.sort((a, b) => a.order - b.order)
   return layout
 })

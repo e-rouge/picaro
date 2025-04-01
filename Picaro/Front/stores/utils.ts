@@ -7,10 +7,16 @@ interface State {
     alertCallbackCollection: Message[],
     alertConfirmationStatus: MessageStatus,
     alertCollection: Message[]
+    isMobile: boolean
 }
 
 export const useUtilsStore = defineStore('utils', {
-    state: (): State => ({alertCallbackCollection: [], alertConfirmationStatus: {}, alertCollection: []}),
+    state: (): State => ({
+        alertCallbackCollection: [],
+        alertConfirmationStatus: {},
+        alertCollection: [],
+        isMobile: false
+    }),
 
     actions: {
         addAlert(data: Message) {

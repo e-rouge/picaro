@@ -4,7 +4,7 @@ import ModelField from "@components/dataConfig/ModelField.vue"
 import {computed, ref, toValue, watch} from "vue";
 import {useRoute} from "vue-router";
 import ModelForm from "@components/dataConfig/ModelForm.vue";
-import {Category, Layout, Model, ModelContent, Settings} from "@types";
+import {Category, Model, ModelContent, Module, Settings} from "@types";
 import {useDataStore} from "@stores/data";
 import {useSettingsStore} from "@stores/settings";
 import {picFetch} from "@utils/api";
@@ -19,6 +19,7 @@ const dataStore = useDataStore()
 
 const emit = defineEmits<{
   clickItem: [index: number]
+  clickItemContent: [id: number]
   clickField: [{ name: string, id: string }]
 }>()
 
@@ -26,7 +27,7 @@ const categories: Category[] = settings.currentAppSettings?.categories || []
 
 
 const props = defineProps<{
-  moduleParams: Layout
+  moduleParams: Module
   displayAll?: boolean
   currentApp: Settings
   dataReloaded?: boolean
@@ -110,20 +111,18 @@ function getData() {
         v-if="index !== parseInt(route.params.contentId as string) && currentModel"
         class="pic-display-list-item"
         data-testid="list-display"
+        @click="emit('clickItemContent', fieldList.id)"
       >
-        <div
+        <model-field
           v-for="(field, subIndex) in fieldList.content"
           :key="subIndex"
-        >
-          <model-field
-            :current-model="currentModel"
-            :field-content="field"
-            :field-selection="fieldSelection"
-            :module-params="moduleParams"
-            data-testid="content-display"
-            @clickFieldName="emit('clickField', {name: $event, id: fieldList.id})"
-          />
-        </div>
+          :current-model="currentModel"
+          :field-content="field"
+          :field-selection="fieldSelection"
+          :module-params="moduleParams"
+          data-testid="content-display"
+          @clickFieldName="emit('clickField', {name: $event, id: fieldList.id})"
+        />
       </div>
 
       <ModelForm

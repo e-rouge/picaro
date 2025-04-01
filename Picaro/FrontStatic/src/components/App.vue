@@ -4,6 +4,8 @@ import {ref} from "vue";
 import settings from '@data/build/settings.json'
 import styleset from '@data/build/styleset.json'
 
+import '../../../../static/css/baseStyle-custom.pcss'
+
 import('../stylesFront.pcss')
 
 const settingsStore = useSettingsStore()

@@ -1,9 +1,9 @@
 import {describe, expect, it} from "vitest";
 import {modelCollection} from "@fixtures/data";
 import {applyFilter} from "@components/utils/filter";
-import {FilterCollection, Layout} from "@types";
+import {FilterCollection, Module} from "@types";
 
-const moduleParams: Layout = {
+const moduleParams: Module = {
     model: 'model1',
     type: 'List',
     categories: [],

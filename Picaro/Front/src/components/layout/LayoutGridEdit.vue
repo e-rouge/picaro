@@ -1,9 +1,18 @@
 <script lang="ts" setup>
-import type {AvailableModules, AvailableModulesComponentList, Category, Layout, Model} from "@types";
-import {computed} from "vue";
+import type {AvailableModules, Category, Model, Module} from "@types";
+import {computed, ref} from "vue";
 import {updateSettings} from "@components/utils/api";
 import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
+import LayoutImage from "@components/layout/LayoutImage.vue";
+
+type ModuleEditParams = {
+  name: string
+  commonOnly?: boolean,
+  hideModel?: boolean,
+  hideCategories?: boolean
+  component?: unknown
+}
 
 const utilStore = useUtilsStore()
 const settingsStore = useSettingsStore();
@@ -12,28 +21,65 @@ const props = defineProps<{
   dynamic?: boolean
 }>()
 
+const isFull = ref<number | null>(null)
+const showConfig = ref<number | null>(null)
 
-const layoutCollection = defineModel<Layout[][]>({default: []})
+
+const layoutCollection = defineModel<Module[][]>({default: []})
 
 const modelCollection = computed<Model[]>(() => {
   return settingsStore.currentAppSettings?.modelCollection ?? []
 });
 
-const components: Partial<AvailableModulesComponentList> = {
-  /*
-  FilterLayout: "FilterLayout",
-  FilterLink: "FilterLink",
-  */
-  List: "List",
-  FilterCategories: "FilterCategories",
-  Preview: "Preview",
-  FilterSingle: "FilterSingle"
-};
+const components: ModuleEditParams[] = [
+  {
+    name: "List"
+  },
+  {
+    name: "FilterCategories"
+  },
+  {
+    name: "Preview"
+  },
+  {
+    name: "FilterSingle"
+  },
+  {
+    name: "Layout",
+    commonOnly: true,
+    hideModel: true
+  },
+  {
+    name: "FilterLayoutSelect",
+    commonOnly: true,
+    hideModel: true,
+    hideCategories: true
+  },
+  {
+    name: "FilterLayout",
+    commonOnly: true
+  },
+  {
+    name: "FilterLink"
+  },
+  {
+    name: "SingleImage",
+    component: LayoutImage,
+    hideModel: true,
+    hideCategories: true
+  }
+];
 
-if (!props.dynamic) {
-  components.Layout = "Layout"
-  components.FilterLayoutSelect = "FilterLayoutSelect"
-}
+const filteredComponents = computed(() => {
+  return components.filter(item => !props.dynamic || props.dynamic && !item.commonOnly)
+})
+
+const filteredComponentsParams = computed(() => {
+  return filteredComponents.value.reduce((acc: Record<string, ModuleEditParams>, currentValue) => {
+    acc[currentValue.name] = currentValue
+    return acc
+  }, {})
+})
 
 function addRow() {
   layoutCollection.value.push([{type: 'List'}]);
@@ -61,29 +107,37 @@ async function saveLayout() {
     await updateSettings(settingsStore.currentAppSettings)
   }
 }
-
 </script>
 
 <template>
   <div class="pic-layout--main-container">
     <v-row
-      v-for="(layoutCommonLine, index) in layoutCollection"
+      v-for="(layoutLine, index) in layoutCollection"
       :key="index"
       class="pic-layout-container pic-row-container"
     >
       <v-col
-        v-for="(layoutCommonColumn, subIndex) in layoutCommonLine"
+        v-for="(layoutColumn, subIndex) in layoutLine"
         :key="subIndex"
-        :cols="layoutCommonColumn.cols"
+        :cols="isFull === subIndex ? 12 : layoutColumn.cols"
         class="pic-layout--container pic-layout--common-module pic-module-container"
       >
-        <div :class="`pic-container-width-${layoutCommonColumn.cols}`" class="pic-container">
+        <div :class="`pic-container-width-${layoutColumn.cols}`" class="pic-container">
           <span
             class="pic-layout-settings"
           >
+            <VBtn
+              :class="{expanded: isFull === subIndex}"
+              class="expand-icon"
+              density="compact"
+              variant="text"
+              @click="isFull = isFull === subIndex ? null : subIndex"
+            >
+              <VIcon>{{ isFull === subIndex ? "mdi-arrow-collapse" : "mdi-arrow-expand" }}</VIcon>
+            </VBtn>
             <div class="module-type">
               <v-text-field
-                :model-value="layoutCommonColumn.cols || 0"
+                :model-value="layoutColumn.cols || 0"
                 class="module-type-size"
                 data-testid="module-width"
                 density="compact"
@@ -92,45 +146,60 @@ async function saveLayout() {
                 min="0"
                 type="number"
                 variant="underlined"
-                @input="layoutCommonColumn.cols = $event.target.value"
+                @input="layoutColumn.cols = $event.target.value"
               />
               <v-select
-                :items="Object.keys(components)"
-                :model-value="layoutCommonColumn.type || 'none'"
+                :items="filteredComponents"
+                :model-value="layoutColumn.type || 'none'"
                 data-testid="module-type"
                 density="compact"
+                item-title="name"
+                item-value="name"
                 label="Module"
                 variant="underlined"
                 @update:modelValue="changeModule($event as AvailableModules, index, subIndex)"
               />
             </div>
           </span>
-          <component
-            :is="components[layoutCommonColumn.type]"
-            v-if="layoutCommonColumn.type && typeof components[layoutCommonColumn.type] !== 'string'"
-          />
-
-          <div v-else>
+          <div>
             <v-select
+              v-if="!filteredComponentsParams[layoutColumn.type].hideModel"
               :items="modelCollection"
-              :model-value="modelCollection.find((item: Model) => item.id === layoutCommonColumn.model)"
+              :model-value="modelCollection.find((item: Model) => item.id === layoutColumn.model)"
               data-testid="module-model"
               density="compact"
               item-title="name"
               item-value="id"
               label="Model"
-              @update:model-value="layoutCommonColumn.model = $event as unknown as Model['id']"
+              @update:model-value="layoutColumn.model = $event as unknown as Model['id']"
             />
             <v-select
+              v-if="!filteredComponentsParams[layoutColumn.type].hideCategories"
               :items="settingsStore.currentAppSettings?.categories"
               :multiple="true"
               density="compact"
               item-title="label"
               item-value="id"
               label="Categories"
-              @update:model-value="layoutCommonColumn.categories = $event as Category[]"
+              @update:model-value="layoutColumn.categories = $event as Category[]"
             />
           </div>
+          <div
+            v-if="filteredComponentsParams[layoutColumn.type].component"
+            @click="showConfig = showConfig === subIndex ? null : subIndex"
+          >
+            <VBtn class="mb-4" variant="text">
+              Show config
+            </VBtn>
+            <component
+              :is="filteredComponentsParams[layoutColumn.type].component"
+              v-if="showConfig === subIndex"
+              :module-params="layoutColumn"
+              @updateData="layoutColumn.content = $event"
+            />
+          </div>
+          <VCheckbox v-model="layoutColumn.hideOnMobile" label="Hide on mobile"/>
+          <VCheckbox v-model="layoutColumn.inMobileMenu" label="Put in burger menu"/>
 
           <div class="text-right">
             <v-btn
@@ -146,7 +215,7 @@ async function saveLayout() {
             class="pic-layout--add-column"
             data-jest="add-common-column"
             data-testid="add-common-column"
-            @click="layoutCommonLine.splice(index + 1,0 , {type: 'List'})"
+            @click="layoutLine.splice(index + 1,0 , {type: 'List'})"
           >
             <v-icon>mdi-table-column-plus-after</v-icon>
           </div>
@@ -195,12 +264,27 @@ async function saveLayout() {
   margin-right: 0 !important;
   position: relative;
 
-  &-width-1 {
-    padding: 2rem 5px !important;
-    min-width: 110px;
-  }
 }
 
+
+.expand-icon {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  padding: 0;
+  min-width: 0;
+
+  &.expanded {
+    .v-icon {
+      color: var(--main)
+    }
+  }
+
+  .v-icon {
+    font-size: .9em;
+    color: #aaa;
+  }
+}
 
 .pic-layout {
   &--container {

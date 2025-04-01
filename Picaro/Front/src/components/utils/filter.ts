@@ -1,4 +1,4 @@
-import {FieldContentParams, Filter, FilterCollection, Layout, ModelContent} from "@types";
+import {FieldContentParams, Filter, FilterCollection, ModelContent, Module} from "@types";
 
 const filterToIgnore = ['layout']
 const applyFilterMethod = function (filter: Filter, searchedItem: FieldContentParams | string[] | string) {
@@ -35,7 +35,7 @@ function checkFilterCollection(item: ModelContent, filter: Filter) {
     ) : false;
 }
 
-export function applyFilter(item: ModelContent, filterCollection: FilterCollection, moduleParams: Layout) {
+export function applyFilter(item: ModelContent, filterCollection: FilterCollection, moduleParams: Module) {
 
     const modelFilters = filterCollection.modelFilters.filter(item => item.modelIdCollection?.includes(moduleParams.model ?? ''))
 

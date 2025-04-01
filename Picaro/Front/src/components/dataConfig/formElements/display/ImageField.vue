@@ -20,3 +20,9 @@ const imageSrc = computed(() => {
   <img :src="`/api/uploads/${imageSrc}`">
 </template>
 
+<style scoped>
+img {
+  object-fit: cover
+}
+</style>
+

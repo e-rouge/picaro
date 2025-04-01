@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Layout, Settings} from "@types";
+import {type FilterParams, Module, Settings} from "@types";
 import DisplayList from "@components/display/DisplayList.vue";
 import {useUserStore} from "@stores/user";
 import {computed} from "vue";
@@ -7,7 +7,7 @@ import {computed} from "vue";
 const userStore = useUserStore()
 
 const props = defineProps<{
-  moduleParams: Layout
+  moduleParams: Module
   displayAll?: boolean
   currentApp: Settings
   dataReloaded: boolean
@@ -19,11 +19,6 @@ const isFull = computed(() => {
 })
 
 
-const emit = defineEmits<{
-  clickField: [{ name: string, id: string }]
-}>()
-
-
 const fieldSelection = computed(() => {
   if (isFull.value) {
     return
@@ -31,6 +26,19 @@ const fieldSelection = computed(() => {
     return props.fieldSelection ?? ['thumb', 'title', 'summary']
   }
 })
+
+function selectItem(id) {
+  if (!isFull.value) {
+    console.log('ssss')
+    userStore.updateFilterCollection(
+        {value: [id], target: 'id', method: "eq"} as FilterParams,
+        "full",
+        props.moduleParams?.model ? [props.moduleParams?.model] : undefined,
+    );
+  }
+
+}
+
 
 </script>
 <template>
@@ -41,6 +49,15 @@ const fieldSelection = computed(() => {
     :field-selection="fieldSelection"
     :module-params="moduleParams"
     class="pic-list-preview"
-    @clickField="emit('clickField', $event)"
+    @clickItemContent="selectItem"
   />
 </template>
+
+<style lang="postcss" scoped>
+:not(.full) {
+  :deep(.pic-display-list-item) {
+    cursor: pointer;
+  }
+}
+
+</style>

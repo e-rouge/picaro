@@ -95,21 +95,23 @@ async function routes(fastify) {
             throw new Error(err)
         }
     })
-    fastify.post('/uploadimages', {
+    fastify.post('/uploadimages/:type', {
         prenHandler: [fastify.authenticate],
 
     }, async (request, reply) => {
         const data = await request.file()
         console.log(data)
         const buffer = await data.toBuffer()
-        const dir = `${__dirname}/uploads/`;
+        const dir = `${__dirname}/uploads/${request.params.type}`;
         const [name, ext] = data.filename.split('.')
 
-        Object.entries(fastify.conf.imageSize).forEach(([key, value], index) => {
-            sharp(buffer)
-                .resize(value)
-                .toFile(`${dir}/${name}-${index}-${key}.${ext}`);
-        })
+        if (!request.params.type) {
+            Object.entries(fastify.conf.imageSize).forEach(([key, value], index) => {
+                sharp(buffer)
+                    .resize(value)
+                    .toFile(`${dir}/${name}-${index}-${key}.${ext}`);
+            })
+        }
 
         fs.writeFileSync(`${dir}/${data.filename}`, buffer)
         reply.send({uploaded: true})

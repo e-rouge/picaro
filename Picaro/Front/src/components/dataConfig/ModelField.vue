@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import Text from "./formElements/display/TextLine.vue";
-import {FieldContentParams, Layout, Model} from "@types";
+import {FieldContentParams, Model, Module} from "@types";
 import {computed, shallowRef} from "vue";
 import ImageField from "@components/dataConfig/formElements/display/ImageField.vue";
 
 const props = defineProps<{
   fieldContent: FieldContentParams
-  moduleParams: Layout
+  moduleParams: Module
   currentModel: Model
   fieldSelection: string[] | undefined
 }>()
@@ -48,6 +48,7 @@ function isDisplayed() {
     :is="componentMap[fieldParams.type]"
     v-if="fieldParams && fieldContent && componentMap && isDisplayed()"
     :key="fieldParams.id"
+    :class="fieldParams.name"
     :field-content="fieldContent.fieldContent"
     :field-params="fieldParams"
     :module-params="moduleParams"

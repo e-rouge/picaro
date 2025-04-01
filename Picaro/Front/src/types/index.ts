@@ -9,6 +9,12 @@ export type AvailableModules =
     | "FilterLink"
     | "Preview"
     | "FilterSingle"
+    | "SingleImage"
+
+export type SingleImageParams = {
+    link: string
+    image: string
+}
 
 export type AvailableContentType = "richText" | 'text'
 export type Category = {
@@ -17,11 +23,14 @@ export type Category = {
     section?: boolean
     model?: string
 }
-export type Layout = {
+export type Module = {
     model?: string | null,
     type: AvailableModules,
     categories?: Category[]
     cols?: string
+    hideOnMobile?: boolean,
+    inMobileMenu?: boolean,
+    content?: string | SingleImageParams
 }
 
 export type AvailableModulesComponentList = Record<AvailableModules, string>
@@ -68,7 +77,7 @@ export type LayoutCollection = {
     id: string,
     name: string,
     order: number,
-    layout: Layout[][]
+    layout: Module[][]
 }
 
 export type Settings = {
@@ -84,7 +93,7 @@ export type Settings = {
     layoutCollection: LayoutCollection[],
     layoutLinkCollection: [],
     defaultLayout: string
-    layoutCommonCollection: Layout[][],
+    layoutCommonCollection: Module[][],
     modelCollection: Model[],
 }
 

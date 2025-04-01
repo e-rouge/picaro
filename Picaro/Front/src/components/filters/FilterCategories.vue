@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {computed} from "vue";
 import {useUserStore} from "@stores/user";
-import type {Category, Layout, Settings} from "@types";
+import type {Category, Module, Settings} from "@types";
 
 const userStore = useUserStore();
 const props = defineProps<{
   currentApp: Settings
-  moduleParams?: Layout
+  moduleParams?: Module
   currentModelId: string
 }>()
 const availableCategories = computed(() => {
