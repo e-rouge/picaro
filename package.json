@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "init": "node ./Picaro/Cli/init.js",
-    "start": "pnpm run init && pnpm --filter ./Picaro/Front run dev & pnpm --filter ./Picaro/Back run dev:back",
+    "initpic": "node ./Picaro/Cli/init.js",
+    "start": "pnpm run initpic && pnpm --filter ./Picaro/Front run dev & pnpm --filter ./Picaro/Back run dev:back",
     "test": "pnpm --filter ./Picaro/Front run test",
     "dev:front": "pnpm --filter ./Picaro/Front run dev",
     "dev:back": "pnpm --filter ./Picaro/Back run dev:back",
