@@ -23,6 +23,7 @@ const props = defineProps<{
 
 const isFull = ref<number | null>(null)
 const showConfig = ref<number | null>(null)
+const showMobile = ref<number | null>(null)
 
 
 const layoutCollection = defineModel<Module[][]>({default: []})
@@ -107,6 +108,16 @@ async function saveLayout() {
     await updateSettings(settingsStore.currentAppSettings)
   }
 }
+
+function openConfig(index: number) {
+  showConfig.value = showConfig.value === index ? null : index
+  showMobile.value = null
+}
+
+function openMobile(index: number) {
+  showMobile.value = showMobile.value === index ? null : index
+  showConfig.value = null
+}
 </script>
 
 <template>
@@ -184,13 +195,19 @@ async function saveLayout() {
               @update:model-value="layoutColumn.categories = $event as Category[]"
             />
           </div>
+          <div class="mb-4 settings-buttons">
+            <VBtn v-if="filteredComponentsParams[layoutColumn.type].component"
+                  icon="mdi-cog"
+                  @click="openConfig(subIndex)"
+            />
+            <VBtn
+              icon="mdi-cellphone"
+              @click="openMobile(subIndex)"/>
+          </div>
+
           <div
             v-if="filteredComponentsParams[layoutColumn.type].component"
-            @click="showConfig = showConfig === subIndex ? null : subIndex"
           >
-            <VBtn class="mb-4" variant="text">
-              Show config
-            </VBtn>
             <component
               :is="filteredComponentsParams[layoutColumn.type].component"
               v-if="showConfig === subIndex"
@@ -198,8 +215,16 @@ async function saveLayout() {
               @updateData="layoutColumn.content = $event"
             />
           </div>
-          <VCheckbox v-model="layoutColumn.hideOnMobile" label="Hide on mobile"/>
-          <VCheckbox v-model="layoutColumn.inMobileMenu" label="Put in burger menu"/>
+          <div v-if="showMobile === subIndex">
+            <VCheckbox v-model="layoutColumn.hideOnMobile" density="compact" label="Hide on mobile"/>
+            <VCheckbox v-model="layoutColumn.inMobileMenu" density="compact" label="Put in burger menu"/>
+            <VTextField v-model="layoutColumn.mobileCols"
+                        density="compact"
+                        label="Mobile Size"
+                        max="12"
+                        min="0"
+                        type="number"/>
+          </div>
 
           <div class="text-right">
             <v-btn
@@ -337,5 +362,16 @@ async function saveLayout() {
 
 .module-type {
   margin-top: -.5rem;
+}
+
+.settings-buttons {
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.25rem;
+
+  .v-btn {
+    min-width: 48px;
+  }
 }
 </style>

@@ -26,7 +26,6 @@ watch(() => userStore.filterCollection.all, () => {
 }, {immediate: true})
 
 
-
 function hasPadding(type: string) {
   const noPadding = ['SingleImage']
 
@@ -46,6 +45,7 @@ function hasPadding(type: string) {
         :class="[
           `pic-module-${module.type}`,
           `pic-module-${selectedLayoutId}`,
+          `pic-module-mobile-width-${module.mobileCols}`,
           `pic-module-width-${module.cols}`,
           {'pic-module-container': hasPadding(module.type)}
         ]"
@@ -104,6 +104,60 @@ function hasPadding(type: string) {
 
   &11 {
     flex: 0 0 92.66%
+  }
+
+  &12 {
+    flex: 0 0 100%
+  }
+}
+
+.pic-module-mobile-width- {
+  &1 {
+    flex: 0 0 8.33%
+  }
+
+  &2 {
+    flex: 0 0 16.66%;
+  }
+
+  &3 {
+    flex: 0 0 25%
+  }
+
+  &4 {
+    flex: 0 0 33.33%
+  }
+
+  &5 {
+    flex: 0 0 41.66%
+  }
+
+  &6 {
+    flex: 0 0 50%
+  }
+
+  &7 {
+    flex: 0 0 58.33%
+  }
+
+  &8 {
+    flex: 0 0 66.66%
+  }
+
+  &9 {
+    flex: 0 0 75%
+  }
+
+  &10 {
+    flex: 0 0 84.33%
+  }
+
+  &11 {
+    flex: 0 0 92.66%
+  }
+
+  &12 {
+    flex: 0 0 100%
   }
 }
 </style>

@@ -72,13 +72,6 @@ watch(() => route.params.appId, () => {
           >
             Layout
           </v-tab>
-          <v-tab
-            :class="{selected: selected === 'style'}"
-            to="/admin/style"
-            value="style"
-          >
-            Style
-          </v-tab>
         </template>
         <v-select
           v-if="settingsStore.allSettings.length > 0"
@@ -93,9 +86,9 @@ watch(() => route.params.appId, () => {
       </v-tabs>
     </nav>
     <div class="pic-main-container">
-      <router-view @reloadSettings="reloadSettings()" />
+      <router-view @reloadSettings="reloadSettings()"/>
     </div>
-    <Alert />
+    <Alert/>
   </v-app>
 </template>
 

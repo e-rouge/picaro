@@ -119,9 +119,9 @@ function sendForm(newStatus ?: ModelContent['status']) {
   if (newStatus) {
     currentModelContent.value.status = newStatus;
   }
-  let action: "POST" | "PUT" = "POST";
+  let method: "POST" | "PUT" = "POST";
 
-  if (props.modelContent) action = "PUT";
+  if (props.modelContent) method = "PUT";
 
   if (!settingsStore.currentAppSettings) {
     utilsStore.addAlert({
@@ -139,14 +139,16 @@ function sendForm(newStatus ?: ModelContent['status']) {
 
   picFetch(
       `/api/data/${settingsStore.currentAppSettings.id}/${route.params.modelId as string}`,
-      action,
-      JSON.stringify({
-        ...currentModelContent.value,
-        categories: form.categories,
-      }),
-      () => {
-        emit('reloadData')
-        currentModelContent.value = defaultEmptyContent()
+      {
+        method,
+        body: JSON.stringify({
+          ...currentModelContent.value,
+          categories: form.categories,
+        }),
+        callback: () => {
+          emit('reloadData')
+          currentModelContent.value = defaultEmptyContent()
+        }
       }
   )
 }
@@ -188,7 +190,7 @@ function sendForm(newStatus ?: ModelContent['status']) {
         item-value="id"
         label="category"
       />
-      <v-select v-model="currentModelContent.status" :items="possibleStatus" />
+      <v-select v-model="currentModelContent.status" :items="possibleStatus"/>
       <div class="pic-flex pic-between">
         <v-btn :disabled="v$.$invalid" color="primary" data-testid="content-save" @click="sendForm()">
           Save

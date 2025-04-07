@@ -14,7 +14,6 @@ const utilsStore = useUtilsStore()
 const imageFile = ref<File>();
 const allImages = picFetch<string[]>(
     '/api/setup/allimages',
-    'GET'
 )
 
 const structuredImages = computed<ImageList[]>(() => {

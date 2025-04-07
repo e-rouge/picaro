@@ -30,6 +30,7 @@ export type Module = {
     cols?: string
     hideOnMobile?: boolean,
     inMobileMenu?: boolean,
+    mobileCols?: string
     content?: string | SingleImageParams
 }
 

@@ -2,6 +2,7 @@
 import {computed, defineEmits, defineProps, ref} from "vue";
 import {useUtilsStore} from "@stores/utils";
 import type {FieldParams} from "@types";
+import {picFetch} from "@utils/api";
 
 const props = defineProps<{
   fieldParams: FieldParams,
@@ -32,19 +33,14 @@ function uploadImage() {
   if (imageFile.value) {
     const formData = new FormData();
     formData.append('image', imageFile.value);
-    fetch(`/api/setup/uploadimages`, {
+    picFetch(`/api/setup/uploadimages`, {
       method: 'POST',
       body: formData,
-    }).then(() => {
-      formattedData.value[1] = imageFile.value?.name ?? ''
-      console.log(formattedData.value, imageFile.value?.name)
-      emit("updateData", formattedData.value);
-
-      utilsStore.addAlert({
-        text: "Image uploaded",
-        type: "success"
-      });
-    }).catch((error) => console.error(error));
+      callback: () => {
+        formattedData.value[1] = imageFile.value?.name ?? ''
+        emit("updateData", formattedData.value);
+      }
+    })
   }
 }
 

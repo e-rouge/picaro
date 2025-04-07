@@ -4,6 +4,12 @@ import {useRouter} from "vue-router";
 
 type Method = 'PUT' | 'POST' | 'GET' | 'DELETE'
 
+export type FetchParams = {
+    method?: Method,
+    body?: BodyInit,
+    callback?: () => void,
+    callbackFail?: () => void
+}
 
 async function fetchData<FetchT>(route: string, params: RequestInit): Promise<FetchT | null | undefined> {
     const router = useRouter()
@@ -26,15 +32,13 @@ async function fetchData<FetchT>(route: string, params: RequestInit): Promise<Fe
 
 export function picFetch<ReturnT>(
     route: string,
-    method: Method = 'GET',
-    body?: BodyInit,
-    callback?: () => void,
-    callbackFail?: () => void,
+    fetchParams: FetchParams = {},
 ): { data: Ref<ReturnT | null | undefined>, refresh: () => void } | undefined {
 
+    const {method, body, callback, callbackFail} = fetchParams
     const utilsStore = useUtilsStore()
 
-    const params: RequestInit = {method}
+    const params: RequestInit = {method: method ?? 'GET'}
     const data = ref<ReturnT | null>()
 
     if (body) {

@@ -119,14 +119,16 @@ function hasPadding(type: string) {
 </script>
 
 <template>
-  <div v-if="currentApp" class="pic-layout--main-container pic-content-container">
+  <div v-if="currentApp"
+       :class="{'pic-is-mobile': utilsStore.isMobile}"
+       class="pic-layout--main-container pic-content-container">
     <div v-if="utilsStore.isMobile" class="d-flex justify-end">
-      <v-menu>
+      <VMenu transition="fade-transition">
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-dots-vertical" v-bind="props" variant="text"></v-btn>
         </template>
         <MobileMenuLayout :current-app="currentApp"/>
-      </v-menu>
+      </VMenu>
     </div>
 
     <div

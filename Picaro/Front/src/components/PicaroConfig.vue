@@ -8,6 +8,7 @@ import {updateSettings} from "./utils/api";
 import {MESSAGE} from "@utils/const";
 import {copy} from "copy-anything"
 import {useVuelidate} from '@vuelidate/core'
+import {picFetch} from "@utils/api";
 
 const utilStore = useUtilsStore()
 const settingsStore = useSettingsStore()
@@ -47,16 +48,22 @@ watch(() => route.name, () => {
 }, {immediate: true})
 
 function createApp() {
-  fetch(`/api/setup/create/${newAppName.value}`,
+  const response = picFetch<{ appCreatedId: string }>(`/api/setup/create/${newAppName.value}`,
       {
         method: 'POST',
+        callback: () => {
+          emit('reloadSettings')
+        }
       }
-  ).then(async (res) => res.json()).then(async data => {
-    await router.push({name: 'app', params: {appId: data?.appCreatedId}})
-    emit('reloadSettings')
-  }).catch((error) => {
-    console.error(error)
-  })
+  )
+  if (response) {
+    watch(response.data, () => {
+      if (response.data.value) {
+        router.push({name: 'app', params: {appId: response.data.value.appCreatedId}})
+            .catch((error) => console.error(error))
+      }
+    })
+  }
 }
 
 function deleteApp() {
@@ -177,7 +184,7 @@ const v$ = useVuelidate(rules, form)
           <h2 data-testid="app-title-selected">
             {{ currentSettings.applicationName }}
           </h2>
-          <v-text-field v-model="form.title" :validation="v$.title" data-testid="title" label="Title" />
+          <v-text-field v-model="form.title" :validation="v$.title" data-testid="title" label="Title"/>
           <v-text-field
             v-model="form.applicationName"
             :validation="v$.applicationName"
