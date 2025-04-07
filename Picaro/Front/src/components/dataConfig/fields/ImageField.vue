@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import {computed, defineEmits, defineProps, ref} from "vue";
-import {useUtilsStore} from "@stores/utils";
 import type {FieldParams} from "@types";
 import {picFetch} from "@utils/api";
 
@@ -14,7 +13,6 @@ const props = defineProps<{
 const emit = defineEmits(["updateData", "saveEdit", "endEdit"])
 
 const imageFile = ref<File>();
-const utilsStore = useUtilsStore()
 
 const thumb = computed(() => {
   if (!props.fieldContent) return ''

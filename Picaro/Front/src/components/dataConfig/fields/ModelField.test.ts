@@ -41,7 +41,9 @@ function mountWrapper(props = defaultProps): VueWrapper<any> {
     return mount(ModelField, {
         global: {
             plugins: [
+                // @ts-ignore
                 createTestingPinia({}),
+                // @ts-ignore
                 router
             ],
         },

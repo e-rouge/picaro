@@ -15,9 +15,11 @@ const router = createRouter({
 const wrapper = mount(ContentEdit, {
     global: {
         plugins: [
+            // @ts-ignore
             createTestingPinia({
                 initialState: {settings: settingsStoreFixture}
             }),
+            // @ts-ignore
             router
         ],
     },

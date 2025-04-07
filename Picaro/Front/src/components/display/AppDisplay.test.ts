@@ -15,15 +15,19 @@ vi.mock('vue-router', () => ({
     }),
 }));
 
-
 const wrapper = mount(AppDisplay, {
     global: {
-        plugins: [createTestingPinia({
-            initialState: {settings: settingsStoreFixture}
-        })],
+
+        plugins: [
+            // @ts-ignore
+            createTestingPinia({
+                initialState: {settings: settingsStoreFixture}
+            })
+        ],
     },
 // eslint-disable-next-line
 }) as VueWrapper<any>
+
 
 const expectedResult: FilterCollection = {
     all: [

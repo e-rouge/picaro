@@ -14,9 +14,13 @@ const router = createRouter({
 
 const wrapper = mount(PicaroConfig, {
     global: {
+        // @ts-ignore
         plugins: [createTestingPinia({
             initialState: {settings: settingsStoreFixtureNoCurrent}
-        }), router],
+        }),
+            // @ts-ignore
+            router
+        ],
     },
 // eslint-disable-next-line
 }) as VueWrapper<any>

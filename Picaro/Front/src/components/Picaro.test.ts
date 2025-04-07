@@ -18,6 +18,7 @@ describe("Picaro", () => {
     it('does not display menu if there is no app', () => {
         const wrapper = mount(Picaro, {
             global: {
+                // @ts-ignore
                 plugins: [createTestingPinia({
                     initialState: {settings: settingsStoreFixtureNoCurrent}
                 })],
@@ -33,6 +34,7 @@ describe("Picaro", () => {
     it('does display menu if there is no app', () => {
         const wrapper = mount(Picaro, {
             global: {
+                // @ts-ignore
                 plugins: [createTestingPinia({
                     initialState: {settings: settingsStoreFixture}
                 })],

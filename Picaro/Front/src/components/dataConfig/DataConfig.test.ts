@@ -12,12 +12,15 @@ const router = createRouter({
     routes: adminRoutes
 })
 
+// typecheck-disable
 const wrapper = mount(DataConfig, {
     global: {
         plugins: [
+            // @ts-ignore
             createTestingPinia({
                 initialState: {settings: settingsStoreFixture}
             }),
+            // @ts-ignore
             router
         ],
     },
