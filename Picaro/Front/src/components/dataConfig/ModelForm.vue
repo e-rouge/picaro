@@ -160,6 +160,7 @@ function sendForm(newStatus ?: ModelContent['status']) {
       <component
         :is="componentMap[field.type]"
         v-for="(field) in currentEditModel.fieldCollection"
+        v-if="field.type"
         :key="field.id"
         :field-content="currentModelContent.content?.find((item: FieldContentParams) => item.fieldParamsId === field.id)?.fieldContent"
         :field-params="field"

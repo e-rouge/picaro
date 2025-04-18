@@ -93,7 +93,7 @@ describe("ModelField", () => {
             ...defaultProps,
             existingFieldData: {
                 ...defaultProps.existingFieldData as FieldParams,
-                type: 'none'
+                type: null
             },
             currentEditField: '1234',
             modelFormState: 'editingField'

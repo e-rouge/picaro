@@ -43,6 +43,7 @@ function hasPadding(type: string) {
         v-if="!(utilsStore.isMobile && (module?.hideOnMobile || module?.inMobileMenu))"
         :key="module.type"
         :class="[
+          {'pic-is-mobile': utilsStore.isMobile},
           `pic-module-${module.type}`,
           `pic-module-${selectedLayoutId}`,
           `pic-module-mobile-width-${module.mobileCols}`,
@@ -111,7 +112,7 @@ function hasPadding(type: string) {
   }
 }
 
-.pic-module-mobile-width- {
+.pic-is-mobile.pic-module-mobile-width- {
   &1 {
     flex: 0 0 8.33%
   }

@@ -113,14 +113,16 @@ function filterRouteToStore({
 
 function hasPadding(type: string) {
   const noPadding = ['SingleImage', 'Layout']
-
   return !noPadding.includes(type)
 }
 </script>
 
 <template>
   <div v-if="currentApp"
-       :class="{'pic-is-mobile': utilsStore.isMobile}"
+       :class="[
+         {'pic-is-mobile': utilsStore.isMobile},
+         `pic-app-${currentApp.applicationName}`
+       ]"
        class="pic-layout--main-container pic-content-container">
     <div v-if="utilsStore.isMobile" class="d-flex justify-end">
       <VMenu transition="fade-transition">
@@ -130,7 +132,6 @@ function hasPadding(type: string) {
         <MobileMenuLayout :current-app="currentApp"/>
       </VMenu>
     </div>
-
     <div
       v-for="(layoutCommonLine, index) in currentApp.layoutCommonCollection"
       :key="index"

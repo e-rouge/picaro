@@ -8,6 +8,7 @@ export type FetchParams = {
     method?: Method,
     body?: BodyInit,
     callback?: () => void,
+    header?: false | HeadersInit
     callbackFail?: () => void
 }
 
@@ -42,9 +43,11 @@ export function picFetch<ReturnT>(
     const data = ref<ReturnT | null>()
 
     if (body) {
-        params.headers = [
-            ["Content-Type", "application/json"]
-        ]
+        if (fetchParams.header !== false) {
+            params.headers = fetchParams.header ?? [
+                ["Content-Type", "application/json"]
+            ]
+        }
         params.body = body
     }
     fetchData<ReturnT>(route, params)

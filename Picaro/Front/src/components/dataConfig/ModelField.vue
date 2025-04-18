@@ -46,7 +46,7 @@ function isDisplayed() {
 <template>
   <component
     :is="componentMap[fieldParams.type]"
-    v-if="fieldParams && fieldContent && componentMap && isDisplayed()"
+    v-if="fieldParams && fieldParams.type && fieldContent && componentMap && isDisplayed()"
     :key="fieldParams.id"
     :class="fieldParams.name"
     :field-content="fieldContent.fieldContent"

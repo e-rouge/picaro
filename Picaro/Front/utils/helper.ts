@@ -20,3 +20,12 @@ export function setCSSLink(path: string) {
     link.href = path
     document.head.appendChild(link)
 }
+
+export const imageSizeMap = {
+    xs: '0-xs',
+    s: '1-s',
+    m: '2-m',
+    l: '3-l',
+    xl: '4-xl',
+    xxl: '5-xxl'
+}

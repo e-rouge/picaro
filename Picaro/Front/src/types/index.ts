@@ -1,4 +1,5 @@
 import {JSONContent} from "@tiptap/core"
+import {imageSizeMap} from "@utils/helper";
 
 export type AvailableModules =
     "Layout"
@@ -16,7 +17,7 @@ export type SingleImageParams = {
     image: string
 }
 
-export type AvailableContentType = "richText" | 'text'
+export type AvailableContentType = "richText" | 'text' | 'image'
 export type Category = {
     id: string,
     label: string,
@@ -186,8 +187,10 @@ export type FieldParams = {
     hidden?: boolean,
     template: string,
     attributes: string,
-    extraParams: Record<string, string>,
-    type: AvailableContentType | 'none'
+    extraParams?: {
+        size?: keyof typeof imageSizeMap
+    },
+    type: AvailableContentType | null
 }
 
 export type FieldContentParams = {

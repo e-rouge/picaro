@@ -4,9 +4,10 @@ import {nanoid} from "nanoid";
 import {useVuelidate} from '@vuelidate/core'
 import {MESSAGE} from "@utils/const";
 import {useUtilsStore} from "@stores/utils";
-import {FieldParams, Model, ModelState} from "@types";
+import {AvailableContentType, FieldParams, Model, ModelState} from "@types";
 import {helpers, required as vuelidateRequired} from "@vuelidate/validators";
 import {copy} from "copy-anything";
+import ModelFieldImage from "@components/dataConfig/fields/ModelFieldImage.vue";
 
 
 const props = withDefaults(defineProps<{
@@ -29,7 +30,7 @@ const props = withDefaults(defineProps<{
     template: "",
     attributes: "",
     extraParams: {},
-    type: "none",
+    type: null,
   }),
   isNew: false
 })
@@ -50,8 +51,8 @@ const hidden = ref(false)
 
 
 const fieldData = ref<FieldParams>(copy(props.existingFieldData))
-const isFieldSelected = ref(fieldData.value.type !== 'none')
-const savedFieldType = ref('');
+const isFieldSelected = ref(fieldData.value.type !== null)
+const savedFieldType = ref<AvailableContentType | null>(null);
 
 const isEdited = computed(() => {
   return (props.modelFormState === 'editingField' && props.currentEditField === props.existingFieldData.id) || (props.isNew && props.modelFormState === 'addingField')
@@ -62,12 +63,25 @@ const fieldType = [
   {name: 'Text Input', type: 'text'},
   {name: 'Rich text', type: 'richText'},
   {name: 'Image', type: 'image'},
-
 ];
+
+const typeParams: Record<AvailableContentType, { hideTemplate?: boolean, hideRegex?: boolean, component?: unknown }> = {
+  text: {},
+  richText: {
+    hideTemplate: true,
+    hideRegex: true
+  },
+  image: {
+    hideTemplate: true,
+    hideRegex: true,
+    component: ModelFieldImage
+  },
+}
 
 function addField() {
   const fieldParams: FieldParams = {
     ...fieldData.value,
+    ...form,
     id: nanoid(6),
   }
   emit("addFieldData",
@@ -170,7 +184,7 @@ const v$ = useVuelidate(rules, form)
       data-testid="select-model-field"
       item-title="name"
       item-value="type"
-      @update:modelValue="isFieldSelected = fieldData.type !== 'none'"
+      @update:modelValue="isFieldSelected = fieldData.type !== null"
     />
     <div v-if="isFieldSelected">
       <strong>
@@ -196,6 +210,7 @@ const v$ = useVuelidate(rules, form)
         label="Name *"
       />
       <v-text-field
+        v-if="fieldData.type && !typeParams[fieldData.type]?.hideTemplate"
         v-model="form.template"
         :validation="v$.template"
         label="template (or HTML tag)"
@@ -217,8 +232,15 @@ const v$ = useVuelidate(rules, form)
         type="checkbox"
       />
       <v-text-field
+        v-if="fieldData.type && !typeParams[fieldData.type]?.hideRegex"
         v-model="fieldData.regex"
         label="Regex"
+      />
+      <component
+        :is="typeParams[fieldData.type].component"
+        v-if="fieldData.type && typeParams[fieldData.type]?.component"
+        :extraParams="fieldData.extraParams"
+        @updateParams="fieldData.extraParams = $event"
       />
       <v-btn
         v-if="modelFormState === 'editingField'"

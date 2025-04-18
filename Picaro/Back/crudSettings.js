@@ -95,14 +95,14 @@ async function routes(fastify) {
             throw new Error(err)
         }
     })
-    fastify.post('/uploadimages/:type', {
+    fastify.post('/uploadimages/:type?', {
         prenHandler: [fastify.authenticate],
 
     }, async (request, reply) => {
         const data = await request.file()
         console.log(data)
         const buffer = await data.toBuffer()
-        const dir = `${__dirname}/uploads/${request.params.type}`;
+        const dir = `${__dirname}/uploads/${request.params.type ?? ''}`;
         const [name, ext] = data.filename.split('.')
 
         if (!request.params.type) {

@@ -7,6 +7,10 @@ import {defaultRoutes} from "./routes";
 import {adminRoutes} from "./adminRoutes";
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
+// @ts-ignore
+import {fullscreenImagePlugin} from 'vue-3-fullscreen-image-directive-plugin'
+import 'vue-3-fullscreen-image-directive-plugin/style.css'
+
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -56,6 +60,7 @@ const app = createApp(App)
 pinia.use(({store}) => {
     store.router = markRaw(router)
 })
+app.use(fullscreenImagePlugin)
 app.use(pinia)
 app.use(router)
 

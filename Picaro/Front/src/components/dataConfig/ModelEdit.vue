@@ -69,6 +69,13 @@ function addField(field: FieldParams) {
   }
 }
 
+function saveEditedField(field: FieldParams, index: number) {
+  if (currentModelClone.value) {
+    currentModelClone.value.fieldCollection[index] = field;
+    emit('updateModelFormState', "modelSelected");
+  }
+}
+
 function deleteField(index: number) {
   if (currentModelClone.value) {
     currentModelClone.value.fieldCollection.splice(index, 1);
@@ -100,7 +107,12 @@ function deleteModel() {
           type: "success"
         });
         emit('cancelEditModel')
-      }).catch((error) => console.error(error));
+      }).catch(() => {
+        utilsStore.addAlert({
+          text: "Model couldn't be deleted",
+          type: "error"
+        });
+      });
     }
   }).catch((e) => {
     if (e !== MESSAGE.PROMISE_USER_CANCELLED) {
@@ -124,15 +136,18 @@ async function saveModel() {
       settingsStore.currentAppSettings.modelCollection.push(currentModelClone.value)
     }
 
-    await updateSettings(settingsStore.currentAppSettings)
-    emit('updateModelFormState', 'modelSelected')
-  }
-}
-
-function saveEditedField(field: FieldParams, index: number) {
-  if (currentModelClone.value) {
-    currentModelClone.value.fieldCollection[index] = field;
-    emit('updateModelFormState', "modelSelected");
+    await updateSettings(settingsStore.currentAppSettings).then(() => {
+      utilsStore.addAlert({
+        text: "Model saved",
+        type: "success"
+      });
+      emit('cancelEditModel')
+    }).catch(() => {
+      utilsStore.addAlert({
+        text: "Model couldn't be saved",
+        type: "error"
+      });
+    });
   }
 }
 

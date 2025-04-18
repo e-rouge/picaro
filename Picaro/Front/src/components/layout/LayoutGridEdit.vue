@@ -6,6 +6,8 @@ import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
 import LayoutImage from "@components/layout/LayoutImage.vue";
 
+const utilsStore = useUtilsStore()
+
 type ModuleEditParams = {
   name: string
   commonOnly?: boolean,
@@ -105,7 +107,17 @@ function changeModule(event: AvailableModules, index: number, subIndex: number) 
 
 async function saveLayout() {
   if (settingsStore.currentAppSettings) {
-    await updateSettings(settingsStore.currentAppSettings)
+    await updateSettings(settingsStore.currentAppSettings).then(() => {
+      utilsStore.addAlert({
+        text: "Layout saved",
+        type: "success"
+      });
+    }).catch(() => {
+      utilsStore.addAlert({
+        text: "The layout couldn't be deleted",
+        type: "error"
+      });
+    });
   }
 }
 

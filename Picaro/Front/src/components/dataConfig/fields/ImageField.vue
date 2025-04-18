@@ -34,6 +34,7 @@ function uploadImage() {
     picFetch(`/api/setup/uploadimages`, {
       method: 'POST',
       body: formData,
+      header: false,
       callback: () => {
         formattedData.value[1] = imageFile.value?.name ?? ''
         emit("updateData", formattedData.value);
@@ -51,7 +52,10 @@ function uploadImage() {
     accept="image/*"
     density="compact"
   />
-  <img v-if="fieldContent" :src="`/api/uploads/${thumb}`">
+  <img
+    v-if="fieldContent"
+    :src="`/api/uploads/${thumb}`"
+  >
   <v-btn class="ml-4" @click="uploadImage">
     Upload
   </v-btn>
