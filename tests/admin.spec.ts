@@ -37,7 +37,7 @@ test('Creates and edit models', async ({page}) => {
 
     await page.getByTestId('add-new-field-button').click()
 
-    await page.getByText('none').click()
+    await page.getByTestId('select-model-field').click()
     await page.getByText('Rich text').click()
 
     await page.getByTestId('field-name').getByRole('textbox').fill('nametest')

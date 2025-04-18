@@ -141,7 +141,7 @@ async function saveModel() {
         text: "Model saved",
         type: "success"
       });
-      emit('cancelEditModel')
+      emit('updateCurrentEditModel')
     }).catch(() => {
       utilsStore.addAlert({
         text: "Model couldn't be saved",

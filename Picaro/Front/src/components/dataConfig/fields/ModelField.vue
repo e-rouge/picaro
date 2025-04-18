@@ -184,6 +184,7 @@ const v$ = useVuelidate(rules, form)
       data-testid="select-model-field"
       item-title="name"
       item-value="type"
+      placeholder="select a field"
       @update:modelValue="isFieldSelected = fieldData.type !== null"
     />
     <div v-if="isFieldSelected">
