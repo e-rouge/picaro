@@ -72,6 +72,14 @@ watch(() => route.params.appId, () => {
           >
             Layout
           </v-tab>
+          <v-tab
+            :class="{selected: selected === 'style'}"
+            data-testid="layout-tab"
+            to="/admin/style"
+            value="style"
+          >
+            Style
+          </v-tab>
         </template>
         <v-select
           v-if="settingsStore.allSettings.length > 0"

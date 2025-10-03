@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // @ts-nocheck
 import {ColorParameters, StyleSet} from "@types";
-import {ColorHelper} from "@libs/colorHelper";
+import {ColorHelper} from "@libs/colorHelper/index";
 import {GenerateColorSet} from "@libs/colorGenerator";
 import {useSettingsStore} from "@stores/settings";
 import {ref} from "vue";
@@ -350,7 +350,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
     <v-col cols="6">
       <!-- Dominant color -->
       <v-row>
-        <v-col :style="bgColor(dominantColorParams)" cols="2" />
+        <v-col :style="bgColor(dominantColorParams)" cols="2"/>
         <v-col cols="10">
           <div data-jest="dominant-preview">
             <div class="mb-0">
@@ -472,7 +472,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
       </v-row>
       <div class="color-panel--sample">
         <div v-for="(subColor, index) in colorCollection.graySubCollection" :key="index">
-          <v-card :style="bgColor(subColor)" class="pa-3" />
+          <v-card :style="bgColor(subColor)" class="pa-3"/>
         </div>
       </div>
       <div class="color-panel--sample">
@@ -481,7 +481,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
           :key="index"
           class="sub-combination"
         >
-          <v-card :style="bgColor(subColor)" class="pa-3" />
+          <v-card :style="bgColor(subColor)" class="pa-3"/>
         </div>
       </div>
       <div class="color-panel--sample">
@@ -490,7 +490,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
           :key="index"
           class="sub-combination"
         >
-          <v-card :style="bgColor(subColor)" class="pa-3" />
+          <v-card :style="bgColor(subColor)" class="pa-3"/>
         </div>
       </div>
       <div class="color-panel--sample">
@@ -499,7 +499,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
           :key="index"
           class="sub-combination"
         >
-          <v-card :style="bgColor(subColor)" class="pa-3" />
+          <v-card :style="bgColor(subColor)" class="pa-3"/>
         </div>
       </div>
       <div class="color-panel--sample">
@@ -508,7 +508,7 @@ function toggleColor(location: 'dominant' | 'sub', index: number, locationIndex?
           :key="index"
           class="sub-combination"
         >
-          <v-card :style="bgColor(subColor)" class="pa-3" />
+          <v-card :style="bgColor(subColor)" class="pa-3"/>
         </div>
       </div>
 

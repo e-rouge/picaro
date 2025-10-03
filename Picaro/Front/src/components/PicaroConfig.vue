@@ -131,6 +131,7 @@ watch(currentSettings, () => {
 
 const v$ = useVuelidate(rules, form)
 
+
 </script>
 
 <template>
@@ -197,13 +198,13 @@ const v$ = useVuelidate(rules, form)
             label="Message Timeout"
           />
           <v-select
-            v-model="settingsStore.currentStyleSet"
             :items="settingsStore.allStyleSets"
+            :model-value="currentSettings.styleSet"
             item-title="setName"
             item-value="id"
             label="Style Set"
+            @update:model-value="currentSettings.styleSet = $event"
           />
-
           <v-checkbox
             v-model="currentSettings.devMode"
             label="Dev mode"

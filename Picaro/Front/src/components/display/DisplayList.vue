@@ -58,14 +58,14 @@ watch(() => content?.data, () => {
 })
 
 const filteredList = computed<ModelContent[]>(() => {
-  const fetchData = toValue(content?.data) ?? []
+  let fetchData: ModelContent[] = toValue(content?.data) ?? []
   if (props.displayAll) {
-    return fetchData.filter((item: ModelContent) =>
+    fetchData = fetchData.filter((item: ModelContent) =>
         (!props.displayStatus && (item.status === 'published')) ||
         (props.displayStatus && item.status === props.displayStatus)
     )
   } else {
-    return fetchData.filter((item: ModelContent) => {
+    fetchData = fetchData.filter((item: ModelContent) => {
       return item.status === "published"
           && applyFilter(
               item,
@@ -74,6 +74,9 @@ const filteredList = computed<ModelContent[]>(() => {
           );
     })
   }
+  return fetchData.sort((a, b) => {
+    return new Date(b.created ?? 0).getMilliseconds() - new Date(a.created ?? 0).getMilliseconds()
+  })
 
 })
 

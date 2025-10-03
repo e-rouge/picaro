@@ -17,4 +17,3 @@ export const webSafeFonts = ["Arial",
     "Courier New",
     "Brush Script MT"];
 
-export const googleKey = ''

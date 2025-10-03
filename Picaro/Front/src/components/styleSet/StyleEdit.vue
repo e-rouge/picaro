@@ -127,7 +127,7 @@ async function setStyle(styleId: string) {
 function refreshLiveStyle() {
   const generatedCSS = generateCSS(settingsStore.currentStyleSet)
   const styleContainer = document.getElementById("pic-live-styles") as HTMLStyleElement
-
+  console.log(generatedCSS)
   styleContainer.innerHTML = generatedCSS
   return generatedCSS
 }
@@ -166,19 +166,19 @@ async function save() {
       <template v-if="settingsStore.currentStyleSet">
         <div class="pic-container">
           <h3>Style name</h3>
-          <v-text-field v-model="settingsStore.currentStyleSet.setName" label="Style Name" />
+          <v-text-field v-model="settingsStore.currentStyleSet.setName" label="Style Name"/>
         </div>
         <v-btn @click="refreshLiveStyle">
           Refresh style
         </v-btn>
         <div class="pic-font-fix pic-container">
-          <FontEdit @reload-settings="refreshLiveStyle()" />
+          <FontEdit @reload-settings="refreshLiveStyle()"/>
         </div>
         <div class="pic-container">
-          <ColorEdit />
+          <ColorEdit/>
         </div>
-        <div class="pic-container">
-          <RatioEdit @reload-settings="refreshLiveStyle()" />
+        <div class="pic-container pic-live-style">
+          <RatioEdit @reload-settings="refreshLiveStyle()"/>
           <v-btn color="primary" @click="save()">
             Save Style
             <v-icon class="ml-2">

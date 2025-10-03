@@ -64,11 +64,12 @@ describe("PicaroConfig", () => {
     it('displays the app form when an app is selected', async () => {
         wrapper.vm.settingsStore.currentAppSettings = currentAppSettings
 
-        await wrapper.vm.$nextTick()
 
-        const buttons = wrapper.findAll('[data-testid="app-button"]')
+        await vi.waitUntil(() => wrapper.vm.appFormState === 'selectedApp')
+
         const selectedAppTitle = wrapper.find('[data-testid="app-title-selected"]')
         const newAppInput = wrapper.find('[data-testid="new-app-input"]')
+        const buttons = wrapper.findAll('[data-testid="app-button"]')
 
         expect(buttons.length).toBe(0)
         expect(selectedAppTitle.exists()).toBe(true)

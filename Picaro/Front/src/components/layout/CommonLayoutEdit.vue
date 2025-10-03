@@ -16,7 +16,7 @@ const layoutCommonCollection = computed<Settings["layoutCommonCollection"]>(() =
 </script>
 
 <template>
-  <LayoutGridEdit v-model="layoutCommonCollection" />
+  <LayoutGridEdit v-model="layoutCommonCollection"/>
 </template>
 
 <style scoped>

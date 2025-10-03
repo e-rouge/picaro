@@ -2,13 +2,16 @@
 // @ts-nocheck
 import {webSafeFonts} from "@utils/const";
 import {useSettingsStore} from "@stores/settings";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {FontParams} from "@types";
 
 const settingsStore = useSettingsStore()
 const googleFontCategories = ref<string>("")
 
-const emit = defineEmits(['reloadSettings'])
+const emit = defineEmits<{
+  reloadSettings: []
+  fontType: [string]
+}>()
 
 const props = defineProps<{
   localFonts: { name: string, src: string[] }[]
@@ -16,6 +19,10 @@ const props = defineProps<{
   getGoogleFontType: string[]
   type: string
 }>()
+
+watch(googleFontCategories, () => {
+  emit('fontType', googleFontCategories.value)
+})
 
 
 const font = ref<FontParams>(settingsStore.currentStyleSet[`fontFamily${props.type}`])

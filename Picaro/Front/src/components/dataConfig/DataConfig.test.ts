@@ -46,8 +46,7 @@ describe("DataConfig", () => {
 
         await wrapper.vm.newModelForm()
         await router.isReady()
-        await wrapper.vm.$nextTick()
-
+        await vi.waitUntil(() => wrapper.find("[data-testid='create-model-name-input']").isVisible())
         expect(checkVisible([
             '.pic-main-empty',
             'create-model-name-input'
@@ -74,6 +73,7 @@ describe("DataConfig", () => {
 
         await router.isReady()
         await vi.waitUntil(() => wrapper.vm.modelFormState === 'modelSelected')
+        await vi.waitUntil(() => wrapper.find("[data-testid='model-is-edited']").isVisible())
 
         expect(checkVisible([
             'model-is-edited',

@@ -11,13 +11,14 @@ export type AvailableModules =
     | "Preview"
     | "FilterSingle"
     | "SingleImage"
+    | "Video"
 
 export type SingleImageParams = {
     link: string
     image: string
 }
 
-export type AvailableContentType = "richText" | 'text' | 'image'
+export type AvailableContentType = "richText" | 'text' | 'image' | 'videoEmbed'
 export type Category = {
     id: string,
     label: string,

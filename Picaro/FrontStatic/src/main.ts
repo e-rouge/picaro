@@ -3,6 +3,9 @@ import App from './components/App.vue'
 import {createRouter, createWebHashHistory} from "vue-router";
 import {createPinia} from 'pinia'
 import {defaultRoutes as routes} from "../../Front/src/routes";
+// @ts-ignore
+import {fullscreenImagePlugin} from 'vue-3-fullscreen-image-directive-plugin'
+import 'vue-3-fullscreen-image-directive-plugin/style.css'
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -16,6 +19,7 @@ pinia.use(({store}) => {
 })
 const app = createApp(App)
 app.use(pinia)
+app.use(fullscreenImagePlugin)
 app.use(router)
 
 app.mount('#app')

@@ -237,63 +237,75 @@
 
     background: url("/adminimages/bedge-grunge-dark.png");
 
-    h1, h2, h3, h4, h5, h6 {
-        font-family: abbey, sans-serif;
-        color: var(--secondaryDark) !important;
-        margin-bottom: var(--xl);
+    .pic-container:not(.pic-live-style) {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: abbey, sans-serif;
+            color: var(--secondaryDark) !important;
+            margin-bottom: var(--xl);
+        }
+
+        H1 {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-top: var(--xl);
+            margin-bottom: var(--l);
+        }
+
+        .pic-page h1:first-of-type {
+            margin-top: calc(var(--xl) - var(--l));
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            line-height: 1;
+            margin-top: var(--xl);
+            margin-bottom: var(--l);
+        }
+
+        h3 {
+            font-size: 2.9rem;
+            font-weight: 500;
+            line-height: 1;
+            margin-top: var(--l);
+            margin-bottom: var(--m);
+        }
+
+        h4 {
+            font-size: 2.4rem;
+            font-weight: 400;
+            line-height: 1;
+            margin-top: var(--m);
+            margin-bottom: var(--s)
+        }
+
+        h5 {
+            font-size: 2em;
+            font-weight: 300;
+            line-height: 1;
+            margin-top: var(--m);
+            margin-bottom: var(--s)
+        }
+
+        H6 {
+            font-size: 1.5rem;
+            font-weight: 200;
+            line-height: 1;
+            margin-top: var(--s);
+            margin-bottom: var(--xs)
+        }
+
+        p {
+            margin: var(--m) 0;
+        }
     }
 
-    H1 {
-        font-size: 5rem;
-        font-weight: 700;
-        line-height: 1;
-        margin-top: var(--xl);
-        margin-bottom: var(--l);
-    }
-
-    .pic-page h1:first-of-type {
-        margin-top: calc(var(--xl) - var(--l));
-    }
-
-    h2 {
-        font-size: 3.5rem;
-        font-weight: 600;
-        line-height: 1;
-        margin-top: var(--xl);
-        margin-bottom: var(--l);
-    }
-
-    h3 {
-        font-size: 2.9rem;
-        font-weight: 500;
-        line-height: 1;
-        margin-top: var(--l);
-        margin-bottom: var(--m);
-    }
-
-    h4 {
-        font-size: 2.4rem;
-        font-weight: 400;
-        line-height: 1;
-        margin-top: var(--m);
-        margin-bottom: var(--s)
-    }
-
-    h5 {
-        font-size: 2em;
-        font-weight: 300;
-        line-height: 1;
-        margin-top: var(--m);
-        margin-bottom: var(--s)
-    }
-
-    H6 {
-        font-size: 1.5rem;
-        font-weight: 200;
-        line-height: 1;
-        margin-top: var(--s);
-        margin-bottom: var(--xs)
-    }
 
     a {
         color: var(--main);
@@ -309,9 +321,6 @@
         }
     }
 
-    p {
-        margin: var(--m) 0;
-    }
 
     b {
         font-weight: 500;

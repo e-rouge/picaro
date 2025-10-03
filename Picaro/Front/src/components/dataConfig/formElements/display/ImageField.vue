@@ -23,11 +23,16 @@ const imageSrc = computed(() => {
 </script>
 <template>
   <img
+    v-if="fieldParams.extraParams?.showFull"
     v-fullscreen-image="{
-      imageUrl: `/api/uploads/${imageSrc}`,
+      imageUrl: `/api/uploads/${name}.${ext}`,
       withDownload: false,
       animation: 'blur',
     }"
+    :src="`/api/uploads/${imageSrc}`"
+  >
+  <img
+    v-else
     :src="`/api/uploads/${imageSrc}`"
   >
 </template>

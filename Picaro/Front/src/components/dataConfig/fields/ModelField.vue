@@ -63,6 +63,7 @@ const fieldType = [
   {name: 'Text Input', type: 'text'},
   {name: 'Rich text', type: 'richText'},
   {name: 'Image', type: 'image'},
+  {name: 'Video Embed', type: 'videoEmbed'}
 ];
 
 const typeParams: Record<AvailableContentType, { hideTemplate?: boolean, hideRegex?: boolean, component?: unknown }> = {
@@ -76,6 +77,10 @@ const typeParams: Record<AvailableContentType, { hideTemplate?: boolean, hideReg
     hideRegex: true,
     component: ModelFieldImage
   },
+  videoEmbed: {
+    hideRegex: true,
+    hideTemplate: true,
+  }
 }
 
 function addField() {

@@ -3,6 +3,7 @@
   "version": "1.0.7",
   "description": "converts common css color format into any other as object or string",
   "main": "dist/index.js",
+  "type": "module",
   "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "vitest",

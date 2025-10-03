@@ -9,7 +9,7 @@ import {setCSSLink} from "@utils/helper";
 import {useUserStore} from "@stores/user";
 import {useWindowSize} from "@vueuse/core"
 import {useUtilsStore} from "@stores/utils";
-import MobileMenuLayout from "@components/layout/MobileMenuLayout.vue";
+import MobileMenu from "@components/display/MobileMenu.vue";
 
 const route = useRoute()
 
@@ -124,14 +124,7 @@ function hasPadding(type: string) {
          `pic-app-${currentApp.applicationName}`
        ]"
        class="pic-layout--main-container pic-content-container">
-    <div v-if="utilsStore.isMobile" class="d-flex justify-end">
-      <VMenu transition="fade-transition">
-        <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-dots-vertical" v-bind="props" variant="text"></v-btn>
-        </template>
-        <MobileMenuLayout :current-app="currentApp"/>
-      </VMenu>
-    </div>
+    <MobileMenu v-if="utilsStore.isMobile" :current-app="currentApp"/>
     <div
       v-for="(layoutCommonLine, index) in currentApp.layoutCommonCollection"
       :key="index"
@@ -145,7 +138,7 @@ function hasPadding(type: string) {
             {
               'pic-module-container': hasPadding(layoutCommonColumn.type)
             },
-            `pic-col-size-${layoutCommonColumn?.cols}`,
+            `pic-module-width-${layoutCommonColumn?.cols}`,
             `pic-module-${layoutCommonColumn.type}`
           ]"
           class="pic-layout--container pic-layout--common-module pic-col"
@@ -175,5 +168,103 @@ function hasPadding(type: string) {
   display: flex;
 }
 
+.pic-module-width- {
+  &1 {
+    flex: 0 0 8.33%
+  }
 
+  &2 {
+    flex: 0 0 16.66%;
+  }
+
+  &3 {
+    flex: 0 0 25%
+  }
+
+  &4 {
+    flex: 0 0 33.33%
+  }
+
+  &5 {
+    flex: 0 0 41.66%
+  }
+
+  &6 {
+    flex: 0 0 50%
+  }
+
+  &7 {
+    flex: 0 0 58.33%
+  }
+
+  &8 {
+    flex: 0 0 66.66%
+  }
+
+  &9 {
+    flex: 0 0 75%
+  }
+
+  &10 {
+    flex: 0 0 84.33%
+  }
+
+  &11 {
+    flex: 0 0 92.66%
+  }
+
+  &12 {
+    flex: 0 0 100%
+  }
+}
+
+.pic-is-mobile.pic-module-mobile-width- {
+  &1 {
+    flex: 0 0 8.33%
+  }
+
+  &2 {
+    flex: 0 0 16.66%;
+  }
+
+  &3 {
+    flex: 0 0 25%
+  }
+
+  &4 {
+    flex: 0 0 33.33%
+  }
+
+  &5 {
+    flex: 0 0 41.66%
+  }
+
+  &6 {
+    flex: 0 0 50%
+  }
+
+  &7 {
+    flex: 0 0 58.33%
+  }
+
+  &8 {
+    flex: 0 0 66.66%
+  }
+
+  &9 {
+    flex: 0 0 75%
+  }
+
+  &10 {
+    flex: 0 0 84.33%
+  }
+
+  &11 {
+    flex: 0 0 92.66%
+  }
+
+  &12 {
+    flex: 0 0 100%
+  }
+}
 </style>

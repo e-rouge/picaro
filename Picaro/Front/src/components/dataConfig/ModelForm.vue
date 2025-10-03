@@ -11,6 +11,7 @@ import {helpers} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {picFetch} from "@utils/api";
 import ImageField from "@components/dataConfig/fields/ImageField.vue";
+import VideoEmbed from "@components/dataConfig/fields/VideoEmbed.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -39,6 +40,7 @@ import("@components/dataConfig/fields/RichText.vue").then(component => {
         text: TextLine,
         image: ImageField,
         richText: component.default,
+        videoEmbed: VideoEmbed,
         select: 'Select',
         radio: 'Radio',
         checkbox: 'CheckBox',

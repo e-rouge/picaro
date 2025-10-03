@@ -5,6 +5,7 @@ import {AvailableModules} from "@types";
 import DisplayPreview from "@components/display/DisplayPreview.vue";
 import FilterSingle from "@components/filters/FilterSingle.vue";
 import SingleImageDisplay from "@components/display/SingleImageDisplay.vue";
+import VideoDisplay from "@components/display/VideoDisplay.vue";
 
 export const availableModules: Record<AvailableModules, any> = {
     FilterLayout: "FilterLayout",
@@ -15,6 +16,7 @@ export const availableModules: Record<AvailableModules, any> = {
     Layout: 'Layout',
     Preview: DisplayPreview,
     FilterSingle: FilterSingle,
-    SingleImage: SingleImageDisplay
+    SingleImage: SingleImageDisplay,
+    Video: VideoDisplay
 } as const
 

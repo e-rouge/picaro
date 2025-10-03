@@ -5,6 +5,7 @@ import {updateSettings} from "@components/utils/api";
 import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
 import LayoutImage from "@components/layout/LayoutImage.vue";
+import LayoutVideo from "@components/layout/LayoutVideo.vue";
 
 const utilsStore = useUtilsStore()
 
@@ -64,6 +65,12 @@ const components: ModuleEditParams[] = [
   },
   {
     name: "FilterLink"
+  },
+  {
+    name: "Video",
+    component: LayoutVideo,
+    hideModel: true,
+    hideCategories: true
   },
   {
     name: "SingleImage",

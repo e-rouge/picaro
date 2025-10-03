@@ -61,7 +61,6 @@ describe('ContentEdit', () => {
                 false
             ])
     })
-
     it('should display existing content', () => {
 
 
@@ -72,13 +71,13 @@ describe('ContentEdit', () => {
     it('should display the edited version of items', async () => {
         await vi.waitUntil(() => wrapper.find('[data-testid="content-display"]'))
 
-        await router.push({name: 'content', params: {modelId: 'modelId1'}})
+        await router.push({name: 'content', params: {modelId: 'modelId1', 'appId': 'id'}})
 
         await router.isReady()
 
         wrapper.vm.editItem(0)
 
-        await vi.waitUntil(() => wrapper.vm.$route.path === "/admin/data/modelId1/content/0")
+        await vi.waitUntil(() => wrapper.vm.$route.path === "/admin/data/id/modelId1/content/0")
         await wrapper.vm.$nextTick()
 
         await vi.waitUntil(() => wrapper.find('[data-testid="content-edit"]'))

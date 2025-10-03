@@ -5,8 +5,10 @@ import {nanoid} from "nanoid";
 import {LayoutCollection} from "@types";
 import LayoutGridEdit from "@components/layout/LayoutGridEdit.vue";
 import {updateSettings} from "@components/utils/api";
+import {useUtilsStore} from "@stores/utils";
 
 const settingsStore = useSettingsStore();
+const utilsStore = useUtilsStore()
 
 const selectedEditLayout = ref(settingsStore.currentAppSettings?.defaultLayout);
 const isNewLayout = ref(false)
@@ -26,6 +28,10 @@ const selectedLayout = computed(() => {
     return item.id === id
   });
 });
+
+const selectedLayoutId = computed(() => {
+  return layoutCollection.value.findIndex(item => item.id === selectedLayout.value?.id)
+})
 
 function createLayout() {
   if (!createdLayoutName.value) {
@@ -47,6 +53,19 @@ async function saveLayout() {
   if (settingsStore.currentAppSettings) {
     await updateSettings(settingsStore.currentAppSettings)
   }
+}
+
+function deleteLayout() {
+  utilsStore.awaitConfirmation({
+    text: "Are you sure you want to delete this layout ?",
+    type: "warning"
+  }).then(() => {
+    settingsStore.currentAppSettings?.layoutCollection.splice(selectedLayoutId.value, 1)
+    selectedEditLayout.value = layoutCollection.value[0].id;
+    updateSettings(settingsStore.currentAppSettings).catch(e => console.error(e))
+
+  }).catch((error) => console.error(error))
+
 }
 
 </script>
@@ -100,6 +119,15 @@ async function saveLayout() {
         </v-btn>
         <v-btn
           class="ml-4 mb-4"
+          color="secondary"
+          data-testid="delete-common-layout"
+          variant="text"
+          @click="deleteLayout()"
+        >
+          Delete layout
+        </v-btn>
+        <v-btn
+          class="ml-4 mb-4"
           color="primary"
           data-testid="save-common-layout"
           @click="saveLayout()"
@@ -128,7 +156,7 @@ async function saveLayout() {
         </div>
       </v-form>
     </div>
-    <LayoutGridEdit v-if="!isNewLayout" v-model="selectedLayout.layout" :dynamic="true" />
+    <LayoutGridEdit v-if="!isNewLayout" v-model="selectedLayout.layout" :dynamic="true"/>
   </div>
 </template>
 
