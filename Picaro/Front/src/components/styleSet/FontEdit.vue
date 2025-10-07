@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {computed, ref, watch} from "vue";
+// tslint:disable-next-line
 import {googleKey} from "../../../../Back/picaro-back.json";
 import FontSelectForm from "@components/styleSet/FontSelectForm.vue";
 
