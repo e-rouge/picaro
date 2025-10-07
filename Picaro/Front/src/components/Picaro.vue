@@ -74,7 +74,6 @@ watch(() => route.params.appId, () => {
           </v-tab>
           <v-tab
             :class="{selected: selected === 'style'}"
-            data-testid="layout-tab"
             to="/admin/style"
             value="style"
           >

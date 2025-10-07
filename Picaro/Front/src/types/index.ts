@@ -190,6 +190,7 @@ export type FieldParams = {
     attributes: string,
     extraParams?: {
         size?: keyof typeof imageSizeMap
+        showFull?: boolean,
     },
     type: AvailableContentType | null
 }

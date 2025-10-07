@@ -62,7 +62,9 @@ function deleteLayout() {
   }).then(() => {
     settingsStore.currentAppSettings?.layoutCollection.splice(selectedLayoutId.value, 1)
     selectedEditLayout.value = layoutCollection.value[0].id;
-    updateSettings(settingsStore.currentAppSettings).catch(e => console.error(e))
+    if (settingsStore.currentAppSettings) {
+      updateSettings(settingsStore.currentAppSettings).catch(e => console.error(e))
+    }
 
   }).catch((error) => console.error(error))
 

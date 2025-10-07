@@ -10,7 +10,7 @@ const emit = defineEmits<{
 }>()
 
 
-const link = ref<string>(props.moduleParams.content?.link ?? '')
+const link = ref<string>(props.moduleParams.content?.link as string ?? '')
 
 
 function updateData() {
