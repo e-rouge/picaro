@@ -21,7 +21,7 @@ const wrapper = mount(CommonLayoutEdit, {
 
 
 describe("LayoutGridEdit", () => {
-    it("should create rows", async () => {
+    it("should create rows", () => {
         expect(checkVisible([
             'add-common-row',
             'add-common-row-inner',
