@@ -36,6 +36,7 @@ const newCategory = ref('')
 const editCategories = ref(false)
 
 function editItem(item: number) {
+
   router.push({params: {contentId: item}}).catch(e => console.error(e))
   newCategory.value = ''
 }
@@ -128,7 +129,7 @@ async function saveCategory() {
           </template>
         </draggable>
 
-        <v-text-field v-model="newCategory" data-testid="new-category-input" label="New category" />
+        <v-text-field v-model="newCategory" data-testid="new-category-input" label="New category"/>
         <v-btn data-testid="new-category-add" @click="addCategory">
           Add category
         </v-btn>
@@ -188,7 +189,7 @@ async function saveCategory() {
       </template>
     </v-col>
   </v-row>
-  <ImageUpload />
+  <ImageUpload/>
 </template>
 
 <style scoped>

@@ -91,8 +91,12 @@ const filteredComponentsParams = computed(() => {
   }, {})
 })
 
-function addRow() {
-  layoutCollection.value.push([{type: 'List'}]);
+function addRow(index?: number) {
+  if (index === undefined || index + 1 === layoutCollection.value.length) {
+    layoutCollection.value.push([{type: 'List'}]);
+  } else {
+    layoutCollection.value.splice(index + 1, 0, [{type: 'List'}])
+  }
 }
 
 function deleteColumn(line: number, column: number) {
@@ -141,6 +145,7 @@ function openMobile(index: number) {
 
 <template>
   <div class="pic-layout--main-container">
+    {{ layoutCollection }}
     <v-row
       v-for="(layoutLine, index) in layoutCollection"
       :key="index"
@@ -247,7 +252,7 @@ function openMobile(index: number) {
 
           <div class="text-right">
             <v-btn
-              data-jest="remove-common-column"
+              data-testid="remove-common-column"
               small="small"
               @click="deleteColumn(index, subIndex)"
             >
@@ -265,13 +270,14 @@ function openMobile(index: number) {
           </div>
         </div>
       </v-col>
-      <div
-        v-if="layoutCollection.length > 1"
-        class="pic-layout--add-row"
-        data-jest="add-common-row-inner"
-        @click="layoutCollection.splice(index + 1, 0, [] )"
-      >
-        <v-icon>mdi-table-row-plus-after</v-icon>
+      <div class="pic-layout--add-row__inner">
+        <v-btn
+          v-if="layoutCollection.length > 1"
+          data-testid="add-common-row-inner"
+          @click="addRow(index)"
+        >
+          <v-icon>mdi-table-row-plus-after</v-icon>
+        </v-btn>
       </div>
     </v-row>
     <div
@@ -279,7 +285,7 @@ function openMobile(index: number) {
       :class="{'no-row': layoutCollection.length === 0}"
       class="pic-layout--add-row"
       data-testid="add-common-row"
-      @click="addRow"
+      @click="addRow()"
     >
       <v-icon>mdi-table-row-plus-after</v-icon>
     </div>
@@ -371,6 +377,13 @@ function openMobile(index: number) {
     bottom: 0px;
     right: 50%;
     transform: translateX(-50%);
+
+    &__inner {
+      width: 100%;
+      text-align: center;
+      color: var(--main);
+
+    }
   }
 
   &--add-column {

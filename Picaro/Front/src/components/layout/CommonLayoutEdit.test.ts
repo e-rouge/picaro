@@ -1,4 +1,4 @@
-import {describe, expect, it} from "vitest"
+import {describe, expect, it, vi} from "vitest"
 import CommonLayoutEdit from "./CommonLayoutEdit.vue";
 import {mount, VueWrapper} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
@@ -21,7 +21,7 @@ const wrapper = mount(CommonLayoutEdit, {
 
 
 describe("LayoutGridEdit", () => {
-    it("should create rows", () => {
+    it("should create rows", async () => {
         expect(checkVisible([
             'add-common-row',
             'add-common-row-inner',
@@ -34,6 +34,7 @@ describe("LayoutGridEdit", () => {
         expect(wrapper.vm.layoutCommonCollection).toEqual([])
         wrapper.find('[data-testid="add-common-row"]').trigger('click').catch((e) => console.log(e))
         wrapper.find('[data-testid="add-common-row"]').trigger('click').catch((e) => console.log(e))
+
         expect(wrapper.vm.layoutCommonCollection).toEqual([
             [
                 {
@@ -46,8 +47,11 @@ describe("LayoutGridEdit", () => {
                 }
             ]
         ])
+
     })
-    it("should create columns", () => {
+    it("should create columns", async () => {
+        await vi.waitUntil(() => wrapper.vm.layoutCommonCollection.length === 2)
+
         expect(checkVisible([
             'add-common-row',
             'add-common-row-inner',

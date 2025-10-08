@@ -5,12 +5,14 @@ import {createTestingPinia} from "@pinia/testing";
 import {settingsStoreFixture} from "@fixtures/store";
 import {createRouter, createWebHistory} from "vue-router";
 import {adminRoutes} from "../../adminRoutes";
-import {checkVisible} from "../../../test/utils";
+import {checkVisible, getVuetifyStubs} from "../../../test/utils";
+import vuetify from "vite-plugin-vuetify";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: adminRoutes
 })
+
 
 const wrapper = mount(ContentEdit, {
     global: {
@@ -20,8 +22,10 @@ const wrapper = mount(ContentEdit, {
                 initialState: {settings: settingsStoreFixture}
             }),
             // @ts-ignore
-            router
+            router,
+            vuetify
         ],
+        stubs: getVuetifyStubs(),
     },
     props: {
         currentEditModel: settingsStoreFixture.currentAppSettings.modelCollection[0],
@@ -75,9 +79,13 @@ describe('ContentEdit', () => {
 
         await router.isReady()
 
+        await vi.waitUntil(() => wrapper.vm.$route.path !== '/')
+
         wrapper.vm.editItem(0)
 
-        await vi.waitUntil(() => wrapper.vm.$route.path === "/admin/data/id/modelId1/content/0")
+        await vi.waitUntil(() => wrapper.vm.$route.params.contentId !== undefined)
+        expect(wrapper.vm.$route.path).toBe("/admin/data/id/modelId1/content/0")
+
         await wrapper.vm.$nextTick()
 
         await vi.waitUntil(() => wrapper.find('[data-testid="content-edit"]'))
