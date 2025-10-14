@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type {AvailableModules, Category, Model, Module} from "@types";
-import {computed, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {updateSettings} from "@components/utils/api";
 import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
@@ -29,7 +29,7 @@ const showConfig = ref<number | null>(null)
 const showMobile = ref<number | null>(null)
 
 
-const layoutCollection = defineModel<Module[][]>({default: []})
+const layoutCollection = defineModel<Module[][]>({default: reactive([])})
 
 const modelCollection = computed<Model[]>(() => {
   return settingsStore.currentAppSettings?.modelCollection ?? []
@@ -155,7 +155,7 @@ function openMobile(index: number) {
         v-for="(layoutColumn, subIndex) in layoutLine"
         :key="subIndex"
         :cols="isFull === subIndex ? 12 : layoutColumn.cols"
-        class="pic-layout--container pic-layout--common-module pic-module-container"
+        class="pic-layout--container pic-layout--module pic-module-container"
       >
         <div :class="`pic-container-width-${layoutColumn.cols}`" class="pic-container">
           <span
@@ -252,7 +252,7 @@ function openMobile(index: number) {
 
           <div class="text-right">
             <v-btn
-              data-testid="remove-common-column"
+              data-testid="remove-column"
               small="small"
               @click="deleteColumn(index, subIndex)"
             >
@@ -262,8 +262,8 @@ function openMobile(index: number) {
 
           <div
             class="pic-layout--add-column"
-            data-jest="add-common-column"
-            data-testid="add-common-column"
+            data-jest="add-column"
+            data-testid="add-column"
             @click="layoutLine.splice(index + 1,0 , {type: 'List'})"
           >
             <v-icon>mdi-table-column-plus-after</v-icon>
@@ -273,7 +273,7 @@ function openMobile(index: number) {
       <div class="pic-layout--add-row__inner">
         <v-btn
           v-if="layoutCollection.length > 1"
-          data-testid="add-common-row-inner"
+          data-testid="add-row-inner"
           @click="addRow(index)"
         >
           <v-icon>mdi-table-row-plus-after</v-icon>
@@ -284,7 +284,7 @@ function openMobile(index: number) {
       v-if="layoutCollection.length <= 1"
       :class="{'no-row': layoutCollection.length === 0}"
       class="pic-layout--add-row"
-      data-testid="add-common-row"
+      data-testid="add-row"
       @click="addRow()"
     >
       <v-icon>mdi-table-row-plus-after</v-icon>
@@ -294,7 +294,7 @@ function openMobile(index: number) {
     v-if="layoutCollection.length !== 0"
     class="ml-4 mb-4"
     color="primary"
-    data-testid="save-common-layout"
+    data-testid="save-layout"
     @click="saveLayout()"
   >
     Save Layout

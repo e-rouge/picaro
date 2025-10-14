@@ -1,13 +1,11 @@
 import {describe, expect, it, vi} from "vitest"
-import CommonLayoutEdit from "./CommonLayoutEdit.vue";
+import LayoutGridEdit from "./LayoutGridEdit.vue";
 import {mount, VueWrapper} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import {settingsStoreFixture} from "../../../fixtures/store";
 import {checkVisible} from "../../../test/utils";
 
-settingsStoreFixture.currentAppSettings.layoutCommonCollection = []
-
-const wrapper = mount(CommonLayoutEdit, {
+const wrapper = mount(LayoutGridEdit, {
     global: {
         plugins: [
             // @ts-ignore
@@ -23,19 +21,19 @@ const wrapper = mount(CommonLayoutEdit, {
 describe("LayoutGridEdit", () => {
     it("should create rows", () => {
         expect(checkVisible([
-            'add-common-row',
-            'add-common-row-inner',
-            'add-common-column'
+            'add-row',
+            'add-row-inner',
+            'add-column'
         ], wrapper)).toEqual([
             true,
             false,
             false
         ])
-        expect(wrapper.vm.layoutCommonCollection).toEqual([])
-        wrapper.find('[data-testid="add-common-row"]').trigger('click').catch((e) => console.log(e))
-        wrapper.find('[data-testid="add-common-row"]').trigger('click').catch((e) => console.log(e))
+        expect(wrapper.vm.layoutCollection).toEqual([])
+        wrapper.find('[data-testid="add-row"]').trigger('click').catch((e) => console.log(e))
+        wrapper.find('[data-testid="add-row"]').trigger('click').catch((e) => console.log(e))
 
-        expect(wrapper.vm.layoutCommonCollection).toEqual([
+        expect(wrapper.vm.layoutCollection).toEqual([
             [
                 {
                     type: "List"
@@ -50,19 +48,19 @@ describe("LayoutGridEdit", () => {
 
     })
     it("should create columns", async () => {
-        await vi.waitUntil(() => wrapper.vm.layoutCommonCollection.length === 2)
+        await vi.waitUntil(() => wrapper.vm.layoutCollection.length === 2)
 
         expect(checkVisible([
-            'add-common-row',
-            'add-common-row-inner',
-            'add-common-column'
+            'add-row',
+            'add-row-inner',
+            'add-column'
         ], wrapper)).toEqual([
             false,
             true,
             true
         ])
-        wrapper.find('[data-testid="add-common-column"]').trigger('click').catch((e) => console.log(e))
-        expect(wrapper.vm.layoutCommonCollection).toEqual([
+        wrapper.find('[data-testid="add-column"]').trigger('click').catch((e) => console.log(e))
+        expect(wrapper.vm.layoutCollection).toEqual([
             [
                 {
                     type: "List"
