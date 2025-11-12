@@ -136,29 +136,29 @@ const v$ = useVuelidate(rules, form)
 
 <template>
   <div v-if="appFormState === 'noApp'" class="pic-container">
-    <v-row>
+    <VRow>
       <h2>
         Select or create an application
       </h2>
-    </v-row>
-    <v-row>
-      <v-col v-for="app in settings" :key="app.applicationName">
-        <v-card
+    </VRow>
+    <VRow>
+      <VCol v-for="app in settings" :key="app.applicationName">
+        <VCard
           :title="app.applicationName"
           :to="{name: 'app', params: {appId: app.id}}"
           color="primary"
           data-testid="app-button"
           height="100"
         />
-      </v-col>
-      <v-col>
-        <v-card :to="{name: 'newApp'}" color="grey" height="100">
-          <v-card-title>
+      </VCol>
+      <VCol>
+        <VCard :to="{name: 'newApp'}" color="grey" height="100">
+          <VCardTitle>
             New App
-          </v-card-title>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardTitle>
+        </VCard>
+      </VCol>
+    </VRow>
   </div>
   <template v-else>
     <div
@@ -171,7 +171,11 @@ const v$ = useVuelidate(rules, form)
         </h3>
 
         <div v-for="app in settings" :key="app.id">
-          <router-link :to="{name: 'app', params: {appId: app.id}}" class="pic-button--text">
+          <router-link
+            :class="{selected: app.id === currentSettings?.id}"
+            :to="{name: 'app', params: {appId: app.id}}"
+            class="pic-aside-menu--link"
+          >
             {{ app.applicationName }}
           </router-link>
         </div>

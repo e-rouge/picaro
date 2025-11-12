@@ -109,12 +109,14 @@ test('Creates a common layout', async ({page}) => {
     await page.getByTestId('layout-tab').click()
 
     await page.getByTestId('add-row').click()
-    
+
     await page.getByTestId('module-type').click()
 
     await page.getByText('FilterCategories').last().click()
 
     await page.locator("body").click({position: {x: 0, y: 0}});
+
+    await page.getByTestId('content-button').click()
 
     await page.getByTestId('module-model').last().click()
 
@@ -123,6 +125,8 @@ test('Creates a common layout', async ({page}) => {
     await page.locator("body").click({position: {x: 0, y: 0}});
 
     await page.getByTestId('add-column').click()
+
+    await page.getByTestId('content-button').last().click()
 
     await page.getByTestId('module-type').last().click()
 

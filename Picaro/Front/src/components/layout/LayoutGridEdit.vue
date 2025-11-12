@@ -231,6 +231,7 @@ function getDistanceFromLeft(event: MouseEvent) {
             </VBtn>
             <VBtn
               v-if="!filteredComponentsParams[layoutColumn.type].hideModel && !filteredComponentsParams[layoutColumn.type].hideCategories"
+              data-testid="content-button"
               variant="outlined"
               @click="openDataConfig(subIndex)"
             >
