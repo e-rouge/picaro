@@ -183,7 +183,6 @@ function getDistanceFromLeft(event: MouseEvent) {
 </script>
 
 <template>
-  {{ selectedContainerDistance }}
   <div class="pic-layout--main-container" @mouseup="resizeOff">
     <VRow
       v-for="(layoutLine, index) in layoutCollection"
@@ -391,6 +390,7 @@ function getDistanceFromLeft(event: MouseEvent) {
     width: var(--l);
     border-radius: var(--3xs);
     border: var(--main) 1px solid;
+    cursor: pointer;
   }
 
   &--add-row,

@@ -88,6 +88,7 @@ function uploadImage() {
       <div class="pic-image-upload-container">
         <div v-for="image in structuredImages" :key="image.name" class="pic-image-upload">
           <img
+            v-if="image.files[1]"
             :class="{selected: image.name === userStore.rteImage}"
             :src="`/api/uploads/${image.files[1].file}`"
             class="uploaded-image"

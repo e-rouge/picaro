@@ -108,10 +108,8 @@ test('Creates a common layout', async ({page}) => {
 
     await page.getByTestId('layout-tab').click()
 
-    await page.getByTestId('add-common-row').click()
-
-    await page.getByTestId('module-width').getByRole('spinbutton').fill('2')
-
+    await page.getByTestId('add-row').click()
+    
     await page.getByTestId('module-type').click()
 
     await page.getByText('FilterCategories').last().click()
@@ -124,7 +122,7 @@ test('Creates a common layout', async ({page}) => {
 
     await page.locator("body").click({position: {x: 0, y: 0}});
 
-    await page.getByTestId('add-common-column').click()
+    await page.getByTestId('add-column').click()
 
     await page.getByTestId('module-type').last().click()
 
@@ -135,7 +133,7 @@ test('Creates a common layout', async ({page}) => {
 
     await page.getByText('model test').last().click()
 
-    await page.getByTestId('save-common-layout').click()
+    await page.getByTestId('save-layout').click()
 
 })
 

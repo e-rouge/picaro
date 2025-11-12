@@ -36,7 +36,6 @@ const newCategory = ref('')
 const editCategories = ref(false)
 
 function editItem(item: number) {
-
   router.push({params: {contentId: item}}).catch(e => console.error(e))
   newCategory.value = ''
 }

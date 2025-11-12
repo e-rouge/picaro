@@ -101,7 +101,6 @@ function updateData(data: [string, FieldContentParams['fieldContent']]) {
 
   const changedItem = currentModelContent.value.content.find(item => item.fieldParamsId === id)
   if (!changedItem) {
-
     utilsStore.addAlert({
       type: "error",
       text: `Field with id ${id} not found`

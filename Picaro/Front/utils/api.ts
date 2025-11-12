@@ -56,7 +56,7 @@ export function picFetch<ReturnT>(
             if (callback) {
                 callback()
             }
-            if (method !== "GET") {
+            if (params.method !== "GET") {
                 utilsStore.addAlert({
                     type: "success",
                     text: "Saved successfully"
