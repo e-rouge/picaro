@@ -20,7 +20,7 @@ export const currentAppSettings = {
     layoutLinkCollection: [],
     defaultLayout: "h2fFurQB-2LFRbVHnF-Pk",
     layoutCommonCollection: [[{
-        type: "FilterCategories", cols: "2"
+        type: "FilterCategories", cols: 2
     }, {
         type: "List", model: "1QKpueEa"
     }]],
@@ -232,7 +232,7 @@ export const settingsStoreFixtureNoCurrent: SettingsStore = {
             layoutCommonCollection: [
                 [
                     {
-                        type: "FilterCategories", cols: "2",
+                        type: "FilterCategories", cols: 2,
                     },
                     {
                         type: "List", model: "1QKpueEa"

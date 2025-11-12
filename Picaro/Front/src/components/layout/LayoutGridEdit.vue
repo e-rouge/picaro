@@ -6,6 +6,7 @@ import {useUtilsStore} from "@stores/utils";
 import {useSettingsStore} from "@stores/settings";
 import LayoutImage from "@components/layout/LayoutImage.vue";
 import LayoutVideo from "@components/layout/LayoutVideo.vue";
+import {HTMLElement, MouseEvent} from "happy-dom";
 
 const utilsStore = useUtilsStore()
 
@@ -20,6 +21,8 @@ type ModuleEditParams = {
 const utilStore = useUtilsStore()
 const settingsStore = useSettingsStore();
 
+const screenWidth: number = window.innerWidth
+
 const props = defineProps<{
   dynamic?: boolean
 }>()
@@ -27,7 +30,11 @@ const props = defineProps<{
 const isFull = ref<number | null>(null)
 const showConfig = ref<number | null>(null)
 const showMobile = ref<number | null>(null)
+const showData = ref<number | null>(null)
 
+const selectedColumn = ref<Module | null>()
+
+const selectedContainerDistance = ref<number>(0)
 
 const layoutCollection = defineModel<Module[][]>({default: reactive([])})
 
@@ -135,23 +142,54 @@ async function saveLayout() {
 function openConfig(index: number) {
   showConfig.value = showConfig.value === index ? null : index
   showMobile.value = null
+  showData.value = null
+}
+
+function openDataConfig(index: number) {
+  showConfig.value = null
+  showMobile.value = null
+  showData.value = showConfig.value === index ? null : index
 }
 
 function openMobile(index: number) {
   showMobile.value = showMobile.value === index ? null : index
   showConfig.value = null
+  showData.value = null
+}
+
+function resizeOn(event: MouseEvent, column: Module) {
+  getDistanceFromLeft(event)
+  selectedColumn.value = column
+  addEventListener("mousemove", handleResize)
+}
+
+function handleResize(event: MouseEvent) {
+  if (selectedColumn.value) {
+    // there's a bug with MouseEvent
+    selectedColumn.value.cols = Math.floor((((event as unknown as MouseEvent).clientX + 100) / (screenWidth / 12))) - selectedContainerDistance.value
+  }
+}
+
+function resizeOff() {
+  selectedColumn.value = null
+  window.removeEventListener("mousemove", handleResize)
+}
+
+function getDistanceFromLeft(event: MouseEvent) {
+  const distance: number = (event.target as HTMLElement).closest(".pic-container").getBoundingClientRect().x
+  selectedContainerDistance.value = Math.floor(distance / (screenWidth / 12))
 }
 </script>
 
 <template>
-  <div class="pic-layout--main-container">
-    {{ layoutCollection }}
-    <v-row
+  {{ selectedContainerDistance }}
+  <div class="pic-layout--main-container" @mouseup="resizeOff">
+    <VRow
       v-for="(layoutLine, index) in layoutCollection"
       :key="index"
-      class="pic-layout-container pic-row-container"
+      class="pic-layout-container pic-layout--row-container"
     >
-      <v-col
+      <VCol
         v-for="(layoutColumn, subIndex) in layoutLine"
         :key="subIndex"
         :cols="isFull === subIndex ? 12 : layoutColumn.cols"
@@ -171,62 +209,40 @@ function openMobile(index: number) {
               <VIcon>{{ isFull === subIndex ? "mdi-arrow-collapse" : "mdi-arrow-expand" }}</VIcon>
             </VBtn>
             <div class="module-type">
-              <v-text-field
-                :model-value="layoutColumn.cols || 0"
-                class="module-type-size"
-                data-testid="module-width"
-                density="compact"
-                label="Width"
-                max="12"
-                min="0"
-                type="number"
-                variant="underlined"
-                @input="layoutColumn.cols = $event.target.value"
-              />
-              <v-select
+              <VSelect
                 :items="filteredComponents"
                 :model-value="layoutColumn.type || 'none'"
                 data-testid="module-type"
-                density="compact"
                 item-title="name"
                 item-value="name"
                 label="Module"
-                variant="underlined"
+                variant="outlined"
                 @update:modelValue="changeModule($event as AvailableModules, index, subIndex)"
               />
             </div>
           </span>
-          <div>
-            <v-select
-              v-if="!filteredComponentsParams[layoutColumn.type].hideModel"
-              :items="modelCollection"
-              :model-value="modelCollection.find((item: Model) => item.id === layoutColumn.model)"
-              data-testid="module-model"
-              density="compact"
-              item-title="name"
-              item-value="id"
-              label="Model"
-              @update:model-value="layoutColumn.model = $event as unknown as Model['id']"
-            />
-            <v-select
-              v-if="!filteredComponentsParams[layoutColumn.type].hideCategories"
-              :items="settingsStore.currentAppSettings?.categories"
-              :multiple="true"
-              density="compact"
-              item-title="label"
-              item-value="id"
-              label="Categories"
-              @update:model-value="layoutColumn.categories = $event as Category[]"
-            />
-          </div>
           <div class="mb-4 settings-buttons">
             <VBtn v-if="filteredComponentsParams[layoutColumn.type].component"
-                  icon="mdi-cog"
+                  variant="outlined"
                   @click="openConfig(subIndex)"
-            />
+            >
+              <VIcon>mdi-cog</VIcon>
+              <span>Settings</span>
+            </VBtn>
             <VBtn
-              icon="mdi-cellphone"
-              @click="openMobile(subIndex)"/>
+              v-if="!filteredComponentsParams[layoutColumn.type].hideModel && !filteredComponentsParams[layoutColumn.type].hideCategories"
+              variant="outlined"
+              @click="openDataConfig(subIndex)"
+            >
+              <VIcon>mdi-tag-multiple</VIcon>
+              <span>Content</span>
+            </VBtn>
+            <VBtn
+              variant="outlined"
+              @click="openMobile(subIndex)">
+              <VIcon>mdi-cellphone</VIcon>
+              <span>Mobile</span>
+            </VBtn>
           </div>
 
           <div
@@ -250,14 +266,49 @@ function openMobile(index: number) {
                         type="number"/>
           </div>
 
-          <div class="text-right">
-            <v-btn
+          <div v-if="showData === subIndex">
+            <VSelect
+              v-if="!filteredComponentsParams[layoutColumn.type].hideModel"
+              :items="modelCollection"
+              :model-value="modelCollection.find((item: Model) => item.id === layoutColumn.model)"
+              data-testid="module-model"
+              item-title="name"
+              item-value="id"
+              label="Model"
+              variant="outlined"
+              @update:model-value="layoutColumn.model = $event as unknown as Model['id']"
+            />
+            <VSelect
+              v-if="!filteredComponentsParams[layoutColumn.type].hideCategories"
+              :items="settingsStore.currentAppSettings?.categories"
+              :multiple="true"
+              item-title="label"
+              item-value="id"
+              label="Categories"
+              variant="outlined"
+              @update:model-value="layoutColumn.categories = $event as Category[]"
+            />
+          </div>
+
+          <div>
+            <VBtn
+              color="secondary"
               data-testid="remove-column"
+              density="compact"
               small="small"
               @click="deleteColumn(index, subIndex)"
             >
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
+              <VIcon>mdi-delete-outline</VIcon>
+            </VBtn>
+          </div>
+          <div class="pic-flex justify-end">
+            <VBtn
+              class="pic-resize-button"
+              variant="text"
+              @mousedown="resizeOn($event, layoutColumn)"
+            >
+              <VIcon>mdi-arrow-split-vertical</VIcon>
+            </VBtn>
           </div>
 
           <div
@@ -269,17 +320,17 @@ function openMobile(index: number) {
             <v-icon>mdi-table-column-plus-after</v-icon>
           </div>
         </div>
-      </v-col>
+      </VCol>
       <div class="pic-layout--add-row__inner">
-        <v-btn
+        <div
           v-if="layoutCollection.length > 1"
           data-testid="add-row-inner"
           @click="addRow(index)"
         >
           <v-icon>mdi-table-row-plus-after</v-icon>
-        </v-btn>
+        </div>
       </div>
-    </v-row>
+    </VRow>
     <div
       v-if="layoutCollection.length <= 1"
       :class="{'no-row': layoutCollection.length === 0}"
@@ -290,7 +341,7 @@ function openMobile(index: number) {
       <v-icon>mdi-table-row-plus-after</v-icon>
     </div>
   </div>
-  <v-btn
+  <VBtn
     v-if="layoutCollection.length !== 0"
     class="ml-4 mb-4"
     color="primary"
@@ -298,10 +349,10 @@ function openMobile(index: number) {
     @click="saveLayout()"
   >
     Save Layout
-    <v-icon>
+    <VIcon>
       mdi-content-save
-    </v-icon>
-  </v-btn>
+    </VIcon>
+  </VBtn>
 </template>
 
 <style lang="postcss" scoped>
@@ -309,36 +360,18 @@ function openMobile(index: number) {
   margin: 0;
 }
 
-.pic-container {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  position: relative;
-
-}
-
-
-.expand-icon {
-  position: absolute;
-  right: 10px;
-  top: 0;
-  padding: 0;
-  min-width: 0;
-
-  &.expanded {
-    .v-icon {
-      color: var(--main)
-    }
-  }
-
-  .v-icon {
-    font-size: .9em;
-    color: #aaa;
-  }
-}
-
 .pic-layout {
   &--container {
-    padding: 0 var(--s) 0 var(--xxs)
+    padding: 0 var(--s) 0 var(--xxs);
+    position: relative;
+
+    .pic-container {
+      position: relative;
+      margin: var(--m);
+      border-radius: var(--s);
+      border: 1px solid var(--greyMedium);
+    }
+
   }
 
   &--main-container,
@@ -347,7 +380,7 @@ function openMobile(index: number) {
   }
 
   &--add-row, &--add-column {
-    transform: translate(-50%, -50%);
+    transform: translate(-100%, -50%);
     background: var(--white);
     display: flex;
     justify-content: center;
@@ -379,10 +412,17 @@ function openMobile(index: number) {
     transform: translateX(-50%);
 
     &__inner {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translate(-50%, 0);
+      background: var(--white);
       width: 100%;
-      text-align: center;
+      cursor: pointer;
       color: var(--main);
-
+      border: 1px var(--main) solid;
+      width: var(--l);
+      height: var(--l);
     }
   }
 
@@ -398,12 +438,48 @@ function openMobile(index: number) {
 
 .settings-buttons {
   overflow: hidden;
-  display: flex;
-  justify-content: space-between;
   padding-bottom: 0.25rem;
 
   .v-btn {
-    min-width: 48px;
+    margin-right: var(--m);
+    margin-top: var(--m);
+    min-width: 120px;
+  }
+
+  span {
+    margin-left: var(--xs);
+    font-size: 12px;
+  }
+}
+
+.pic-resize-button, .expand-icon {
+  position: absolute;
+  right: 0;
+  padding: 0 var(--s) !important;
+  height: var(--xl);
+  min-width: auto;
+  border-left: 1px solid var(--greyMedium);
+
+
+  .v-icon {
+    font-size: .9em;
+    color: var(--greyDark);
+  }
+}
+
+.pic-resize-button {
+  bottom: 0;
+  border-top: 1px solid var(--greyMedium);
+}
+
+.expand-icon {
+  top: 0;
+  border-bottom: 1px solid var(--greyMedium);
+
+  &.expanded {
+    .v-icon {
+      color: var(--main)
+    }
   }
 }
 </style>

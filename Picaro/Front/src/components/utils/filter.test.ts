@@ -7,7 +7,7 @@ const moduleParams: Module = {
     model: 'model1',
     type: 'List',
     categories: [],
-    cols: "2"
+    cols: 2
 }
 
 describe("filters", () => {

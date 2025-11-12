@@ -33,12 +33,12 @@ router.beforeEach((to, from) => {
 const myCustomLightTheme = {
     dark: false,
     colors: {
-        background: '#fefefe',
+        background: '#FFE5BE',
         surface: '#FFFFFF',
-        primary: '#d26147',
+        primary: '#D36147',
         'primary--text': '#6200EE',
         'primary-darken-1': '#3700B3',
-        secondary: '#699eae',
+        secondary: '#225271',
         'secondary-darken-1': '#018786',
         error: '#B00020',
         info: '#2196F3',

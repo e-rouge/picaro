@@ -21,9 +21,14 @@ function cancel() {
 </script>
 
 <template>
-  <div class="pic-editable-container">
-    <v-text-field v-if="isEditing" v-model="editedValue" data-testid="edit-name-input" />
-    <slot v-else />
+  <div class="pic-editable-container pic-flex">
+    <v-text-field
+      v-if="isEditing"
+      v-model="editedValue"
+      :hide-details="true"
+      data-testid="edit-name-input"
+      variant="outlined"/>
+    <slot v-else/>
     <div>
       <v-icon v-if="!isEditing" data-testid="edit-name" @click="isEditing = !isEditing">
         mdi-pencil
@@ -41,8 +46,4 @@ function cancel() {
 </template>
 
 <style scoped>
-.pic-editable-container {
-  display: flex;
-  align-items: center;
-}
 </style>

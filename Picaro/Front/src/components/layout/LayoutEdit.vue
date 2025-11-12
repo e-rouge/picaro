@@ -37,13 +37,15 @@ function createLayout() {
   if (!createdLayoutName.value) {
     return false
   }
+  const id = nanoid(4)
   layoutCollection.value?.push({
     name: createdLayoutName.value,
-    id: nanoid(4),
+    id,
     layout: [],
     order: 0
   });
   createdLayoutName.value = "";
+  selectedEditLayout.value = id
   if (settingsStore.currentAppSettings) {
     updateSettings(settingsStore.currentAppSettings).catch(e => console.error(e))
   }
@@ -140,26 +142,25 @@ function deleteLayout() {
           </v-icon>
         </v-btn>
       </div>
-
-      <v-form v-else @submit.prevent="createLayout">
-        <v-text-field
-          v-model="createdLayoutName"
-          density="compact"
-          label="Layout Name"
-          variant="underlined"
-        />
-        <div class="layout-controls">
-          <v-btn color="secondary" @click="isNewLayout=false">
-            Cancel
-          </v-btn>
-          <v-btn color="primary" type="submit">
-            Create layout
-          </v-btn>
-        </div>
-      </v-form>
     </div>
     <LayoutGridEdit v-if="!isNewLayout" v-model="selectedLayout.layout" :dynamic="true"/>
   </div>
+  <v-form v-if="isNewLayout || !selectedEditLayout" @submit.prevent="createLayout">
+    <v-text-field
+      v-model="createdLayoutName"
+      density="compact"
+      label="Layout Name"
+      variant="underlined"
+    />
+    <div class="layout-controls">
+      <v-btn color="secondary" @click="isNewLayout=false">
+        Cancel
+      </v-btn>
+      <v-btn color="primary" type="submit">
+        Create layout
+      </v-btn>
+    </div>
+  </v-form>
 </template>
 
 <style scoped>

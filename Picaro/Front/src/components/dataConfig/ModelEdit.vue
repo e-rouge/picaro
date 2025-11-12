@@ -159,11 +159,11 @@ async function saveModel() {
     data-testid="edit-model"
   >
     <EditableField :value="currentModelClone.name" @update="currentModelClone.name = $event; saveModel()">
-      <h2 data-testid="created-model-name">
+      <h3 data-testid="created-model-name">
         <span>
           <span>{{ currentModelClone.name }}</span>
         </span>
-      </h2>
+      </h3>
     </EditableField>
 
     <Draggable
@@ -199,6 +199,7 @@ async function saveModel() {
       v-if="props.modelFormState === 'modelSelected'"
       class="pic-add-new-field-button"
       data-testid="add-new-field-button"
+      variant="outlined"
       @click="emit('updateModelFormState', 'addingField')"
     >
       Add Field

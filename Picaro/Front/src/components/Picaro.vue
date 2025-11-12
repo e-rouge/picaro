@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, watch} from "vue";
+import {watch} from "vue";
 import {Settings, SettingsStore} from "@types";
 import {useRoute, useRouter} from "vue-router";
 import Alert from "./utils/alertModal.vue";
@@ -11,8 +11,6 @@ const route = useRoute()
 const router = useRouter()
 
 const settingsStore = useSettingsStore()
-
-const selected = computed(() => route.name);
 
 async function selectApp(event: string | string[]) {
   if (event !== 'none') {
@@ -31,6 +29,19 @@ function reloadSettings() {
   }
 }
 
+function isSelected(name: string) {
+  return (route.name as string).includes(name)
+}
+
+function getParentRouteValue() {
+  const routeName = route.name as string
+  if (routeName.includes('-')) {
+    return routeName.split('-')[0]
+  } else {
+    return route.name
+  }
+}
+
 watch(() => settingsStore.allSettings, () => {
   if (route.params.appId && settingsStore.allSettings.length > 0) {
     settingsStore.currentAppSettings = settingsStore.allSettings.find((app: Settings) => app.id === route.params.appId)
@@ -42,13 +53,14 @@ watch(() => route.params.appId, () => {
     settingsStore.currentAppSettings = settingsStore.allSettings.find((app: Settings) => app.id === route.params.appId)
   }
 }, {immediate: true})
+
 </script>
 
 <template>
   <v-app id="picaro-app" class="picaro-app text--primary">
     <nav class="pic-tabs">
       <img alt="logo" class="logo" src="/images/logo2.svg" width="50">
-      <v-tabs :model-value="route.name">
+      <v-tabs :model-value="getParentRouteValue()">
         <v-tab
           to="/admin/app"
           value="app"
@@ -57,7 +69,7 @@ watch(() => route.params.appId, () => {
         </v-tab>
         <template v-if="settingsStore.currentAppSettings">
           <v-tab
-            :class="{selected: selected === 'model'}"
+            :class="{selected: isSelected('model')}"
             data-testid="model-tab"
             to="/admin/data"
             value="data"
@@ -65,7 +77,7 @@ watch(() => route.params.appId, () => {
             Data
           </v-tab>
           <v-tab
-            :class="{selected: selected === 'layout'}"
+            :class="{selected: isSelected('layout')}"
             data-testid="layout-tab"
             to="/admin/layout"
             value="layout"
@@ -73,7 +85,7 @@ watch(() => route.params.appId, () => {
             Layout
           </v-tab>
           <v-tab
-            :class="{selected: selected === 'style'}"
+            :class="{selected: isSelected('style')}"
             to="/admin/style"
             value="style"
           >
@@ -81,13 +93,14 @@ watch(() => route.params.appId, () => {
           </v-tab>
         </template>
         <v-select
-          v-if="settingsStore.allSettings.length > 0"
+          v-if="settingsStore.allSettings.length > 0 && route.params.appId"
           :items="settingsStore.allSettings"
           :model-value="route.params.appId"
+          density="compact"
           item-title="applicationName"
           item-value="id"
           label="select app"
-          variant="solo-filled"
+          variant="outlined"
           @update:model-value="selectApp"
         />
       </v-tabs>
@@ -100,5 +113,4 @@ watch(() => route.params.appId, () => {
 </template>
 
 <style lang="postcss" scoped>
-
 </style>

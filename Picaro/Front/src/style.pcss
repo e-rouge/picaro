@@ -1,7 +1,7 @@
 :root {
     /*--bgLight: #f6f2ee;
     --bg: #EEE6DF;
-    --bgMedium: #E5D2C1;
+    --*ium: #E5D2C1;
     --highlight: #EB420E;
     --main: #a94849;
     --secondaryDark: #355a60;
@@ -10,159 +10,183 @@
     --info: #983CA1;
     --valid: #3CA14F;
      */
-    --lineHeight: calc(1rem * 1.7);
-    --bgXLight: #fffcf6;
-    --bgLight: #fde5b00f;
-    --bgMedium: #f8e4c7;
-    --bgDark: #8f4e3b;
-    --greyLight: #f5f5f5;
-    --greyMedium: #babfc2;
+    --lineHeight: 16px;
+    --bgLight: #FFFAF5;
+    --bgMedium: #FFF3E3;
+    --bgDark: #FFE5BE;
+    --greyLight: #fafafa;
+    --greyMedium: #ddd;
     --grey: #6a6e70;
     --greyDark: #414141;
     --secondaryDark: #225271;
-    --secondary: #699eae;
-    --secondaryLight: #9ee4f5;
+    --secondary: #235271;
+    --secondaryLight: #95C5D2;
     --mainDark: #591C1C;
-    --main: #d36147;
+    --main: #F8A722;
     --mainLight: #eaa89a;
-    --mainTrans: #d3624888;
-    --highlight: #63ef75;
-    --highlight2: #dbdb35;
-    --highlight2light: #fdff8a;
+    --highlight: #D36147;
+    --highlightlight: #F99D77;
     --warning: #f6a71f;
     --warningDark: #f09800;
     --success: #57c16e;
     --successDark: #3a8c4a;
     --error: #E47159;
     --errorDark: #a94849;
-    --info: #7DA5EB;
+    --info: #01C8EB;
     --infoDark: #2078cf;
     --dark: #41370e;
     --white: #fff;
-    --4xs: calc(1rem * 1.7 / 10);
-    --3xs: calc(1rem * 1.7 / 5);
-    --xxs: calc(1rem * 1.7 * 2 / 5);
-    --xs: calc(1rem * 1.7 * 3 / 5);
-    --s: calc(1rem * 1.7 * 4 / 5);
-    --m: calc(1rem * 1.7);
-    --l: calc(1rem * 1.7 * 5 / 4);
-    --xl: calc(1rem * 1.7 * 5 / 3);
-    --xxl: calc(1rem * 1.7 * 5 / 2);
+    --black: #000;
+    --3xs: 1px;
+    --xxs: 2px;
+    --xs: 4px;
+    --s: 8px;
+    --m: 16px;
+    --l: 24px;
+    --xl: 36px;
+    --xxl: 52px;
 }
 
 @font-face {
-    font-family: 'abbey';
-    src: url("/api/adminfonts/TallAbbeyRg.otf")
+    font-family: 'argesta-headline';
+    src: url("/api/adminfonts/ArgestaHeadline-Regular.otf")
 }
 
 @font-face {
-    font-family: 'abbeySans';
-    src: url("/api/adminfonts/TallAbbeySansRg.otf")
+    font-family: 'argesta-headline';
+    font-style: italic;
+    src: url("/api/adminfonts/ArgestaHeadline-RegularItalic.otf")
 }
 
+
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 100;
-    src: url("/api/adminfonts/Knile-Thin.otf")
+    src: url("/api/adminfonts/ArgestaDisplay-regular.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: italic;
     font-weight: 100;
-    src: url("/api/adminfonts/Knile-Thin-Italic.otf")
+    src: url("/api/adminfonts/ArgestaHairline-Regular.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 200;
-    src: url("/api/adminfonts/Knile-Light.otf")
+    src: url("/api/adminfonts/ArgestaHairline-Regular.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: italic;
     font-weight: 200;
-    src: url("/api/adminfonts/Knile-Light-Italic.otf")
+    src: url("/api/adminfonts/ArgestaHairline-RegularItalic.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 300;
-    src: url("/api/adminfonts/Knile-Regular.otf")
+    src: url("/api/adminfonts/ArgestaDisplay-Regular.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: italic;
     font-weight: 300;
-    src: url("/api/adminfonts/Knile-Regular-Italic.otf")
+    src: url("/api/adminfonts/ArgestaDisplay-RegularItalic.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 400;
-    src: url("/api/adminfonts/Knile-Medium.otf")
+    src: url("/api/adminfonts/ArgestaDisplay-Regular.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: italic;
     font-weight: 400;
-    src: url("/api/adminfonts/Knile-Medium-Italic.otf")
+    src: url("/api/adminfonts/ArgestaDisplay-RegularItalic.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 500;
-    src: url("/api/adminfonts/Knile-SemiBold.otf")
+    src: url("/api/adminfonts/ArgestaText-Bold.otf")
 }
 
-@font-face {
-    font-family: 'knile';
-    font-style: italic;
-    font-weight: 500;
-    src: url("/api/adminfonts/Knile-SemiBold-Italic.otf")
-}
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 600;
-    src: url("/api/adminfonts/Knile-Bold.otf")
+    src: url("/api/adminfonts/ArgestaText-Bold.otf")
 }
 
 @font-face {
-    font-family: 'knile';
-    font-style: italic;
-    font-weight: 600;
-    src: url("/api/adminfonts/Knile-Bold-Italic.otf")
-}
-
-@font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: normal;
     font-weight: 700;
-    src: url("/api/adminfonts/Knile-Black.otf")
+    src: url("/api/adminfonts/ArgestaText-Bold.otf")
 }
 
 @font-face {
-    font-family: 'knile';
+    font-family: 'argesta';
     font-style: italic;
     font-weight: 700;
-    src: url("/api/adminfonts/Knile-Black-Italic.otf")
+    src: url("/api/adminfonts/ArgestaText-Bold.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-weight: 100;
+    src: url("/api/adminfonts/Silka-Thin.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-weight: 200;
+    src: url("/api/adminfonts/Silka-Light.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-style: italic;
+    font-weight: 400;
+    src: url("/api/adminfonts/Silka-RegularItalic.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-weight: 400;
+    src: url("/api/adminfonts/Silka-Regular.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-weight: 600;
+    src: url("/api/adminfonts/Silka-SemiBold.otf")
+}
+
+@font-face {
+    font-family: 'silka';
+    font-weight: 800;
+    src: url("/api/adminfonts/Silka-Black.otf")
 }
 
 #picaro-app {
-    font-family: knile, sans-serif !important;
+    font-family: silka, sans-serif !important;
     color: var(--greyDark);
     font-weight: 200;
-    font-size: 20px;
+    font-size: 14px;
+    background: var(--white);
     line-height: var(--lineHeight);
 
     .pic-font-fix,
@@ -197,32 +221,24 @@
 
         h2:first-of-type {
             margin-top: 0 !important;
-            font-size: 4rem;
+            font-size: var(--l);
 
         }
 
         > div {
-            border-bottom: 1px solid var(--greyDark);
-
             a:first-of-type {
-                margin-top: var(--xl);
+                padding: var(--s) 0;
+                margin-bottom: var(--s);
             }
 
             a {
-                display: block !important;
-                margin: var(--xs);
+                display: inline-block !important;
                 text-decoration: none !important;
-                color: var(--secondaryDark) !important;
                 font-weight: 300 !important;
-                font-size: 1.5rem;
+                font-size: var(--m);
                 cursor: pointer;
                 margin-left: 0;
                 padding-left: 0;
-
-                i
-                &:hover {
-                    background: var(--greyLight);
-                }
             }
         }
 
@@ -235,8 +251,6 @@
         flex: calc(75% - 4rlh);
     }
 
-    background: url("/adminimages/bedge-grunge-dark.png");
-
     .pic-container:not(.pic-live-style) {
         h1,
         h2,
@@ -244,13 +258,13 @@
         h4,
         h5,
         h6 {
-            font-family: abbey, sans-serif;
+            font-family: argesta-headline, sans-serif;
             color: var(--secondaryDark) !important;
             margin-bottom: var(--xl);
         }
 
         H1 {
-            font-size: 5rem;
+            font-size: var(--xl);
             font-weight: 700;
             line-height: 1;
             margin-top: var(--xl);
@@ -262,7 +276,7 @@
         }
 
         h2 {
-            font-size: 3.5rem;
+            font-size: var(--xl);
             font-weight: 600;
             line-height: 1;
             margin-top: var(--xl);
@@ -270,7 +284,7 @@
         }
 
         h3 {
-            font-size: 2.9rem;
+            font-size: var(--l);
             font-weight: 500;
             line-height: 1;
             margin-top: var(--l);
@@ -308,7 +322,7 @@
 
 
     a {
-        color: var(--main);
+        color: var(--dark);
         text-decoration: none;
     }
 
@@ -342,7 +356,7 @@
         color: var(--secondary);
         display: inline-block;
         padding: 0 var(--3xs);
-        font-weight: bold;
+        font-weight: 600;
         text-transform: lowercase;
         cursor: pointer;
     }
@@ -396,7 +410,7 @@
 
     blockquote::before {
         content: "";
-        background: var(--highlight2light);
+        background: var(--highlightlight);
         position: absolute;
         top: 2rem;
         bottom: 5rem;
@@ -405,7 +419,7 @@
     }
 
     cite {
-        font-family: abbeySans, sans-serif;
+        font-family: argesta-headline, sans-serif;
         font-size: 3rem;
         line-height: 3rem;
         text-align: right;
@@ -416,12 +430,8 @@
 
     .pic-container {
         margin: var(--m);
-        padding: var(--l);
-        background: rgba(255, 255, 255, 0.7);
-        box-shadow: 0 0 var(--3xs) inset var(--greyMedium);
-        border-radius: var(--xxs);
-        border: 2px solid var(--greyDark);
-        border-right: 1px solid var(--greyLight);
+        padding: var(--l) var(--xl);
+        border-radius: var(--xs);
 
         img {
             max-width: 100%;
@@ -472,7 +482,7 @@
             border: 1px solid var(--greyMedium);
             border-radius: var(--xxs);
             margin: var(--xs) 0;
-            padding: var(--xs);
+            padding: var(--l);
             position: relative;
 
             &::before {
@@ -494,49 +504,51 @@
     }
 
     .pic-main-container {
-        margin-top: 6.5rem
-    }
-
-    .pic-main-empty {
-        background: var(--greyLight);
-        border: none;
-        box-shadow: none;
+        margin-top: 68px
     }
 
     .pic-aside-item.selected {
-        border-left: var(--xs) solid var(--main);
         padding-left: var(--xs);
+        text-decoration: underline !important;
+        margin-left: -4px;
     }
 
     .pic-field-title {
-        font-family: knile;
+        font-family: argesta;
         font-size: 1.2rem;
     }
 
     .pic-tabs {
-        box-shadow: 0 0 8px var(--grey);
-        background: url("/inspiration-geometry.png");
-        background-color: #f8f8f8;
         padding: var(--s);
         display: flex;
         color: var(--greyDark);
+        background: var(--white);
+        border-bottom: var(--xs) var(--main) solid;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 100;
+        font-size: var(--m);
+        align-items: center;
+
+        .v-input__details {
+            display: none;
+        }
 
         .v-slide-group__content {
             align-items: center;
         }
 
         a {
-            font-size: 1rem;
-
+            color: var(--black);
+            font-family: silka, sans;
+            font-weight: 200;
         }
 
         img {
             margin: 0 var(--m) 0 var(--xxs);
+            height: var(--xl);
         }
 
         ul {
@@ -547,10 +559,6 @@
 
         li::before {
             content: none;
-        }
-
-        .v-tabs--density-default {
-            height: 55px;
         }
 
         .v-input__control {
@@ -573,7 +581,7 @@
             background: var(--bgLight);
             border-radius: var(--xxs);
             padding: var(--xs) var(--m);
-            border: var(--4xs) solid var(--greyDark);
+            border: var(--xxs) solid var(--greyDark);
         }
 
         &__text {
@@ -638,11 +646,9 @@
 
     .pic-sortable-handle {
         fill: var(--secondaryDark);
-        background: var(--secondary);
-        color: var(--secondaryLight);
+        color: var(--black);
         font-size: 1.5rem;
-        padding: 15px 0;
-        margin: -21px 0;
+        margin: -21px;
 
         &__category {
             margin: 0;
@@ -664,12 +670,17 @@
     }
 
     .pic-model--field {
-        border: 1px dashed var(--greyDark);
+        border-bottom: 3px solid var(--greyLight);
         border-top: none;
+        margin: var(--s) 0;
+
+        &__selected {
+            padding: var(--xl);
+            border-left: 2px var(--greyMedium) solid;
+        }
     }
 
     .pic-model--field:first-of-type {
-        border-top: 1px dashed var(--greyDark);
         margin-top: var(--m);
     }
 
@@ -692,6 +703,35 @@
     .pic-image-upload-form {
         text-align: right;
         margin-bottom: 1rem;
+    }
+
+    .v-btn {
+        text-transform: none;
+        border-radius: 0;
+
+    }
+
+    .pic-editable-container {
+        display: flex;
+        align-items: center;
+        margin-top: var(--xl);
+    }
+
+    .edit-field-type-name {
+        margin-bottom: var(--l);
+        font-size: var(--m);
+
+        span {
+            font-weight: 600;
+        }
+
+        .pic-button--text {
+            margin-left: var(--s);
+        }
+    }
+
+    .v-label, v-field {
+        font-size: 16px;
     }
 }
 

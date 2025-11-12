@@ -31,12 +31,12 @@ export const adminRoutes: RouteRecordRaw[] = [
                 children:
                     [
                         {
-                            name: 'model',
+                            name: 'data-model',
                             path: ':modelId',
                             component: modelEdit
                         },
                         {
-                            name: 'content',
+                            name: 'data-content',
                             path: ':modelId/content/:contentId?',
                             component: contentEdit
                         },

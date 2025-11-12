@@ -181,9 +181,10 @@ function sendForm(newStatus ?: ModelContent['status']) {
         :model-value="createdDate.getHours()"
         label="Hour"
         type="number"
+        variant="outlined"
         @update:model-value="setHours($event as unknown as number)"
       />
-      <v-select
+      <VSelect
         v-model="form.categories"
         :items="filteredCategories"
         :multiple="true"
@@ -191,27 +192,32 @@ function sendForm(newStatus ?: ModelContent['status']) {
         item-title="label"
         item-value="id"
         label="category"
+        variant="outlined"
       />
-      <v-select v-model="currentModelContent.status" :items="possibleStatus"/>
+      <VSelect
+        v-model="currentModelContent.status"
+        :items="possibleStatus"
+        variant="outlined"
+      />
       <div class="pic-flex pic-between">
-        <v-btn :disabled="v$.$invalid" color="primary" data-testid="content-save" @click="sendForm()">
+        <VBtn :disabled="v$.$invalid" color="primary" data-testid="content-save" @click="sendForm()">
           Save
-        </v-btn>
-        <v-btn
+        </VBtn>
+        <VBtn
           v-if="modelContent"
           color="secondary"
           @click.stop="router.push({params: {contentId: ''}})"
         >
           Cancel
-        </v-btn>
-        <v-btn
+        </VBtn>
+        <VBtn
           v-if="modelContent"
           color="secondary"
           variant="text"
           @click.stop="sendForm('deleted')"
         >
           delete
-        </v-btn>
+        </VBtn>
       </div>
     </div>
   </div>

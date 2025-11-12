@@ -55,6 +55,12 @@ if (props.isEdit) {
 </script>
 <template>
   <label>
-    <VTextField v-model="state.text" :label="fieldParams.label" :name="fieldParams.name" data-testid="text-field" />
+    <VTextField
+      v-model="state.text"
+      :label="fieldParams.label"
+      :name="fieldParams.name"
+      data-testid="text-field"
+      variant="outlined"
+    />
   </label>
 </template>

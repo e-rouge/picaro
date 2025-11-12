@@ -150,135 +150,152 @@ const v$ = useVuelidate(rules, form)
 
 </script>
 <template>
-  <div
-    v-if="!isEdited && !isNew"
-    class="pic-model-field-summary"
-    data-testid="created-model-field"
-  >
-    <button
-      class="pic-button--text"
-      data-testid="edit-model-field-button"
-      @click="editField"
+  <div :class="{'pic-model--field__selected': isEdited || isNew}">
+    <div
+      v-if="!isEdited && !isNew"
+      class="pic-model-field-summary"
+      data-testid="created-model-field"
     >
-      Edit
-    </button>
-    <strong>{{ fieldData.type }}</strong>
-
-    {{ existingFieldData.name }}
-
-    <span class="pic-sortable-handle">
-      <v-icon>mdi-drag</v-icon>
-    </span>
-  </div>
-  <template v-if="isEdited">
-    <h3 data-testid="add-title">
-      Add field:
-    </h3>
-
-    <v-btn
-      class="mb-8"
-      color="secondary"
-      @click="cancelEdit"
-    >
-      Cancel edit
-    </v-btn>
-    <v-select
-      v-show="!isFieldSelected"
-      v-model="fieldData.type"
-      :items="fieldType"
-      data-testid="select-model-field"
-      item-title="name"
-      item-value="type"
-      placeholder="select a field"
-      @update:modelValue="isFieldSelected = fieldData.type !== null"
-    />
-    <div v-if="isFieldSelected">
-      <strong>
-        <span>{{ fieldData.type }}</span>
-      </strong>
-      <button class="pic-button--text" @click="savedFieldType = fieldData.type; isFieldSelected = false">
-        Change
-      </button>
-    </div>
-    <span v-if="isFieldSelected" data-testid="edit-field-selected">
-      <v-text-field
-        v-model="form.label"
-        :validation="v$.label"
-        aria-required="true"
-        data-testid="field-label"
-        label="Label *"
-      />
-      <v-text-field
-        v-model="form.name"
-        :validation="v$.name"
-        aria-required="true"
-        data-testid="field-name"
-        label="Name *"
-      />
-      <v-text-field
-        v-if="fieldData.type && !typeParams[fieldData.type]?.hideTemplate"
-        v-model="form.template"
-        :validation="v$.template"
-        label="template (or HTML tag)"
-      />
-
-      <v-text-field
-        v-model.trim="fieldData.attributes"
-        label="Attributes"
-      />
-
-      <v-checkbox
-        v-model="fieldData.required"
-        label="required"
-        type="checkbox"
-      />
-      <v-checkbox
-        v-model="hidden"
-        label="hidden"
-        type="checkbox"
-      />
-      <v-text-field
-        v-if="fieldData.type && !typeParams[fieldData.type]?.hideRegex"
-        v-model="fieldData.regex"
-        label="Regex"
-      />
-      <component
-        :is="typeParams[fieldData.type].component"
-        v-if="fieldData.type && typeParams[fieldData.type]?.component"
-        :extraParams="fieldData.extraParams"
-        @updateParams="fieldData.extraParams = $event"
-      />
-      <v-btn
-        v-if="modelFormState === 'editingField'"
-        :disabled="v$.$invalid"
-        data-testid="save-model-field-button"
-        @click="saveEdit"
+      <button
+        class="pic-button--text"
+        data-testid="edit-model-field-button"
+        @click="editField"
       >
-        Save
-      </v-btn>
-      <div class="pic-flex pic-between">
-        <v-btn
-          v-if="modelFormState === 'addingField'"
-          :disabled="v$.$invalid"
-          color="primary"
-          data-testid="add-field-button"
-          @click="addField"
-        >
-          Add field to model
-        </v-btn>
+        Edit
+      </button>
+      <strong>{{ fieldData.type }}</strong>
 
+      {{ existingFieldData.name }}
 
-        <v-btn
-          v-if="modelFormState === 'editingField'"
-          class="pic-button--text"
-          data-testid="delete-model-field-button"
-          @click="deleteField"
-        >
-          delete
-        </v-btn>
+      <span class="pic-sortable-handle">
+        <v-icon>mdi-drag</v-icon>
+      </span>
+    </div>
+    <template v-if="isEdited">
+      <v-select
+        v-show="!isFieldSelected"
+        v-model="fieldData.type"
+        :items="fieldType"
+        append-icon="mdi-close"
+        data-testid="select-model-field"
+        item-title="name"
+        item-value="type"
+        label="Field type"
+        placeholder="select a field"
+        variant="outlined"
+        @click:append="isFieldSelected = true"
+        @update:modelValue="isFieldSelected = fieldData.type !== null"
+      />
+      <div v-if="isFieldSelected" class="edit-field-type-name">
+        type:
+        <strong>
+          <span>{{ fieldData.type }}</span>
+        </strong>
+        <button class="pic-button--text" @click="savedFieldType = fieldData.type; isFieldSelected = false">
+          Change
+        </button>
       </div>
-    </span>
-  </template>
+      <span v-if="isFieldSelected" data-testid="edit-field-selected">
+        <v-text-field
+          v-model="form.label"
+          :validation="v$.label"
+          aria-required="true"
+          data-testid="field-label"
+          density="compact"
+          label="Label *"
+          variant="outlined"
+        />
+        <v-text-field
+          v-model="form.name"
+          :validation="v$.name"
+          aria-required="true"
+          data-testid="field-name"
+          density="compact"
+          label="Name *"
+          variant="outlined"
+        />
+        <v-text-field
+          v-if="fieldData.type && !typeParams[fieldData.type]?.hideTemplate"
+          v-model="form.template"
+          :validation="v$.template"
+          density="compact"
+          label="template (or HTML tag)"
+          variant="outlined"
+        />
+
+        <v-text-field
+          v-model.trim="fieldData.attributes"
+          density="compact"
+          label="Attributes"
+          variant="outlined"
+        />
+
+        <v-checkbox
+          v-model="fieldData.required"
+          density="compact"
+          label="required"
+          type="checkbox"
+        />
+        <v-checkbox
+          v-model="hidden"
+          density="compact"
+          label="hidden"
+          type="checkbox"
+        />
+        <v-text-field
+          v-if="fieldData.type && !typeParams[fieldData.type]?.hideRegex"
+          v-model="fieldData.regex"
+          density="compact"
+          label="Regex"
+        />
+        <component
+          :is="typeParams[fieldData.type].component"
+          v-if="fieldData.type && typeParams[fieldData.type]?.component"
+          :extraParams="fieldData.extraParams"
+          @updateParams="fieldData.extraParams = $event"
+        />
+        <div class="pic-flex pic-between">
+          <v-btn
+            v-if="modelFormState === 'editingField'"
+            :disabled="v$.$invalid"
+            color="primary"
+            data-testid="save-model-field-button"
+            @click="saveEdit"
+          >
+            Save
+          </v-btn>
+          <v-btn
+            class="mb-8"
+            color="secondary"
+            @click="cancelEdit"
+          >
+            Cancel edit
+          </v-btn>
+          <v-btn
+            v-if="modelFormState === 'editingField'"
+            class="pic-button--text"
+            data-testid="delete-model-field-button"
+            variant="text"
+            @click="deleteField"
+          >
+            delete
+          </v-btn>
+        </div>
+
+        <div class="pic-flex pic-between">
+          <v-btn
+            v-if="modelFormState === 'addingField'"
+            :disabled="v$.$invalid"
+            color="primary"
+            data-testid="add-field-button"
+            @click="addField"
+          >
+            Add field to model
+          </v-btn>
+        </div>
+      </span>
+    </template>
+  </div>
 </template>
 <style scoped>
 

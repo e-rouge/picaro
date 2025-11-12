@@ -30,6 +30,6 @@
     "globals": "^15.14.0",
     "recommended": "link:@vue/typescript/recommended",
     "rimraf": "^6.0.1",
-    "typescript-eslint": "^8.46.0"
+    "typescript-eslint": "^8.46.4"
   }
 }

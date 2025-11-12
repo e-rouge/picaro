@@ -171,8 +171,4 @@ watch(() => route.params.modelId, (newVal) => {
   </div>
 </template>
 <style lang="postcss" scoped>
-.selected {
-  border: 4px solid var(--main);
-}
-
 </style>

@@ -23,10 +23,11 @@ const extraParams = ref<ExtraParams>(props.extraParams ?? {showFull: false})
 <template>
   <VCheckbox
     v-model="extraParams.showFull"
+    density="compact"
     label="show full image on click"
     type="checkbox"
   />
-  <VSelect v-model="extraParams.size" :items="sizeList"/>
+  <VSelect v-model="extraParams.size" :items="sizeList" density="compact" variant="outlined"/>
 </template>
 
 <style scoped>

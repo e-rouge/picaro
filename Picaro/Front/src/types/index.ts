@@ -29,7 +29,7 @@ export type Module = {
     model?: string | null,
     type: AvailableModules,
     categories?: Category[]
-    cols?: string
+    cols?: number
     hideOnMobile?: boolean,
     inMobileMenu?: boolean,
     mobileCols?: string

@@ -185,28 +185,28 @@ function updateModelData(content: RichTextEditorJson) {
         <v-icon>mdi-format-align-right</v-icon>
       </span>
     </div>
-    <editor-content :editor="editor" class="editor-textarea" data-testid="rte-editor" />
+    <editor-content :editor="editor" class="editor-textarea" data-testid="rte-editor"/>
   </div>
 </template>
 <style scoped>
 .editor-textarea {
-  margin: var(--xs) 0;
+  margin: 0 0 var(--l) 0;
   border: 1px solid var(--greyDark);
-
+  width: 100%;
 
   :deep(.tiptap) {
+    padding: var(--xs);
+
     > * {
       padding: 0 var(--xs);
     }
 
     p:first-of-type {
       margin-top: 0;
-      padding-top: var(--xs);
     }
 
     p:last-of-type {
       margin-bottom: 0;
-      padding-bottom: var(--xs);
     }
   }
 

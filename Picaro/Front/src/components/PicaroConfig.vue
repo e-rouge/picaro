@@ -166,9 +166,9 @@ const v$ = useVuelidate(rules, form)
       data-testid="app-title"
     >
       <aside class="pic-container pic-aside" data-testid="app list">
-        <h2>
+        <h3>
           App List
-        </h2>
+        </h3>
 
         <div v-for="app in settings" :key="app.id">
           <router-link :to="{name: 'app', params: {appId: app.id}}" class="pic-button--text">
@@ -182,20 +182,28 @@ const v$ = useVuelidate(rules, form)
       </aside>
       <main class="pic-container">
         <template v-if="currentSettings && appFormState === 'selectedApp'">
-          <h2 data-testid="app-title-selected">
+          <h3 data-testid="app-title-selected">
             {{ currentSettings.applicationName }}
-          </h2>
-          <v-text-field v-model="form.title" :validation="v$.title" data-testid="title" label="Title"/>
+          </h3>
+          <v-text-field
+            v-model="form.title"
+            :validation="v$.title"
+            data-testid="title"
+            label="Title"
+            variant="outlined"
+          />
           <v-text-field
             v-model="form.applicationName"
             :validation="v$.applicationName"
             data-testid="app name"
             label="Application name"
+            variant="outlined"
           />
           <v-text-field
             v-model="currentSettings.messageTimeOut"
             :validation="v$.messageTimeOut"
             label="Message Timeout"
+            variant="outlined"
           />
           <v-select
             :items="settingsStore.allStyleSets"
@@ -203,6 +211,7 @@ const v$ = useVuelidate(rules, form)
             item-title="setName"
             item-value="id"
             label="Style Set"
+            variant="outlined"
             @update:model-value="currentSettings.styleSet = $event"
           />
           <v-checkbox
