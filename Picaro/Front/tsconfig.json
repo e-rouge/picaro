@@ -3,13 +3,16 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "strict": true,
     "jsx": "preserve",
+    "allowJs": true,
+    "checkJs": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
     "useUnknownInCatchVariables": true,
     "baseUrl": ".",
     "lib": [
@@ -52,5 +55,8 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
+  "vueCompilerOptions": {
+    "target": 3.4
+  }
 }

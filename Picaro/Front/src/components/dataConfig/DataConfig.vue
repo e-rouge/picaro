@@ -94,7 +94,7 @@ function modelFromRoute() {
 
 async function newModelForm() {
   await cancelEditModel()
-  await router.replace({name: 'model', params: {appId: route.params.appId, modelId: 'newModel'}});
+  await router.replace({name: 'data-model', params: {appId: route.params.appId, modelId: 'newModel'}});
   currentEditModel.value = undefined;
   modelFormState.value = 'awaitingName';
 }
@@ -120,30 +120,32 @@ watch(() => route.params.modelId, (newVal) => {
           {{ model.name }}
         </a>
       </div>
-      <v-btn
+      <VBtn
         color="primary"
         data-testid="new-model-button"
         @click="newModelForm"
       >
         New Model
-      </v-btn>
+      </VBtn>
     </aside>
     <main :class="{'pic-main-empty': modelFormState === 'noModel'}" class="pic-main pic-container">
-      <v-tabs v-if="modelFormState !== 'awaitingName' && modelFormState !== 'noModel'">
-        <v-tab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/`">
+      <VTabs v-if="modelFormState !== 'awaitingName' && modelFormState !== 'noModel'">
+        <VTab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/`">
           Edit Model
-        </v-tab>
-        <v-tab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/content`" data-testid="edit-content-tab">
+        </VTab>
+        <VTab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/content`"
+              data-testid="edit-content-tab">
           Edit content
-        </v-tab>
-      </v-tabs>
+        </VTab>
+      </VTabs>
       <div v-if="modelFormState === 'awaitingName'" class="pic-new-model">
-        <v-text-field
+        <VTextField
           v-model="modelNameInput"
           data-testid="create-model-name-input"
           label="New model name"
+          variant="outlined"
         />
-        <v-btn
+        <VBtn
           v-if="!currentEditModelName"
           :disabled="!modelNameInput || !modelNameIsUnique"
           color="primary"
@@ -151,7 +153,7 @@ watch(() => route.params.modelId, (newVal) => {
           @click="createNewModel"
         >
           Next
-        </v-btn>
+        </VBtn>
       </div>
       <div
         v-if="currentEditModel"

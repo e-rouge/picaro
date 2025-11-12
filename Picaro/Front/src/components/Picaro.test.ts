@@ -7,6 +7,7 @@ import {settingsStoreFixture, settingsStoreFixtureNoCurrent} from "@fixtures/sto
 vi.mock('vue-router', () => ({
     useRouter: vi.fn(),
     useRoute: () => ({
+        name: "test",
         params: {
             appId: ""
         }

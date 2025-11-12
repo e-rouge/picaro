@@ -69,7 +69,7 @@ describe("DataConfig", () => {
 
     })
     it('should display the model data', async () => {
-        await router.push({name: 'model', params: {modelId: 'modelId1'}})
+        await router.push({name: 'data-model', params: {modelId: 'modelId1'}})
 
         await router.isReady()
         await vi.waitUntil(() => wrapper.vm.modelFormState === 'modelSelected')

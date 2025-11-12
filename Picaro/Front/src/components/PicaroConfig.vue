@@ -233,19 +233,20 @@ const v$ = useVuelidate(rules, form)
           </div>
         </template>
         <template v-if="appFormState === 'newApp'">
-          <v-text-field
+          <VTextField
             v-model="newAppName"
             :validation="v$.newAppName"
             data-testid="new-app-input"
             label="App Name"
+            variant="outlined"
           />
-          <v-btn
+          <VBtn
             color="primary"
             data-testid="create app"
             @click="createApp"
           >
             Create App
-          </v-btn>
+          </VBtn>
         </template>
       </main>
     </div>

@@ -76,41 +76,41 @@ async function saveCategory() {
         Existing categories :
       </h3>
       <button
-          v-if="!editCategories"
-          class="pic-button--text pic-button--text__categories"
-          data-testid="edit-categories"
-          @click="editCategories = !editCategories"
+        v-if="!editCategories"
+        class="pic-button--text pic-button--text__categories"
+        data-testid="edit-categories"
+        @click="editCategories = !editCategories"
       >
         Edit categories
       </button>
       <VBtn
-          v-else
-          color="secondary"
-          variant="text"
-          @click="cancelEdit()"
+        v-else
+        color="secondary"
+        variant="text"
+        @click="cancelEdit()"
       >
         Cancel
       </VBtn>
       <FilterCategories
-          v-if="settingsStore.currentAppSettings && !editCategories"
-          :current-app="settingsStore.currentAppSettings"
-          :current-model-id="currentEditModel.id"
+        v-if="settingsStore.currentAppSettings && !editCategories"
+        :current-app="settingsStore.currentAppSettings"
+        :current-model-id="currentEditModel.id"
       />
       <div v-else-if="settingsStore.currentAppSettings">
         <draggable
-            v-model="settingsStore.currentAppSettings.categories"
-            ghost-class="pic-sortable-ghost"
-            handle=".pic-sortable-handle"
-            item-key="id"
+          v-model="settingsStore.currentAppSettings.categories"
+          ghost-class="pic-sortable-ghost"
+          handle=".pic-sortable-handle"
+          item-key="id"
         >
           <template #item="{element,index}">
             <div v-if="element.model === currentEditModel.id">
               <VCheckbox
-                  v-model="element.section"
-                  data-testid="separator-check"
-                  density="compact"
-                  hide-details
-                  label="Separator (non-clickable)"
+                v-model="element.section"
+                data-testid="separator-check"
+                density="compact"
+                hide-details
+                label="Separator (non-clickable)"
               />
 
               <div class="pic-flex">
@@ -118,10 +118,10 @@ async function saveCategory() {
                   <v-icon>mdi-drag</v-icon>
                 </span>
                 <v-text-field
-                    :key="element.id"
-                    v-model="element.label"
-                    append-icon="mdi-delete"
-                    @click:append="deleteCategory(index)"
+                  :key="element.id"
+                  v-model="element.label"
+                  append-icon="mdi-delete"
+                  @click:append="deleteCategory(index)"
                 />
               </div>
             </div>
@@ -140,49 +140,49 @@ async function saveCategory() {
     </VCol>
     <VCol>
       <div
-          v-if="categories.length === 0"
-          data-testid="category-warning"
+        v-if="categories.length === 0"
+        data-testid="category-warning"
       >
         <p>You must add a category first</p>
       </div>
 
       <template v-else>
         <h3
-            data-testid="new-content"
+          data-testid="new-content"
         >
           New content :
         </h3>
         <ModelForm
-            :categories="categories"
-            :current-edit-model="currentEditModel"
-            data-testid="new-content-form"
-            @reloadData="dataReloaded = !dataReloaded"
+          :categories="categories"
+          :current-edit-model="currentEditModel"
+          data-testid="new-content-form"
+          @reloadData="dataReloaded = !dataReloaded"
         />
         <div class="v-label mt-4">
           Edit existing content :
         </div>
         <div>
           <VBtn
-              v-for="status in possibleStatus"
-              :key="status"
-              :color="status === selectedStatus ? 'primary' : ''"
-              variant="text"
-              @click="selectedStatus = status"
+            v-for="status in possibleStatus"
+            :key="status"
+            :color="status === selectedStatus ? 'primary' : ''"
+            variant="text"
+            @click="selectedStatus = status"
           >
             {{ status }}
           </VBtn>
         </div>
         <DisplayList
-            v-if="settingsStore.currentAppSettings"
-            :categories="categories"
-            :current-app="settingsStore.currentAppSettings"
-            :data-reloaded="dataReloaded"
-            :display-all="true"
-            :display-status="selectedStatus"
-            :module-params="{model: currentEditModel.id, categories: [], type: 'List'}"
-            class="pic-display-edit"
-            data-testid="content-list"
-            @clickItem="editItem($event)"
+          v-if="settingsStore.currentAppSettings"
+          :categories="categories"
+          :current-app="settingsStore.currentAppSettings"
+          :data-reloaded="dataReloaded"
+          :display-all="true"
+          :display-status="selectedStatus"
+          :module-params="{model: currentEditModel.id, categories: [], type: 'List'}"
+          class="pic-display-edit"
+          data-testid="content-list"
+          @clickItem="editItem($event)"
         />
       </template>
     </VCol>

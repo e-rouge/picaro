@@ -172,7 +172,7 @@ const v$ = useVuelidate(rules, form)
       </span>
     </div>
     <template v-if="isEdited">
-      <v-select
+      <VSelect
         v-show="!isFieldSelected"
         v-model="fieldData.type"
         :items="fieldType"
@@ -196,7 +196,7 @@ const v$ = useVuelidate(rules, form)
         </button>
       </div>
       <span v-if="isFieldSelected" data-testid="edit-field-selected">
-        <v-text-field
+        <VTextField
           v-model="form.label"
           :validation="v$.label"
           aria-required="true"
@@ -205,7 +205,7 @@ const v$ = useVuelidate(rules, form)
           label="Label *"
           variant="outlined"
         />
-        <v-text-field
+        <VTextField
           v-model="form.name"
           :validation="v$.name"
           aria-required="true"
@@ -214,7 +214,7 @@ const v$ = useVuelidate(rules, form)
           label="Name *"
           variant="outlined"
         />
-        <v-text-field
+        <VTextField
           v-if="fieldData.type && !typeParams[fieldData.type]?.hideTemplate"
           v-model="form.template"
           :validation="v$.template"
@@ -223,26 +223,26 @@ const v$ = useVuelidate(rules, form)
           variant="outlined"
         />
 
-        <v-text-field
+        <VTextField
           v-model.trim="fieldData.attributes"
           density="compact"
           label="Attributes"
           variant="outlined"
         />
 
-        <v-checkbox
+        <VCheckbox
           v-model="fieldData.required"
           density="compact"
           label="required"
           type="checkbox"
         />
-        <v-checkbox
+        <VCheckbox
           v-model="hidden"
           density="compact"
           label="hidden"
           type="checkbox"
         />
-        <v-text-field
+        <VTextField
           v-if="fieldData.type && !typeParams[fieldData.type]?.hideRegex"
           v-model="fieldData.regex"
           density="compact"
@@ -255,7 +255,7 @@ const v$ = useVuelidate(rules, form)
           @updateParams="fieldData.extraParams = $event"
         />
         <div class="pic-flex pic-between">
-          <v-btn
+          <VBtn
             v-if="modelFormState === 'editingField'"
             :disabled="v$.$invalid"
             color="primary"
@@ -263,15 +263,15 @@ const v$ = useVuelidate(rules, form)
             @click="saveEdit"
           >
             Save
-          </v-btn>
-          <v-btn
+          </VBtn>
+          <VBtn
             class="mb-8"
             color="secondary"
             @click="cancelEdit"
           >
             Cancel edit
-          </v-btn>
-          <v-btn
+          </VBtn>
+          <VBtn
             v-if="modelFormState === 'editingField'"
             class="pic-button--text"
             data-testid="delete-model-field-button"
@@ -279,11 +279,11 @@ const v$ = useVuelidate(rules, form)
             @click="deleteField"
           >
             delete
-          </v-btn>
+          </VBtn>
         </div>
 
         <div class="pic-flex pic-between">
-          <v-btn
+          <VBtn
             v-if="modelFormState === 'addingField'"
             :disabled="v$.$invalid"
             color="primary"
@@ -291,7 +291,7 @@ const v$ = useVuelidate(rules, form)
             @click="addField"
           >
             Add field to model
-          </v-btn>
+          </VBtn>
         </div>
       </span>
     </template>

@@ -77,13 +77,11 @@ describe("ModelField", () => {
         expect(wrapper.vm.isEdited).toBe(true)
         expect(wrapper.vm.isFieldSelected).toBe(true)
         expect(checkVisible([
-            'add-title',
             'edit-field-selected',
             // not visible
             'edit-model-field-button',
         ], wrapper)).toEqual(
             [
-                true,
                 true,
                 false
             ])
@@ -104,13 +102,11 @@ describe("ModelField", () => {
 
         expect(wrapper.vm.isFieldSelected).toBe(false)
         expect(checkVisible([
-            'add-title',
             // not visible
             'edit-field-selected',
             'edit-model-field-button',
         ], wrapper)).toEqual(
             [
-                true,
                 false,
                 false
             ])

@@ -160,23 +160,24 @@ function openMobile(index: number) {
 function resizeOn(event: MouseEvent, column: Module) {
   getDistanceFromLeft(event)
   selectedColumn.value = column
+  // @ts-ignore
   addEventListener("mousemove", handleResize)
 }
 
 function handleResize(event: MouseEvent) {
   if (selectedColumn.value) {
-    // there's a bug with MouseEvent
-    selectedColumn.value.cols = Math.floor((((event as unknown as MouseEvent).clientX + 100) / (screenWidth / 12))) - selectedContainerDistance.value
+    selectedColumn.value.cols = Math.floor(((event.clientX + 100) / (screenWidth / 12))) - selectedContainerDistance.value
   }
 }
 
 function resizeOff() {
   selectedColumn.value = null
+  // @ts-ignore
   window.removeEventListener("mousemove", handleResize)
 }
 
 function getDistanceFromLeft(event: MouseEvent) {
-  const distance: number = (event.target as HTMLElement).closest(".pic-container").getBoundingClientRect().x
+  const distance: number = (event.target as HTMLElement).closest(".pic-container")?.getBoundingClientRect().x || 1
   selectedContainerDistance.value = Math.floor(distance / (screenWidth / 12))
 }
 </script>

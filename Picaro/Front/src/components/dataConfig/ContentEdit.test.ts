@@ -75,7 +75,7 @@ describe('ContentEdit', () => {
     it('should display the edited version of items', async () => {
         await vi.waitUntil(() => wrapper.find('[data-testid="content-display"]'))
 
-        await router.push({name: 'content', params: {modelId: 'modelId1', 'appId': 'id'}})
+        await router.push({name: 'data-content', params: {modelId: 'modelId1', 'appId': 'id'}})
 
         await router.isReady()
 
@@ -84,6 +84,7 @@ describe('ContentEdit', () => {
         wrapper.vm.editItem(0)
 
         await vi.waitUntil(() => wrapper.vm.$route.params.contentId !== undefined)
+
         expect(wrapper.vm.$route.path).toBe("/admin/data/id/modelId1/content/0")
 
         await wrapper.vm.$nextTick()
