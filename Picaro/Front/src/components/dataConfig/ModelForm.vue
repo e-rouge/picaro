@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, defineProps, reactive, ref, shallowRef} from "vue";
+import {computed, reactive, ref, shallowRef} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {Category, FieldContentParams, FieldParams, Model, ModelContent, ModelContentStatus} from "@types";
 import TextLine from "@components/dataConfig/fields/TextLine.vue";

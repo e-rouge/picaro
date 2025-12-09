@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, defineEmits, defineProps, ref} from "vue";
+import {computed, ref} from "vue";
 import type {FieldParams} from "@types";
 import {picFetch} from "@utils/api";
 

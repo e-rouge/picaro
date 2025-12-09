@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ModelForm from "./ModelForm.vue"
-import {computed, defineEmits, defineProps, ref} from "vue";
+import {computed, ref} from "vue";
 import {Category, Model, ModelContent, Settings} from "@types";
 import DisplayList from "@components/display/DisplayList.vue";
 import FilterCategories from "@components/filters/FilterCategories.vue";
