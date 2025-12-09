@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type {AvailableModules, Category, Model, Module} from "@types";
+import type {AvailableModules, Category, Model, Module, ModuleEditParams} from "@types";
 import {computed, reactive, ref} from "vue";
 import {updateSettings} from "@components/utils/api";
 import {useUtilsStore} from "@stores/utils";
@@ -7,16 +7,9 @@ import {useSettingsStore} from "@stores/settings";
 import LayoutImage from "@components/layout/LayoutImage.vue";
 import LayoutVideo from "@components/layout/LayoutVideo.vue";
 import {HTMLElement, MouseEvent} from "happy-dom";
+import {pluginLayoutModules} from "@plugins/modules/pluginModules.ts";
 
 const utilsStore = useUtilsStore()
-
-type ModuleEditParams = {
-  name: string
-  commonOnly?: boolean,
-  hideModel?: boolean,
-  hideCategories?: boolean
-  component?: unknown
-}
 
 const utilStore = useUtilsStore()
 const settingsStore = useSettingsStore();
@@ -42,7 +35,7 @@ const modelCollection = computed<Model[]>(() => {
   return settingsStore.currentAppSettings?.modelCollection ?? []
 });
 
-const components: ModuleEditParams[] = [
+const nativeComponents: ModuleEditParams[] = [
   {
     name: "List"
   },
@@ -86,6 +79,8 @@ const components: ModuleEditParams[] = [
     hideCategories: true
   }
 ];
+
+const components = nativeComponents.concat(pluginLayoutModules)
 
 const filteredComponents = computed(() => {
   return components.filter(item => !props.dynamic || props.dynamic && !item.commonOnly)
@@ -230,7 +225,7 @@ function getDistanceFromLeft(event: MouseEvent) {
               <span>Settings</span>
             </VBtn>
             <VBtn
-              v-if="!filteredComponentsParams[layoutColumn.type].hideModel && !filteredComponentsParams[layoutColumn.type].hideCategories"
+              v-if="!filteredComponentsParams[layoutColumn.type].hideModel || !filteredComponentsParams[layoutColumn.type].hideCategories"
               data-testid="content-button"
               variant="outlined"
               @click="openDataConfig(subIndex)"
@@ -266,7 +261,6 @@ function getDistanceFromLeft(event: MouseEvent) {
                         min="0"
                         type="number"/>
           </div>
-
           <div v-if="showData === subIndex">
             <VSelect
               v-if="!filteredComponentsParams[layoutColumn.type].hideModel"
@@ -322,9 +316,8 @@ function getDistanceFromLeft(event: MouseEvent) {
           </div>
         </div>
       </VCol>
-      <div class="pic-layout--add-row__inner">
+      <div v-if="layoutCollection.length > 1" class="pic-layout--add-row__inner">
         <div
-          v-if="layoutCollection.length > 1"
           data-testid="add-row-inner"
           @click="addRow(index)"
         >

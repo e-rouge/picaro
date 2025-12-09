@@ -30,9 +30,9 @@ const ratio = computed(() => {
 </script>
 
 <template>
-  <v-container class="pic-content-container">
-    <v-row class="reset-margin-bottom">
-      <v-col class="pa-0 rf-ratio-text-container" cols="8">
+  <VContainer class="pic-content-container">
+    <VRow class="reset-margin-bottom">
+      <VCol class="pa-0 rf-ratio-text-container" cols="8">
         <template v-for="(data, tag) in styleSet.ratioCollection">
           <div
             v-if="tag !== 'html'"
@@ -51,61 +51,68 @@ const ratio = computed(() => {
         >
           Size for base text
         </div>
-      </v-col>
-      <v-col v-if="selectedTag" class="pa-0" cols="4">
-        <v-text-field
+      </VCol>
+      <VCol v-if="selectedTag" class="pa-0" cols="4">
+        <VTextField
           v-model="styleSet.ratioCollection[selectedTag]['font-size']"
           data-jest="ratio-fs"
           label="Font size"
           step="0.1"
           type="number"
+          variant="outlined"
           @update:modelValue="emit('reloadSettings')"
         />
-        <v-text-field
+        <VTextField
           v-model="styleSet.ratioCollection[selectedTag]['line-height']"
           data-jest="ratio-lh"
           label="Line height"
           step="0.1"
           type="number"
+          variant="outlined"
+
           @update:modelValue="emit('reloadSettings')"
         />
-        <v-text-field
+        <VTextField
           v-model="styleSet.ratioCollection[selectedTag]['margin-bottom']"
           data-jest="ratio-mb"
           label="Margin bottom"
           step="0.1"
           type="number"
+          variant="outlined"
           @update:modelValue="emit('reloadSettings')"
         />
-        <v-text-field
+        <VTextField
           v-model="styleSet.ratioCollection[selectedTag]['margin-top']"
           data-jest="ratio-mt"
           label="Margin top"
           step="0.1"
           type="number"
+          variant="outlined"
           @update:modelValue="emit('reloadSettings')"
         />
         Ratio header height / base height : {{ ratio }}
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-text-field
+      </VCol>
+    </VRow>
+    <VRow class="mt-8">
+      <VTextField
         v-model="styleSet.ratioCollection.html['font-size']"
         data-jest="main-font-size"
         label="font-size"
         type="number"
+        variant="outlined"
         @update:modelValue="emit('reloadSettings')"
       />
-      <v-text-field
+      <VTextField
         v-model="styleSet.ratioCollection.html['line-height']"
         data-jest="main-line-height"
         label="line height"
         step="1"
         type="number"
+        variant="outlined"
         @update:modelValue="emit('reloadSettings')"
       />
-    </v-row>
-  </v-container>
+    </VRow>
+  </VContainer>
 </template>
 
 <style scoped>

@@ -29,8 +29,14 @@
       "@utils": [
         "./Picaro/utils"
       ],
+      "@plugins": [
+        "./plugins"
+      ],
       "@libs/*": [
         "./Picaro/Libs"
+      ],
+      "@api/*": [
+        "./Picaro/Front/utils/api"
       ],
       "@data/*": [
         "./Picaro/Data"

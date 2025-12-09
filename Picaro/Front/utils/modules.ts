@@ -6,8 +6,9 @@ import DisplayPreview from "@components/display/DisplayPreview.vue";
 import FilterSingle from "@components/filters/FilterSingle.vue";
 import SingleImageDisplay from "@components/display/SingleImageDisplay.vue";
 import VideoDisplay from "@components/display/VideoDisplay.vue";
+import {pluginDisplayModules} from "@plugins/modules/pluginModules.ts";
 
-export const availableModules: Record<AvailableModules, any> = {
+const nativeModules: Record<AvailableModules, any> = {
     FilterLayout: "FilterLayout",
     FilterLink: "FilterLink",
     List: DisplayList,
@@ -20,3 +21,7 @@ export const availableModules: Record<AvailableModules, any> = {
     Video: VideoDisplay
 } as const
 
+
+export const availableModules = {...nativeModules, ...pluginDisplayModules}
+
+console.log(availableModules)

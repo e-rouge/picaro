@@ -82,15 +82,17 @@ function deleteLayout() {
     >
       <template v-if="!isNewLayout">
         <div class="layout-selector-container">
-          <v-select
+          <VSelect
             v-if="layoutCollection?.length > 0"
             v-model="selectedEditLayout"
             :items="layoutCollection"
+            class="mr-4"
             item-title="name"
             item-value="id"
             label="Choose a Layout to edit"
+            variant="outlined"
           />
-          <v-select
+          <VSelect
             v-if="layoutCollection.length > 0"
             v-model="defaultLayout"
             :items="layoutCollection"
@@ -98,6 +100,7 @@ function deleteLayout() {
             item-title="name"
             item-value="id"
             label="Default Layout (index)"
+            variant="outlined"
             @update:model-value="settingsStore.currentAppSettings.defaultLayout = $event"
           />
           <VTextField
@@ -105,6 +108,7 @@ function deleteLayout() {
             class="order ml-4"
             label="order"
             type="number"
+            variant="outlined"
           />
         </div>
 
@@ -180,15 +184,13 @@ function deleteLayout() {
 
   &-layout-settings {
     margin: var(--s) !important;
-    background: var(--bgLight) !important;
+    border: 1px solid var(--main) !important;
+    background: var(--greyLight);
     border-color: var(--main) !important;
 
+    a
     .layout-selector-container {
       display: flex;
-    }
-
-    .default-layout {
-      border-top: var(--main) 1px solid;
     }
 
     .v-select {

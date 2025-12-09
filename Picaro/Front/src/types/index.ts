@@ -223,3 +223,12 @@ export type ModelContentStatus = 'deleted' | 'archived' | 'draft' | 'published'
 export type Hue = { hue: number, saturation: number, light: number }
 
 export type ModelState = "noModel" | "awaitingName" | "modelSelected" | "addingField" | "editingField"
+
+export type ModuleEditParams = {
+    name: string
+    commonOnly?: boolean
+    hideModel?: boolean
+    hideCategories?: boolean
+    component?: unknown
+    plugin?: boolean
+}

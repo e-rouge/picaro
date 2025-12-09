@@ -31,6 +31,9 @@
       "@types": [
         "./../Types"
       ],
+      "@plugins": [
+        "./../../plugins"
+      ],
       "@data": [
         "./../Data"
       ]

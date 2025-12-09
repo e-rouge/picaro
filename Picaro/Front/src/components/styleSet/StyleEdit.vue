@@ -150,12 +150,13 @@ async function save() {
   <div class="pt-4">
     <div>
       <div class="pic-container">
-        <v-select
+        <VSelect
           v-if="settingsStore.allStyleSets.length > 0"
           :items="settingsStore.allStyleSets"
           item-title="setName"
           item-value="id"
           label="Select style"
+          variant="outlined"
           @update:modelValue="setStyle"
         />
         <v-btn v-if="!settingsStore.currentStyleSet" color="primary" @click="createNewStyle">
@@ -166,11 +167,15 @@ async function save() {
       <template v-if="settingsStore.currentStyleSet">
         <div class="pic-container">
           <h3>Style name</h3>
-          <v-text-field v-model="settingsStore.currentStyleSet.setName" label="Style Name"/>
+          <VTextField
+            v-model="settingsStore.currentStyleSet.setName"
+            label="Style Name"
+            variant="outlined"
+          />
         </div>
-        <v-btn @click="refreshLiveStyle">
+        <VBtn @click="refreshLiveStyle">
           Refresh style
-        </v-btn>
+        </VBtn>
         <div class="pic-font-fix pic-container">
           <FontEdit @reload-settings="refreshLiveStyle()"/>
         </div>
@@ -179,12 +184,12 @@ async function save() {
         </div>
         <div class="pic-container pic-live-style">
           <RatioEdit @reload-settings="refreshLiveStyle()"/>
-          <v-btn color="primary" @click="save()">
+          <VBtn color="primary" @click="save()">
             Save Style
-            <v-icon class="ml-2">
+            <VIcon class="ml-2">
               mdi-content-save
-            </v-icon>
-          </v-btn>
+            </VIcon>
+          </VBtn>
         </div>
       </template>
     </div>

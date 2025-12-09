@@ -43,30 +43,33 @@ const getFontList = computed(() => {
 
 </script>
 <template>
-  <v-row>
-    <v-col cols="6">
-      <v-select
+  <VRow>
+    <VCol cols="6">
+      <VSelect
         v-model="font.origin"
         :items="fontOrigin"
         density="compact"
         label="Font Origin"
+        variant="outlined"
       />
-    </v-col>
-    <v-col cols="6">
-      <v-combobox
+    </VCol>
+    <VCol cols="6">
+      <VCombobox
         :items="getFontList"
         :label="`Font ${type}`"
         :model-value="font.font"
         density="compact"
         item-title="family"
+        variant="outlined"
         @update:modelValue="font.font = $event; emit('reloadSettings')"
       />
 
-      <v-select
+      <VSelect
         v-if="settingsStore.currentStyleSet[`fontFamily${type}`].origin === 'google'"
         v-model="googleFontCategories"
         :items="getGoogleFontType"
+        variant="outlined"
       />
-    </v-col>
-  </v-row>
+    </VCol>
+  </VRow>
 </template>

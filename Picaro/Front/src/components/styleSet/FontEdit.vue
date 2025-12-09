@@ -40,12 +40,12 @@ const fontType = ['Title', 'Main', 'Alt']
 
 <template>
   <div class="pic-live-style">
-    <v-row
+    <VRow
       v-for="type in fontType"
       :key="type"
       class="pic-font-example"
     >
-      <v-col cols="8">
+      <VCol cols="8">
         <FontSelectForm
           v-if="localFonts.length > 0 && googleFonts.length > 0"
           :get-google-font-type="getGoogleFontType"
@@ -55,15 +55,15 @@ const fontType = ['Title', 'Main', 'Alt']
           @fontType="fontTypeGoogle = $event"
           @reload-settings="emit('reloadSettings')"
         />
-      </v-col>
-      <v-col cols="4">
+      </VCol>
+      <VCol cols="4">
         <div :key="type" :class="`pic-font-${type.toLowerCase()}`">
           <component :is="type === 'Title' ? 'h2' : 'span'">
             lorem ipsum dolor sit amet
           </component>
         </div>
-      </v-col>
-    </v-row>
+      </VCol>
+    </VRow>
   </div>
 </template>
 <style>

@@ -39,6 +39,9 @@
       "@data": [
         "./../Data"
       ],
+      "@plugins/*": [
+        "./../../plugins/*"
+      ],
       "@fixtures/*": [
         "./fixtures/*"
       ]
