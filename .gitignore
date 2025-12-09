@@ -15,6 +15,7 @@ Picaro/Tests/js/*
 Picaro/Tests/index.html
 Picaro/Tests/jest-results.json
 picaroSettings.json
+plugins
 
 coverage
 Picaro/Data
