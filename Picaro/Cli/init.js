@@ -15,9 +15,9 @@ if (!fs.existsSync(path.join(__dirname, "../Back/picaro-back.json"))) {
     )
 }
 
-if (!fs.existsSync(path.join(__dirname, "../../plugins/pluginModules.ts"))) {
+if (!fs.existsSync(path.join(__dirname, "../../plugins/modules/pluginModules.ts"))) {
     fs.copyFileSync(
-        path.join(__dirname, "../../plugins/pluginModules.ts.sample"),
-        path.join(__dirname, "../../plugins/pluginModules.ts"),
+        path.join(__dirname, "../../plugins/modules/pluginModules.ts.sample"),
+        path.join(__dirname, "../../plugins/modules/pluginModules.ts"),
     )
 }
