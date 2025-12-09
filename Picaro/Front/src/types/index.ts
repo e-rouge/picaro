@@ -33,7 +33,7 @@ export type Module = {
     hideOnMobile?: boolean,
     inMobileMenu?: boolean,
     mobileCols?: string
-    // @ts-ignore
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     content?: any
 }
 
