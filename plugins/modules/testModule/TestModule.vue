@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {ModelContent} from "@types";
+import {ModelContent, Settings} from "@types";
 import {picFetch} from "@api";
 
 const props = defineProps<{
   moduleParams: any
-  currentApp: string
+  currentApp: Settings
 }>()
 
 function getData() {

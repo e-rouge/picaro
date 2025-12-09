@@ -24,6 +24,9 @@
       "@components/*": [
         "./src/components/*"
       ],
+      "@api": [
+        "./utils/api"
+      ],
       "@utils/*": [
         "./utils/*"
       ],
@@ -39,8 +42,8 @@
       "@data": [
         "./../Data"
       ],
-      "@plugins/*": [
-        "./../../plugins/*"
+      "@plugins/modules/*": [
+        "./../../plugins/modules/*"
       ],
       "@fixtures/*": [
         "./fixtures/*"

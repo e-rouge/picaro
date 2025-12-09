@@ -33,7 +33,8 @@ export type Module = {
     hideOnMobile?: boolean,
     inMobileMenu?: boolean,
     mobileCols?: string
-    content?: string | SingleImageParams
+    // @ts-ignore
+    content?: any
 }
 
 export type AvailableModulesComponentList = Record<AvailableModules, string>
