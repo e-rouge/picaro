@@ -124,7 +124,7 @@ watch(() => route.params.modelId, (newVal) => {
         <a :class="{selected: model.id === route.params.modelId}" class="pic-aside-item" @click="selectModel(model)">
           {{ model.name }}
         </a>
-        <a class="content-link" @click="selectModel(model, true)">
+        <a class="content-link" data-testid="content-link" @click="selectModel(model, true)">
           content
         </a>
       </div>

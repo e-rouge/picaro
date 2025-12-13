@@ -65,7 +65,7 @@ test('Creates and edit categories', async ({page}) => {
 
     await page.getByText('model test').first().click()
 
-    await page.getByTestId('edit-content-tab').click()
+    await page.getByTestId('content-link').click()
 
     await page.getByTestId('edit-categories').click()
 
@@ -88,7 +88,7 @@ test('Creates and edit content', async ({page}) => {
 
     await page.getByText('model test').first().click()
 
-    await page.getByTestId('edit-content-tab').click()
+    await page.getByTestId('content-link').click()
 
     await page.getByTestId('rte-editor').getByRole('textbox').fill('test rte content')
 

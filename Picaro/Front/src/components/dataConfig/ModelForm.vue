@@ -158,7 +158,6 @@ function sendForm(newStatus ?: ModelContent['status']) {
   )
 }
 
-console.log(props.currentEditModel.fieldCollection[2].type)
 </script>
 <template>
   <div>
