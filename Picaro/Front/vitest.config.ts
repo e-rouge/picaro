@@ -20,6 +20,7 @@ export default defineConfig({
             {find: "@utils", replacement: resolve(__dirname, "./utils")},
             {find: "/images", replacement: resolve(__dirname, "../../static/images")},
             {find: '@uploads', replacement: resolve(__dirname, './../Back/uploads')},
+            {find: '@api', replacement: resolve(__dirname, './utils/api')},
         ]
     },
     plugins: [vue(), tsconfigPaths()]

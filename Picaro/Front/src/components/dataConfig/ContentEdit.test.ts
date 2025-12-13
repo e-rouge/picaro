@@ -66,8 +66,7 @@ describe('ContentEdit', () => {
             ])
     })
     it('should display existing content', () => {
-
-
+        
         const contentList = wrapper.findAll('[data-testid="content-list"]')
 
         expect(contentList.length).toBe(1)
