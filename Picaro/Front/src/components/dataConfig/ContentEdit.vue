@@ -193,4 +193,8 @@ async function saveCategory() {
 .pic-button--text__categories {
   margin-bottom: var(--m);
 }
+
+:deep(.pic-filter-categories) {
+  margin: var(--s) 0;
+}
 </style>

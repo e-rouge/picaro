@@ -4,6 +4,8 @@ import {FieldContentParams, Model, Module} from "@types";
 import {computed, shallowRef} from "vue";
 import ImageField from "@components/dataConfig/formElements/display/ImageField.vue";
 import VideoEmbed from "@components/dataConfig/formElements/display/VideoEmbed.vue";
+import NumberField from "@components/dataConfig/fields/NumberField.vue";
+import MultiLineField from "@components/dataConfig/fields/MultiLineField.vue";
 
 const props = defineProps<{
   fieldContent: FieldContentParams
@@ -42,7 +44,9 @@ richTextComponent()
             richText: component.default,
             text: Text,
             image: ImageField,
-            videoEmbed: VideoEmbed
+            videoEmbed: VideoEmbed,
+            number: NumberField,
+            multiLine: MultiLineField
           }
         }
     ).catch(e => console.error(e))

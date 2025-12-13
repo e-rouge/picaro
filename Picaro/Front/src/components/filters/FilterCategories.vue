@@ -32,7 +32,7 @@ function changeCategory(category: Category | 'all') {
   <div>
     <a @click="changeCategory('all')">All</a>
   </div>
-  <div v-for="category in availableCategories" :key="category.id">
+  <div v-for="category in availableCategories" :key="category.id" class="pic-filter-categories">
     <component
       :is="category.section ? 'div' : 'a'"
       :class="{

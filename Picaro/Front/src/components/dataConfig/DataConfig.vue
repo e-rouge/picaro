@@ -17,6 +17,7 @@ const route = useRoute()
 const modelFormState = ref<ModelState>("noModel");
 const currentEditModel = ref<Model>();
 const modelNameInput = ref('');
+const asideHidden = ref(false)
 
 
 const modelCollection = computed((): Model[] | [] => {
@@ -35,9 +36,9 @@ const modelNameIsUnique = computed(() => {
 })
 
 
-async function selectModel(model: Model) {
+async function selectModel(model: Model, content?: boolean) {
   if (settingsStore.currentAppSettings) {
-    await router.push({path: `/admin/data/${settingsStore.currentAppSettings.id}/${model.id}`})
+    await router.push({path: `/admin/data/${settingsStore.currentAppSettings.id}/${model.id}${content ? '/content' : ''}`})
   } else {
     utilsStore.addAlert({
       text: "Please select an app first",
@@ -109,8 +110,12 @@ watch(() => route.params.modelId, (newVal) => {
 </script>
 
 <template>
+  <VBtn class="pic-aside--hide-btn" variant="text" @click="asideHidden = !asideHidden">
+    <VIcon>{{ `mdi-arrow-expand-${asideHidden ? "right" : "left"}` }}</VIcon>
+  </VBtn>
+
   <div class="pic-flex">
-    <aside class="pic-aside pic-container" data-testid="model list">
+    <aside :class="{hidden: asideHidden}" class="pic-aside pic-container" data-testid="model list">
       <h3>
         Model List
       </h3>
@@ -118,6 +123,9 @@ watch(() => route.params.modelId, (newVal) => {
       <div v-for="model in currentAppModelCollection" :key="model.id" class="current-model-elements">
         <a :class="{selected: model.id === route.params.modelId}" class="pic-aside-item" @click="selectModel(model)">
           {{ model.name }}
+        </a>
+        <a class="content-link" @click="selectModel(model, true)">
+          content
         </a>
       </div>
       <VBtn
@@ -129,15 +137,6 @@ watch(() => route.params.modelId, (newVal) => {
       </VBtn>
     </aside>
     <main :class="{'pic-main-empty': modelFormState === 'noModel'}" class="pic-main pic-container">
-      <VTabs v-if="modelFormState !== 'awaitingName' && modelFormState !== 'noModel'">
-        <VTab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/`">
-          Edit Model
-        </VTab>
-        <VTab :to="`/admin/data/${route.params.appId}/${route.params.modelId}/content`"
-              data-testid="edit-content-tab">
-          Edit content
-        </VTab>
-      </VTabs>
       <div v-if="modelFormState === 'awaitingName'" class="pic-new-model">
         <VTextField
           v-model="modelNameInput"
@@ -157,7 +156,6 @@ watch(() => route.params.modelId, (newVal) => {
       </div>
       <div
         v-if="currentEditModel"
-        class="mt-4"
         data-testid="model-is-edited"
       >
         <router-view
@@ -173,4 +171,18 @@ watch(() => route.params.modelId, (newVal) => {
   </div>
 </template>
 <style lang="postcss" scoped>
+.content-link {
+  margin-left: var(--s) !important;
+  display: inline-block;
+  color: var(--secondaryDark) !important;
+  background: var(--bgDark);
+}
+
+.pic-aside-item {
+  width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
 </style>

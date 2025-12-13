@@ -18,7 +18,7 @@ export type SingleImageParams = {
     image: string
 }
 
-export type AvailableContentType = "richText" | 'text' | 'image' | 'videoEmbed'
+export type AvailableContentType = "richText" | 'text' | 'image' | 'videoEmbed' | 'number' | 'multiLine'
 export type Category = {
     id: string,
     label: string,

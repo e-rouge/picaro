@@ -182,10 +182,11 @@
 }
 
 #picaro-app {
+    transition: all .2s;
     font-family: silka, sans-serif !important;
     color: var(--greyDark);
     font-weight: 200;
-    font-size: 14px;
+    font-size: 16px;
     background: var(--white);
     line-height: var(--lineHeight);
 
@@ -216,8 +217,26 @@
         }
     }
 
+    .pic-aside--hide-btn {
+        position: absolute;
+        top: 1rem;
+        padding: 0;
+        border: 3px solid var(--greyMedium);
+        border-left: none;
+        min-width: 2rem;
+        border-radius: 0 10px 10px 0 !important;
+        color: var(--greyDark)
+    }
+
     aside {
-        flex: calc(25% - 4rlh);
+
+
+        &.hidden {
+            display: none;
+        }
+
+        left: 0;
+        flex: calc(20% - 4rlh);
 
         h2:first-of-type {
             margin-top: 0 !important;
@@ -234,7 +253,7 @@
             a {
                 display: inline-block !important;
                 text-decoration: none;
-                font-weight: 300 !important;
+                font-weight: 400 !important;
                 font-size: var(--m);
                 cursor: pointer;
                 margin-left: 0;
@@ -248,7 +267,7 @@
     }
 
     main {
-        flex: calc(75% - 4rlh);
+        flex: calc(80% - 4rlh);
     }
 
     .pic-container:not(.pic-live-style) {
@@ -288,7 +307,7 @@
             font-weight: 500;
             line-height: 1;
             margin-top: var(--l);
-            margin-bottom: var(--m);
+            margin-bottom: var(--l);
         }
 
         h4 {
@@ -347,6 +366,7 @@
 
     .pic-button-secondary {
         background: var(--secondary);
+        color: var(--white)
     }
 
     .pic-button--text {
@@ -434,10 +454,13 @@
         color: var(--main)
     }
 
+    .hidden + .pic-container {
+        flex: 100%;
+    }
 
     .pic-container {
-        margin: var(--m);
-        padding: var(--l) var(--xl);
+        margin: var(--l);
+        padding: var(--l);
         border-radius: var(--xs);
 
         img {
@@ -511,7 +534,8 @@
     }
 
     .pic-main-container {
-        margin-top: 68px
+        margin-top: 84px;
+        position: relative;
     }
 
     .pic-aside-item.selected {
@@ -526,7 +550,7 @@
     }
 
     .pic-tabs {
-        padding: var(--s);
+        padding: var(--m);
         display: flex;
         color: var(--greyDark);
         background: var(--white);
@@ -688,11 +712,11 @@
     }
 
     .pic-model--field:first-of-type {
-        margin-top: var(--m);
+        margin-top: 0;
     }
 
     .pic-model--field:last-of-type {
-        margin-bottom: var(--m);
+        margin-bottom: var(--xl);
     }
 
     .pic-add-new-field-button {
@@ -714,14 +738,16 @@
 
     .v-btn {
         text-transform: none;
-        border-radius: 0;
+        border-radius: 5px;
 
+        &.v-btn--variant-outlined {
+            box-shadow: 3px 3px 0 var(--greyMedium);
+        }
     }
 
     .pic-editable-container {
         display: flex;
         align-items: center;
-        margin-top: var(--xl);
     }
 
     .edit-field-type-name {
@@ -737,7 +763,11 @@
         }
     }
 
-    .v-label, v-field {
+    .v-label {
+        font-size: 12px;
+    }
+
+    .v-field {
         font-size: 16px;
     }
 }

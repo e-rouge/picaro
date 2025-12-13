@@ -63,7 +63,9 @@ const fieldType = [
   {name: 'Text Input', type: 'text'},
   {name: 'Rich text', type: 'richText'},
   {name: 'Image', type: 'image'},
-  {name: 'Video Embed', type: 'videoEmbed'}
+  {name: 'Video Embed', type: 'videoEmbed'},
+  {name: 'Number', type: 'number'},
+  {name: 'Multi Line', type: 'multiLine'}
 ];
 
 const typeParams: Record<AvailableContentType, { hideTemplate?: boolean, hideRegex?: boolean, component?: unknown }> = {
@@ -80,6 +82,13 @@ const typeParams: Record<AvailableContentType, { hideTemplate?: boolean, hideReg
   videoEmbed: {
     hideRegex: true,
     hideTemplate: true,
+  },
+  number: {
+    hideRegex: true,
+    hideTemplate: true,
+  },
+  multiLine: {
+    hideRegex: true,
   }
 }
 

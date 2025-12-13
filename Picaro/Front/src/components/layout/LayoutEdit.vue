@@ -122,10 +122,10 @@ function deleteLayout() {
 
 
       <div v-if="!isNewLayout" class="layout-controls">
-        <v-btn @click="isNewLayout = true">
+        <VBtn @click="isNewLayout = true">
           New layout
-        </v-btn>
-        <v-btn
+        </VBtn>
+        <VBtn
           class="ml-4 mb-4"
           color="secondary"
           data-testid="delete-common-layout"
@@ -133,18 +133,18 @@ function deleteLayout() {
           @click="deleteLayout()"
         >
           Delete layout
-        </v-btn>
-        <v-btn
+        </VBtn>
+        <VBtn
           class="ml-4 mb-4"
           color="primary"
           data-testid="save-common-layout"
           @click="saveLayout()"
         >
           Save Layout
-          <v-icon>
+          <VIcon>
             mdi-content-save
-          </v-icon>
-        </v-btn>
+          </VIcon>
+        </VBtn>
       </div>
     </div>
     <LayoutGridEdit v-if="!isNewLayout" v-model="selectedLayout.layout" :dynamic="true"/>
@@ -188,7 +188,6 @@ function deleteLayout() {
     background: var(--greyLight);
     border-color: var(--main) !important;
 
-    a
     .layout-selector-container {
       display: flex;
     }

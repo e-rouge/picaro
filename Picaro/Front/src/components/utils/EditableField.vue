@@ -30,9 +30,9 @@ function cancel() {
       variant="outlined"/>
     <slot v-else/>
     <div>
-      <v-icon v-if="!isEditing" data-testid="edit-name" @click="isEditing = !isEditing">
+      <VIcon v-if="!isEditing" class="edit-icon" data-testid="edit-name" @click="isEditing = !isEditing">
         mdi-pencil
-      </v-icon>
+      </VIcon>
       <span v-else>
         <v-icon data-testid="edit-name-save" @click="emit('update', editedValue);isEditing = false">
           mdi-check
@@ -46,4 +46,9 @@ function cancel() {
 </template>
 
 <style scoped>
+.edit-icon {
+  margin-bottom: var(--l);
+  margin-left: var(--s);
+  font-size: 16px;
+}
 </style>

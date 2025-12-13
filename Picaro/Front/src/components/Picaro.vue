@@ -57,40 +57,40 @@ watch(() => route.params.appId, () => {
 </script>
 
 <template>
-  <v-app id="picaro-app" class="picaro-app text--primary">
+  <VApp id="picaro-app" class="picaro-app text--primary">
     <nav class="pic-tabs">
       <img alt="logo" class="logo" src="/images/logo2.svg" width="50">
-      <v-tabs :model-value="getParentRouteValue()">
-        <v-tab
+      <VTabs :model-value="getParentRouteValue()">
+        <VTab
           to="/admin/app"
           value="app"
         >
           App Config
-        </v-tab>
+        </VTab>
         <template v-if="settingsStore.currentAppSettings">
-          <v-tab
+          <VTab
             :class="{selected: isSelected('model')}"
             data-testid="model-tab"
             to="/admin/data"
             value="data"
           >
             Data
-          </v-tab>
-          <v-tab
+          </VTab>
+          <VTab
             :class="{selected: isSelected('layout')}"
             data-testid="layout-tab"
             to="/admin/layout"
             value="layout"
           >
             Layout
-          </v-tab>
-          <v-tab
+          </VTab>
+          <VTab
             :class="{selected: isSelected('style')}"
             to="/admin/style"
             value="style"
           >
             Style
-          </v-tab>
+          </VTab>
         </template>
         <v-select
           v-if="settingsStore.allSettings.length > 0 && route.params.appId"
@@ -103,13 +103,13 @@ watch(() => route.params.appId, () => {
           variant="outlined"
           @update:model-value="selectApp"
         />
-      </v-tabs>
+      </VTabs>
     </nav>
     <div class="pic-main-container">
       <router-view @reloadSettings="reloadSettings()"/>
     </div>
     <Alert/>
-  </v-app>
+  </VApp>
 </template>
 
 <style lang="postcss" scoped>

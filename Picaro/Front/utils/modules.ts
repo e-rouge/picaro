@@ -23,5 +23,3 @@ const nativeModules: Record<AvailableModules, any> = {
 
 
 export const availableModules = {...nativeModules, ...pluginDisplayModules}
-
-console.log(availableModules)

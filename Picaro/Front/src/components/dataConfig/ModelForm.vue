@@ -12,6 +12,8 @@ import {useVuelidate} from "@vuelidate/core";
 import {picFetch} from "@utils/api";
 import ImageField from "@components/dataConfig/fields/ImageField.vue";
 import VideoEmbed from "@components/dataConfig/fields/VideoEmbed.vue";
+import NumberField from "@components/dataConfig/fields/NumberField.vue";
+import MultiLineField from "@components/dataConfig/fields/MultiLineField.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -38,6 +40,7 @@ const componentMap = shallowRef();
 import("@components/dataConfig/fields/RichText.vue").then(component => {
       componentMap.value = {
         text: TextLine,
+        number: NumberField,
         image: ImageField,
         richText: component.default,
         videoEmbed: VideoEmbed,
@@ -46,6 +49,7 @@ import("@components/dataConfig/fields/RichText.vue").then(component => {
         checkbox: 'CheckBox',
         booleanSwitch: 'BooleanSwitch',
         categoryFilter: 'CategoryFilter',
+        multiLine: MultiLineField
       }
     }
 ).catch(e => console.error(e))
@@ -154,6 +158,7 @@ function sendForm(newStatus ?: ModelContent['status']) {
   )
 }
 
+console.log(props.currentEditModel.fieldCollection[2].type)
 </script>
 <template>
   <div>
